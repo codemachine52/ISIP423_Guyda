@@ -6,6 +6,7 @@ class Program
     static void Main()
     {
         vvod();
+        Console.WriteLine("Введите число: 1 - вывести всю инф, 0 - выход.");
         int menu = Convert.ToInt32(Console.ReadLine());
         switch (menu)
         {
@@ -13,6 +14,7 @@ class Program
                 break;
             case 1: vivod(tovari);
                 break;
+            case 2:
 
         }
     }
@@ -29,11 +31,13 @@ class Program
             kolvo = Convert.ToInt32(Console.ReadLine());
         }
         tovari = new string[kolvo];
-        for (int i = 0; i < nazv.Length; i++)
+        for (int i = 0; i < kolvo; i++)
         {
-                nazv[i] = Console.ReadLine();
-                price[i] = Convert.ToDouble(Console.ReadLine());
-                tovari[i] = nazv[i] + ";" + price[i].ToString();
+            Console.WriteLine("Введите название: ");
+            nazv[i] = Console.ReadLine();
+            Console.WriteLine("Введите цену: ");
+            price[i] = Convert.ToDouble(Console.ReadLine());
+            tovari[i] = nazv[i] + ";" + price[i].ToString();
         }
     }
     static void vivod(string[] tovari)
