@@ -47,4 +47,8 @@ class Program
             Console.WriteLine(tovar);
         }
     }
+    static void statistika(double [] price)
+    {
+        int min, max, avg, sum;
+    }
 }
