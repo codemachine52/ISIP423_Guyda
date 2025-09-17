@@ -1,28 +1,17 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.Globalization;
+using System.Reflection.Metadata.Ecma335;
 
 class Program
 {
     static string[] tovari;
-    static void Main()
-    {
-        vvod();
-        Console.WriteLine("Введите число: 1 - вывести всю инф, 0 - выход.");
-        int menu = Convert.ToInt32(Console.ReadLine());
-        switch (menu)
-        {
-            case 0:
-                break;
-            case 1: vivod(tovari);
-                break;
-            case 2:
-
-        }
-    }
+    static string[] nazv = new string[40];
+    static double[] price = new double[40];
 
     static void vvod()
     {
-        string[] nazv = new string[40];
-        double[] price = new double[40];
+
         Console.WriteLine("Введите количество операций: (от 2 до 40) ");
         int kolvo = Convert.ToInt32(Console.ReadLine());
         while (kolvo < 2 || kolvo > 40)
@@ -37,7 +26,31 @@ class Program
             nazv[i] = Console.ReadLine();
             Console.WriteLine("Введите цену: ");
             price[i] = Convert.ToDouble(Console.ReadLine());
-            tovari[i] = nazv[i] + ";" + price[i].ToString();
+            tovari[i] = nazv[i] + " " + price[i].ToString() + "руб.";
+        }
+    }
+    static void Main()
+    {
+        bool flag = true;
+        vvod();
+        Console.WriteLine("Введите число: 1 - вывести всю инф, 2 - статистика покупок, 0 - выход.");
+        int menu = Convert.ToInt32(Console.ReadLine());
+        {
+            switch (menu)
+            {
+                case 0:
+                    break;
+                case 1:
+                    {
+                        vivod(tovari);
+                        break;
+                    }
+                case 2:
+                    {
+                        statistika(price);
+                        break;
+                    }
+            }
         }
     }
     static void vivod(string[] tovari)
@@ -49,6 +62,19 @@ class Program
     }
     static void statistika(double [] price)
     {
-        int min, max, avg, sum;
+        double min, max, avg, sum=0;
+        min = price[0];
+        max = price[price.Length - 1];
+        
+        for (int i = 0; i < price.Length; i++)
+        {
+            if (price[i] < min) { min = price[i]; }
+            if (price[i] > max) { max = price[i]; }
+            sum += price[i];
+        }
+        
+        int kolvo = price.Length;
+        avg = sum/ kolvo;
+        Console.WriteLine($"Максимальная сумма: {max}");
     }
 }
