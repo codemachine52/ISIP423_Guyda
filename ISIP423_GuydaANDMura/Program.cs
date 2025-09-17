@@ -16,7 +16,8 @@ class Program
         Vvod();
         while (flag)
         {
-            Console.WriteLine("Введите число: 1 - вывести всю инф, 2 - статистика покупок, 3 - cортировка по возр. по цене 0 - выход.");
+            Console.WriteLine("Введите число: 1 - вывести всю инф, 2 - статистика покупок, 3 - cортировка по возр. по цене\n" +
+                "4 - конвертация валюты с вводом курса, 5 - поиск товара по названию 0 - выход.\n");
             int menu = Convert.ToInt32(Console.ReadLine());
             if (menu == 0)
             {
@@ -39,6 +40,16 @@ class Program
                 case 3:
                     {
                         sortirov(tovari);
+                        break;
+                    }
+                case 4:
+                    {
+                        konvert(tovari);
+                        break;
+                    }
+                case 5:
+                    {
+                        poisk(tovari);
                         break;
                     }
             }
@@ -135,6 +146,49 @@ class Program
         for(int i = 0; i < tovari.Length; i++)
         {
             Console.WriteLine(tovari[i]);
+        }
+    }
+
+    static void konvert(string[] tovari)
+    {
+        Console.WriteLine("Введите курс валюты: ");
+        double val = Convert.ToDouble(Console.ReadLine());
+        for (int i = 0; i < price.Length; i++)
+        {
+            price[i] = (price[i] / val);
+        }
+
+        for (int i = 0; i < tovari.Length; i++)
+        {
+            tovari[i] = nazv[i] + " " + price[i].ToString() + "руб.";
+        }
+
+        for (int i = 0; i < tovari.Length; i++)
+        {
+            Console.WriteLine(tovari[i]);
+        }
+    }
+    static void poisk(string[] tovari)
+    {
+        Console.WriteLine("Введите название товара: ");
+        string poisknaz = Console.ReadLine();
+        bool find = false;
+        if (poisknaz == null)
+        {
+            Console.WriteLine("введите название корректно!");
+        }
+        while (!find)
+        {
+            for (int i = 0; i < nazv.Length; i++)
+            {
+                if (nazv[i].Contains(poisknaz))
+                {
+                    Console.WriteLine($"Товар: {tovari[i]}");
+                    find = true;
+                    break;
+                }
+                else Console.WriteLine("Товар не найден");
+            }
         }
     }
 }
