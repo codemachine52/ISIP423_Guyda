@@ -16,7 +16,7 @@ class Program
         Vvod();
         while (flag)
         {
-            Console.WriteLine("Введите число: 1 - вывести всю инф, 2 - статистика покупок, 0 - выход.");
+            Console.WriteLine("Введите число: 1 - вывести всю инф, 2 - статистика покупок, 3 - cортировка по возр. по цене 0 - выход.");
             int menu = Convert.ToInt32(Console.ReadLine());
             if (menu == 0)
             {
@@ -34,6 +34,11 @@ class Program
                 case 2:
                     {
                         statistika(price, actualCount);
+                        break;
+                    }
+                case 3:
+                    {
+                        sortirov(tovari);
                         break;
                     }
             }
@@ -98,5 +103,38 @@ class Program
         Console.WriteLine($"Минимальная сумма покупки: {min}");
         Console.WriteLine($"Средняя сумма покупок: {avg}");
         Console.WriteLine($"Общая сумма покупок: {sum}");
+    }
+
+    static void sortirov(string[] tovari)
+    {
+        // Сортируем параллельно массивы nazv и price
+        for (int i = 0; i < price.Length - 1; i++)
+        {
+            for (int j = 0; j < price.Length - 1 - i; j++)
+            {
+                if (price[j] > price[j + 1])
+                {
+                    // Меняем местами цены
+                    double tempPrice = price[j];
+                    price[j] = price[j + 1];
+                    price[j + 1] = tempPrice;
+
+                    // Меняем местами названия
+                    string tempNazv = nazv[j];
+                    nazv[j] = nazv[j + 1];
+                    nazv[j + 1] = tempNazv;
+                }
+            }
+        }
+
+        // Обновляем массив tovari после сортировки
+        for (int i = 0; i < tovari.Length; i++)
+        {
+            tovari[i] = nazv[i] + " " + price[i].ToString() + "руб.";
+        }
+        for(int i = 0; i < tovari.Length; i++)
+        {
+            Console.WriteLine(tovari[i]);
+        }
     }
 }
