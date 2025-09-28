@@ -69,24 +69,24 @@ class Program
 
     static void glasnSogl()
     {
-        int[] glasnie = { 224, 229, 232, 238, 243, 251, 253, 254, 255 };
+        char[] glasnie = {'а', 'е', 'ы', 'э', 'о', 'у', 'я', 'ю', 'и'};
         int countg = 0;
         int countsog = 0;
         string[] words = WordsInText();
-        for (int i = 0; i < words.Length; i++)
+        foreach (string word in words) {
         {
-            for(int j = 0; j < words[i].Length; j++)
-            {
-                if ((words[i][j] == 'а') || (words[i][j] == 'е') || (words[i][j] == 'и') || (words[i][j] == 'о') || (words[i][j] == 'ы') ||
-                    (words[i][j] == 'у') || (words[i][j] == 'э') || (words[i][j] == 'я') || (words[i][j] == 'ю'))
+                foreach (char i in word)
                 {
-                    countg++;
-                }
-                else
-                {
-                    if ((words[i][j] != '.') || (words[i][j] != ',') || (words[i][j] != ' ') || (words[i][j] != '!') || (words[i][j] != '?'))
+                    if (glasnie.Contains(i))
                     {
-                        countsog++;
+                        countg++;
+                    }
+                    else
+                    {
+                        if ((i != '.') || (i != ',') || (i != ' ') || (i != '!') || (i != '?') && char.IsLetter(i))
+                        {
+                            countsog++;
+                        }
                     }
                 }
             }
