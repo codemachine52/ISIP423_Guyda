@@ -47,7 +47,7 @@ class Program
         string word = words[0];
         for (int i = 1; i < words.Length; i++)
         {
-                if (words[i].Length < min)
+                if (words[i].Length < min && words[i].Length > 1)
                 {
                     min = words[i].Length;
                     word = words[i];
@@ -67,6 +67,33 @@ class Program
         Console.WriteLine($"Количество предложений в тексте: {count}");
     }
 
+    static void glasnSogl()
+    {
+        int[] glasnie = { 224, 229, 232, 238, 243, 251, 253, 254, 255 };
+        int countg = 0;
+        int countsog = 0;
+        string[] words = WordsInText();
+        for (int i = 0; i < words.Length; i++)
+        {
+            for(int j = 0; j < words[i].Length; j++)
+            {
+                if ((words[i][j] == 'а') || (words[i][j] == 'е') || (words[i][j] == 'и') || (words[i][j] == 'о') || (words[i][j] == 'ы') ||
+                    (words[i][j] == 'у') || (words[i][j] == 'э') || (words[i][j] == 'я') || (words[i][j] == 'ю'))
+                {
+                    countg++;
+                }
+                else
+                {
+                    if ((words[i][j] != '.') || (words[i][j] != ',') || (words[i][j] != ' ') || (words[i][j] != '!') || (words[i][j] != '?'))
+                    {
+                        countsog++;
+                    }
+                }
+            }
+        }
+        Console.WriteLine($"кол-во гласных: {countg}, количество согласных: {countsog}");
+    }
+
 
     static void Main()
     {
@@ -75,5 +102,6 @@ class Program
         Console.WriteLine($"Количество слов в тексте: {countwords}");
         theShortest();
         SentensesCount();
+        glasnSogl();
     }
 }
