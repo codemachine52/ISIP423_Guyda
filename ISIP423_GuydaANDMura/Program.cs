@@ -101,7 +101,6 @@ class Program
         }
     }
 
-    // Статический список товаров
     static List<Product> products = new List<Product>();
 
     static void AddProduct()
@@ -157,6 +156,46 @@ class Program
         }
     }
 
+    static void delivery()
+    {
+        Console.WriteLine("введите ID товара, который хотите заказать: ");
+        if (int.TryParse(Console.ReadLine(), out int id))
+        {
+            Product deliveryProd = products.Find(products => products.Id == id);
+            if (deliveryProd != null)
+            {
+                deliveryProd.CountProd += 100;
+                Console.WriteLine("товар заказан, 100 единиц поступит на склад");
+            }
+            else { Console.WriteLine("Товар не найден"); }
+        }
+        else { Console.WriteLine("Неверный формат ID"); }
+    }
+
+    static void sell()
+    {
+        Console.WriteLine("введите id товара, который продается");
+        if (int.TryParse(Console.ReadLine(), out int id))
+        {
+            Product sellprod = products.Find(products => products.Id == id);
+            if (sellprod != null)
+            {
+                if (sellprod.CountProd > 0)
+                {
+                    sellprod.CountProd--;
+                    Console.WriteLine("Товар успешно продан");
+                }
+                else Console.WriteLine("Товара нет на складе!");
+            }
+            else
+            {
+                 Console.WriteLine("товар не найден!");
+            }
+        }
+        else { Console.WriteLine("Неверный формат ID"); }
+    }
+        
+
     static void Main(string[] args)
     {
         while (true)
@@ -182,10 +221,10 @@ class Program
                         RemoveProduct();
                         break;
                     case 3:
-                        Console.WriteLine("Функция поставки товара пока не реализована");
+                        delivery();
                         break;
                     case 4:
-                        Console.WriteLine("Функция продажи товара пока не реализована");
+                        sell();
                         break;
                     case 5:
                         Console.WriteLine("Функция поиска товаров пока не реализована");
