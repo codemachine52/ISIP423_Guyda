@@ -56,6 +56,27 @@ class Program
         Console.WriteLine($"Самое короткое слово в тексте: {word}, состоит из {min} символов");
     }
 
+    static void Longest()
+    {
+        string[] words = WordsInText();
+        if (words.Length == 0)
+        {
+            Console.WriteLine("Нет слов для анализа!");
+            return;
+        }
+        int max = words[0].Length;
+        string word = words[0];
+        for (int i = 1; i < words.Length; i++)
+        {
+            if (words[i].Length > max && words[i].Length > 1)
+            {
+                max = words[i].Length;
+                word = words[i];
+            }
+        }
+        Console.WriteLine($"Самое длинное слово в тексте: {word}, состоит из {max} символов");
+    }
+
     static void SentensesCount()
     {
         int count = 0;
@@ -103,5 +124,6 @@ class Program
         theShortest();
         SentensesCount();
         glasnSogl();
+        Longest();
     }
 }
