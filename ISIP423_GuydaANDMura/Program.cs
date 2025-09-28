@@ -156,7 +156,7 @@ class Program
         }
     }
 
-    static void delivery()
+    static void Delivery()
     {
         Console.WriteLine("введите ID товара, который хотите заказать: ");
         if (int.TryParse(Console.ReadLine(), out int id))
@@ -172,7 +172,7 @@ class Program
         else { Console.WriteLine("Неверный формат ID"); }
     }
 
-    static void sell()
+    static void SellProduct()
     {
         Console.WriteLine("введите id товара, который продается");
         if (int.TryParse(Console.ReadLine(), out int id))
@@ -194,9 +194,36 @@ class Program
         }
         else { Console.WriteLine("Неверный формат ID"); }
     }
+
+    static void FindProd()
+    {
+        bool found = false;
+        Console.WriteLine("введите ID товара, который хотите найти: ");
+        if (int.TryParse(Console.ReadLine(), out int id))
+        {
+            if (id > 0)
+            {
+                for (int i = 0; i < products.Count(); i++)
+                {
+                    if (id == products[i].Id)
+                    {
+                        Console.WriteLine("Товар найден: ");
+                        products[i].PrintProduct();
+                        found = true;
+                        break;
+                    }
+                }
+            }
+            if (!found)
+            {
+                Console.WriteLine("Товар с таким ID не найден.");
+            }
+        }
+        else Console.WriteLine("Неверный формат ID.");
+    }
         
 
-    static void Main(string[] args)
+    static void Main()
     {
         while (true)
         {
@@ -221,13 +248,13 @@ class Program
                         RemoveProduct();
                         break;
                     case 3:
-                        delivery();
+                        Delivery();
                         break;
                     case 4:
-                        sell();
+                        SellProduct();
                         break;
                     case 5:
-                        Console.WriteLine("Функция поиска товаров пока не реализована");
+                        FindProd();
                         break;
                     case 6:
                         ShowAllProducts();
