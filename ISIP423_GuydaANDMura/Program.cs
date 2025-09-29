@@ -139,7 +139,8 @@ class Program
         (string shortest, int wlenght) = theShortest();
         (string longest, int wlonglenght) = Longest();
         counterTexts++;
-
+        Dictionary();
+        Console.WriteLine();
         Console.WriteLine($"кол-во слов в тексте: {countwords}");
         Console.WriteLine($"кол-во гласных: {glasn}, количество согласных: {sogl}");
         Console.WriteLine($"Количество предложений в тексте: {count}");
@@ -166,7 +167,34 @@ class Program
         }
     }
 
-    static void Main()
+    static void Dictionary()
+    {
+        Dictionary<char, int> lettersStats = new Dictionary<char, int>();
+        foreach (string text in texts)
+        {
+            foreach (char i in text.ToLower())
+            {
+                if (char.IsLetter(i))
+                {
+                    if (lettersStats.ContainsKey(i))
+                    {
+                        lettersStats[i]++;
+                    }
+                    else
+                    {
+                        lettersStats[i] = 1;
+                    }
+                }
+            }
+        }
+        Console.WriteLine("=== СТАТИСТИКА БУКВ ===");
+        foreach (var pair in lettersStats.OrderByDescending(x => x.Value))
+        {
+            Console.WriteLine($"Буква '{pair.Key}': {pair.Value} раз");
+        }
+    }
+
+        static void Main()
     {
         Console.WriteLine("=== МЕНЮ ===");
         string input;
