@@ -197,7 +197,6 @@ class Program
         static void Main()
     {
         Console.WriteLine("=== МЕНЮ ===");
-        string input;
         while (true)
         {
             Console.WriteLine("Выберите действие:\n " +
