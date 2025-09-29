@@ -108,6 +108,26 @@ class Program
         }
     }
 
+    public static void WithS(List <User> users)
+    {
+        var StartfromS = users.Where(user => user.FullName.StartsWith("С"));
+        Console.WriteLine("Фио начинается с С:");
+        foreach (var user in StartfromS)
+        {
+            Console.WriteLine($"ФИО: {user.FullName}");
+        }
+    }
+
+    public static void WithManyHobbies(List <User> users)
+    {
+        int maxHobbyCount = users.Max(user => user.Hobbies.Count);
+        var firstUserByAlphabet = users.Where(user => user.Hobbies.Count == maxHobbyCount).OrderBy(user => user.FullName)  // Сортируем по алфавиту
+            .First();  // Берем первого
+
+        Console.WriteLine($"Пользователь с максимальным количеством хобби ({maxHobbyCount}):");
+        Console.WriteLine($"{firstUserByAlphabet.FullName}: {string.Join(", ", firstUserByAlphabet.Hobbies)}");
+    }
+
         static void Main()
     {
         var users = new List<User>
@@ -136,6 +156,10 @@ class Program
         UniqueHobbies(users);
         Console.WriteLine();
         travellers(users);
+        Console.WriteLine();
+        WithS(users);
+        Console.WriteLine();
+        WithManyHobbies(users);
         Console.WriteLine();
     }
 }
