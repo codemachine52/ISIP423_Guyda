@@ -52,14 +52,33 @@ class Program
 
     public static void BirthYear(List<User> users)
     {
-        var yearGroups = users.GroupBy(user => user.DateOfBirth.Year).OrderBy(group => group.Key);
-
+        var yearGroups = users.GroupBy(user => user.DateOfBirth.Year).OrderBy(group => group.Key).ToList();
         foreach (var user in yearGroups)
         {
             Console.WriteLine($"Год: {user.Key} -> {user.Count()} человек");
         }
     }
 
+    public static void CreateDictionary(List<User> users)
+    {
+        var diction = users.ToDictionary(user => user.Login, user => user.FullName);
+        foreach(var user in diction)
+        {
+            Console.WriteLine($"логин: {user.Key}, ФИО: {user.Value}");
+        }
+    }
+
+    public static void theOldestandYoungest(List<User> users)
+    {
+
+        int now = DateTime.Now.Year;
+        var sortedyear = users.OrderBy(user => (now - user.DateOfBirth.Year)).ToList();
+
+        var theOldest = sortedyear.LastOrDefault();
+        var theYoungest = sortedyear.FirstOrDefault();
+        Console.WriteLine($"самый молодой: {theYoungest.FullName} ({now - theYoungest.DateOfBirth.Year} лет)\n" +
+            $"самый старший: {theOldest.FullName} ({now - theOldest.DateOfBirth.Year} лет)");
+    }
 
 
     static void Main()
@@ -82,6 +101,10 @@ class Program
         Programists(users);
         Console.WriteLine();
         BirthYear(users);
+        Console.WriteLine();
+        CreateDictionary(users);
+        Console.WriteLine();
+        theOldestandYoungest(users);
         Console.WriteLine();
     }
 }
