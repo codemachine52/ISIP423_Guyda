@@ -1,21 +1,33 @@
 ﻿using System;
+using System.Diagnostics.Metrics;
 
 class Program
 {
     static List<string> texts = new List<string>();
-    static bool GetText()
+    static List<string> history = new List<string>();
+    static void GetText()
     {
-        Console.WriteLine("Введите текст: ");
-        string text = Console.ReadLine();
-        if (!string.IsNullOrWhiteSpace(text)) // Проверяем, не пустой ли текст
+        texts.Clear();
+        Console.WriteLine("Введите текст. Когда закончите, напишите ВЫХОД.");
+        while (true)
         {
-            texts.Add(text);
-            return true;
-        }
-        else
-        {
-            Console.WriteLine("Текст не может быть пустым!");
-            return false;
+            string text = Console.ReadLine();
+            string cleanedText = text?.Trim(); // Убираем пробелы
+
+            // Выход если команда ВЫХОД (в любом регистре)
+            if (!string.IsNullOrEmpty(cleanedText) && cleanedText.Equals("ВЫХОД", StringComparison.OrdinalIgnoreCase))
+            {
+                break;
+            }
+            if (!string.IsNullOrWhiteSpace(text)) // Проверяем, не пустой ли текст и что он больше 100 симв.
+            {
+                texts.Add(text);
+            }
+            else
+            {
+                Console.WriteLine("Текст не может быть пустым или слишком коротким!");
+                break;
+            }
         }
     }
 
@@ -35,13 +47,12 @@ class Program
         return allwords.ToArray();
     }
 
-    static void theShortest()
+    static (string shword, int wlenght) theShortest()
     {
         string[] words = WordsInText();
         if (words.Length == 0)
         {
             Console.WriteLine("Нет слов для анализа!");
-            return;
         }
         int min = words[0].Length;
         string word = words[0];
@@ -53,16 +64,15 @@ class Program
                     word = words[i];
                 }
         }
-        Console.WriteLine($"Самое короткое слово в тексте: {word}, состоит из {min} символов");
+        return (word, min);
     }
 
-    static void Longest()
+    static (string lgword, int wlenght) Longest()
     {
         string[] words = WordsInText();
         if (words.Length == 0)
         {
             Console.WriteLine("Нет слов для анализа!");
-            return;
         }
         int max = words[0].Length;
         string word = words[0];
@@ -74,29 +84,30 @@ class Program
                 word = words[i];
             }
         }
-        Console.WriteLine($"Самое длинное слово в тексте: {word}, состоит из {max} символов");
+        return (word, max);
     }
 
-    static void SentensesCount()
+    static int SentensesCount()
     {
         int count = 0;
         foreach (string text in texts)
         {
-            string[] sentenses = text.Split(new char[] { '.', '!', '?' });
-            count = sentenses.Length-1;
+            string[] sentenses = text.Split(new char[] { '.', '!', '?', '\n' }, 
+            StringSplitOptions.RemoveEmptyEntries);
+            count += sentenses.Length;
         }
-        Console.WriteLine($"Количество предложений в тексте: {count}");
+        return count;
     }
 
-    static void glasnSogl()
+    static (int glasn, int sogl) glasnSogl()
     {
-        char[] glasnie = {'а', 'е', 'ы', 'э', 'о', 'у', 'я', 'ю', 'и'};
+        char[] glasnie = {'а', 'е', 'ы', 'э', 'о', 'у', 'я', 'ю', 'и', 'ё'};
         int countg = 0;
         int countsog = 0;
         string[] words = WordsInText();
         foreach (string word in words) {
         {
-                foreach (char i in word)
+                foreach (char i in word.ToLower())
                 {
                     if (glasnie.Contains(i))
                     {
@@ -104,7 +115,7 @@ class Program
                     }
                     else
                     {
-                        if ((i != '.') || (i != ',') || (i != ' ') || (i != '!') || (i != '?') && char.IsLetter(i))
+                        if ((i != '.') && (i != ',') && (i != ' ') && (i != '!') && (i != '?') && char.IsLetter(i))
                         {
                             countsog++;
                         }
@@ -112,18 +123,92 @@ class Program
                 }
             }
         }
-        Console.WriteLine($"кол-во гласных: {countg}, количество согласных: {countsog}");
+        return(countg, countsog);
     }
 
+    static int counterTexts = 0;
+
+    static void Statistics()
+    {
+        Console.WriteLine();
+        Console.WriteLine("=== СТАТИСТИКА ===");
+        int countwords = WordsInText().Length;
+        (int glasn, int sogl) = glasnSogl();
+        int count = SentensesCount();
+        (string shortest, int wlenght) = theShortest();
+        (string longest, int wlonglenght) = Longest();
+        counterTexts++;
+
+        Console.WriteLine($"кол-во слов в тексте: {countwords}");
+        Console.WriteLine($"кол-во гласных: {glasn}, количество согласных: {sogl}");
+        Console.WriteLine($"Количество предложений в тексте: {count}");
+        Console.WriteLine($"самое короткое слово: {shortest} : {wlenght} символов");
+        Console.WriteLine($"самое длинное слово: {longest} : {wlonglenght} символов");
+        Console.WriteLine();
+        string stats = $"Слов: {countwords}, Предложений: {count}, Гласных: {glasn}, Согласных: {sogl}\n" +
+            $" Самое короткое слово: {shortest} : {wlenght} символов, Самое длинное слово: {longest} : {wlonglenght} символов\n";
+
+        history.Add($"Статистика для текста {counterTexts}: \n{stats}");
+    }
+
+    static void historystats()
+    {
+        if (history.Count == 0)
+        {
+            Console.WriteLine("Нет статистик.");
+        }
+        else { 
+        foreach (string line in history)
+        {
+            Console.WriteLine(line);
+        }
+        }
+    }
 
     static void Main()
     {
-        GetText();
-        int countwords = WordsInText().Length;
-        Console.WriteLine($"Количество слов в тексте: {countwords}");
-        theShortest();
-        SentensesCount();
-        glasnSogl();
-        Longest();
+        Console.WriteLine("=== МЕНЮ ===");
+        string input;
+        while (true)
+        {
+            Console.WriteLine("Выберите действие:\n " +
+                "1 - ВВЕСТИ ТЕКСТ \n" +
+                " 2 - Вывести статистику по тексту\n" +
+                " 3 - Вывести все историю статистик по текстам. \n" +
+                " 0 - Выход.");
+            if (int.TryParse(Console.ReadLine(), out int choice))
+            {
+                switch (choice)
+                {
+                    case 1:
+                        {
+                            GetText();
+                            break;
+                        }
+                    case 2:
+                        {
+                            Statistics();
+                            break;
+                        }
+                    case 3:
+                         {
+                            Console.WriteLine();
+                            historystats();
+                            break;
+                         }
+                        case 0:
+                        {
+                            break;
+                        }
+                }
+                if (choice == 0)
+                {
+                    break;
+                }
+            }
+        }
+        
+        Console.WriteLine();
+        
     }
 }
