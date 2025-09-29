@@ -8,7 +8,7 @@ class Program
     static void GetText()
     {
         texts.Clear();
-        Console.WriteLine("Введите текст. Когда закончите, напишите ВЫХОД.");
+        Console.WriteLine("\nВведите текст. Когда закончите, напишите ВЫХОД.");
         while (true)
         {
             string text = Console.ReadLine();
@@ -17,6 +17,7 @@ class Program
             // Выход если команда ВЫХОД (в любом регистре)
             if (!string.IsNullOrEmpty(cleanedText) && cleanedText.Equals("ВЫХОД", StringComparison.OrdinalIgnoreCase))
             {
+                Console.WriteLine();
                 break;
             }
             if (!string.IsNullOrWhiteSpace(text)) // Проверяем, не пустой ли текст и что он больше 100 симв.
@@ -146,7 +147,7 @@ class Program
         Console.WriteLine($"самое длинное слово: {longest} : {wlonglenght} символов");
         Console.WriteLine();
         string stats = $"Слов: {countwords}, Предложений: {count}, Гласных: {glasn}, Согласных: {sogl}\n" +
-            $" Самое короткое слово: {shortest} : {wlenght} символов, Самое длинное слово: {longest} : {wlonglenght} символов\n";
+            $"Самое короткое слово: {shortest} : {wlenght} символов, Самое длинное слово: {longest} : {wlonglenght} символов\n";
 
         history.Add($"Статистика для текста {counterTexts}: \n{stats}");
     }
