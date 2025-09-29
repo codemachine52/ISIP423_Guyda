@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Metadata;
@@ -80,8 +81,34 @@ class Program
             $"самый старший: {theOldest.FullName} ({now - theOldest.DateOfBirth.Year} лет)");
     }
 
+    public static void UniqueHobbies(List<User> users)
+    {
 
-    static void Main()
+    var uniqueHobbies = users.SelectMany(u => u.Hobbies)
+     // С SelectMany - получаем один плоский список:
+    // ["Чтение", "Путешествия", "Программирование", "Футбол", "Кулинария", "Рисование", "Программирование"]
+                              .GroupBy(h => h)
+                              .Where(g => g.Count() == 1)
+                              .Select(g => g.Key);
+
+        Console.WriteLine("Уникальные хобби (с одним участником):");
+        foreach (var hobby in uniqueHobbies)
+        {
+            Console.WriteLine($"{hobby}");
+        }
+    }
+
+    public static void travellers(List<User> users)
+    {
+        var travellers = users.Where(user => user.Hobbies.Contains("Путешествия")).ToList();
+        Console.WriteLine("ПУТЕШЕСТВЕННИКИ:");
+        foreach (var traveller in travellers)
+        {
+            Console.WriteLine($"ФИО: {traveller.FullName}");
+        }
+    }
+
+        static void Main()
     {
         var users = new List<User>
 {
@@ -105,6 +132,10 @@ class Program
         CreateDictionary(users);
         Console.WriteLine();
         theOldestandYoungest(users);
+        Console.WriteLine();
+        UniqueHobbies(users);
+        Console.WriteLine();
+        travellers(users);
         Console.WriteLine();
     }
 }
