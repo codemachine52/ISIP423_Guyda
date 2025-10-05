@@ -143,6 +143,28 @@ class Program
                     $" цена: {book.price}\n");
             }
         }
+
+
+        static public void DeleteBook()
+        {
+            Console.WriteLine("Введите ID книги, которую хотите удалить: ");
+            if (int.TryParse(Console.ReadLine(), out int bid))
+            {
+                int removedbook = books.RemoveAll(b => b.id == bid);
+                if (removedbook > 0)
+                {
+                    Console.WriteLine($"Книга с id {removedbook} успешно удалена.");
+                }
+                else
+                {
+                    Console.WriteLine("Не удалось найти книгу с таким id!");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Неправильно введен ID!");
+            }
+        }
     }
 
     static void Main()
@@ -154,6 +176,7 @@ class Program
             Console.WriteLine("Введите действие: \n" +
             "1 - ввести данные о книге(-ах)\n" +
             "2 - вывести данные о книге(-ах)\n" +
+            "3 - удалить книгу по ID\n" +
             "0 - Выход");
             if (int.TryParse(Console.ReadLine(), out int choice))
             {
@@ -171,8 +194,16 @@ class Program
                             Books.PrintBooks();
                             break;
                         }
+                    case 3:
+                        {
+                            Books.DeleteBook(); 
+                            break;
+                        }
+
                     case 0:
-                        break;
+                        {
+                            break;
+                        }
 
                     default:
                         {
