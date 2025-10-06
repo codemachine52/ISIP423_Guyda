@@ -170,6 +170,7 @@ class Program
         static public void CreateAllReadyBooks()
         {
             readyBooks("Преступление и наказание", "Федор Достоевский", 1, 1866, 500);
+            readyBooks("Идиот", "Федор Достоевский", 1, 1866, 800);
             readyBooks("1984", "Джордж Оруэлл", 2, 1949, 450);
             readyBooks("Дракула", "Брэм Стокер", 3, 1897, 600);
             readyBooks("Шерлок Холмс", "Артур Конан Дойл", 1, 1887, 550);
@@ -180,13 +181,130 @@ class Program
 
         static public void PrintBooks()
         {
-            foreach (var book in books)
+            if (books.Count > 0)
             {
-                Console.WriteLine($"{book.id}, Книга: {book.title}, автор: {book.author}, жанр: {book.stype}, год издания: {book.year}," +
-                    $" цена: {book.price}\n");
+                Console.WriteLine("=== КНИГИ ===\n");
+                foreach (var book in books)
+                {
+                    Console.WriteLine($"{book.id}, Книга: {book.title}, автор: {book.author}, жанр: {book.stype}, год издания: {book.year}," +
+                        $" цена: {book.price}\n");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Нет книг!\n");
             }
         }
 
+        static public void SearchBook()
+        {
+            Console.WriteLine("выберите вариант поиска книги:\n" +
+                "1 - по названию\n" +
+                "2 - по автору\n" +
+                "3 - по жанру\n" +
+                "4 - по ID");
+            if (int.TryParse(Console.ReadLine(), out int choice))
+            {
+                switch (choice)
+                {
+                    case 1:
+                        {
+                            Console.WriteLine("Введите название книги: ");
+                            string nazv = Console.ReadLine();
+                            Console.WriteLine();
+                            var foundbooks = books.Where(book => book.title.ToLower() == nazv.ToLower()).ToList();
+                            if (foundbooks.Count > 0)
+                            {
+                                foreach (var book in foundbooks)
+                                {
+                                    Console.WriteLine($"{book.id}, Книга: {book.title}, автор: {book.author}, жанр: {book.stype}, год издания: {book.year}," +
+                            $" цена: {book.price}\n");
+                                }
+                                break;
+                            }
+                            else
+                            {
+                                Console.WriteLine("Книга не найдена!");
+                                break;
+                            }
+                        }
+                    case 2:
+                        {
+                            Console.WriteLine("Введите автора книги: ");
+                            string auth = Console.ReadLine();
+                            Console.WriteLine();
+                            var foundbooks = books.Where(book => book.author.ToLower() == auth.ToLower()).ToList();
+                            if (foundbooks.Count > 0)
+                            {
+                                foreach (var book in foundbooks)
+                                {
+                                    Console.WriteLine($"{book.id}, Книга: {book.title}, автор: {book.author}, жанр: {book.stype}, год издания: {book.year}," +
+                            $" цена: {book.price}\n");
+                                }
+                                break;
+                            }
+                            else
+                            {
+                                Console.WriteLine("Книга(-и) не найдены!");
+                                break;
+                            }
+                        }
+                    case 3:
+                        {
+                            Console.WriteLine("Введите жанр книги: ");
+                            string janre = Console.ReadLine();
+                            Console.WriteLine();
+                            var foundbooks = books.Where(book => book.stype.ToLower() == janre.ToLower()).ToList();
+                            if (foundbooks.Count > 0)
+                            {
+                                foreach (var book in foundbooks)
+                                {
+                                    Console.WriteLine($"{book.id}, Книга: {book.title}, автор: {book.author}, жанр: {book.stype}, год издания: {book.year}," +
+                            $" цена: {book.price}\n");
+                                }
+                                break;
+                            }
+                            else
+                            {
+                                Console.WriteLine("Книга(-и) не найдены!");
+                                break;
+                            }
+                        }
+                    case 4:
+                        {
+                            Console.WriteLine("Введите ID книги: ");
+                            if (int.TryParse(Console.ReadLine(), out int bookID))
+                            {
+                                Console.WriteLine();
+                                var foundbooks = books.Where(book => book.id == bookID).ToList();
+                                if (foundbooks.Count > 0)
+                                {
+                                    foreach (var book in foundbooks)
+                                    {
+                                        Console.WriteLine($"{book.id}, Книга: {book.title}, автор: {book.author}, жанр: {book.stype}, год издания: {book.year}," +
+                                $" цена: {book.price}\n");
+                                    }
+                                    break;
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Книга не найдена!");
+                                    break;
+                                }
+                            }
+                            else
+                            {
+                                Console.WriteLine("ID введен некорректно!");
+                                break;
+                            }
+                        }
+                }
+            }
+            else
+            {
+                Console.WriteLine("Введите корректное число для выбора варианта!");
+            }
+        }
 
         static public void DeleteBook()
         {
@@ -221,6 +339,7 @@ class Program
             "2 - работать с готовыми данными\n" +
             "3 - вывести данные о книге(-ах)\n" +
             "4 - удалить книгу по ID\n" +
+            "5 - найти книгу\n" +
             "0 - Выход");
             if (int.TryParse(Console.ReadLine(), out int choice))
             {
@@ -239,7 +358,6 @@ class Program
                         }
                     case 3:
                         {
-                            Console.WriteLine("=== КНИГИ ===\n");
                             Books.PrintBooks();
                             break;
                         }
@@ -248,10 +366,15 @@ class Program
                             Books.DeleteBook(); 
                             break;
                         }
+                    case 5:
+                        {
+                            Books.SearchBook();
+                            break;
+                        }
 
                     case 0:
                         {
-                            break;
+                            return;
                         }
 
                     default:
