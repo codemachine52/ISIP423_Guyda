@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.Design;
+using System.Diagnostics;
 
 class Program
 {
@@ -14,7 +15,7 @@ class Program
         int type { get; set; }
         string stype { get; set; } = "";
         int year { get; set; }
-        int price { get; set; }
+        double price { get; set; }
 
 
         static public void GetBooks()
@@ -95,7 +96,7 @@ class Program
                 while (true)
                 {
                     Console.WriteLine("Введите цену книги: ");
-                    if (!int.TryParse(Console.ReadLine(), out int bprice))
+                    if (!double.TryParse(Console.ReadLine(), out double bprice))
                     {
                         Console.WriteLine("Неправильно введена цена! Попробуйте снова!");
                     }
@@ -135,6 +136,48 @@ class Program
 
         }
 
+        static public void readyBooks(string name, string author, int type, int year, double price)
+        {
+            var book = new Books();
+            book.id = nextID++;
+            book.title = name;
+            book.author = author;
+            book.type = type;
+            book.year = year;
+            book.price = price;
+
+            switch(book.type) {
+                case 1:
+                    {
+                        book.stype = "Детектив";
+                        break;
+                    }
+                case 2:
+                    {
+                        book.stype = "Фантастика";
+                        break;
+                    }
+                case 3:
+                    {
+                        book.stype = "Ужасы";
+                        break;
+                    }
+            }
+
+            books.Add(book);
+        }
+
+        static public void CreateAllReadyBooks()
+        {
+            readyBooks("Преступление и наказание", "Федор Достоевский", 1, 1866, 500);
+            readyBooks("1984", "Джордж Оруэлл", 2, 1949, 450);
+            readyBooks("Дракула", "Брэм Стокер", 3, 1897, 600);
+            readyBooks("Шерлок Холмс", "Артур Конан Дойл", 1, 1887, 550);
+            readyBooks("Марсианин", "Энди Вейер", 2, 2011, 700);
+
+            Console.WriteLine("Все готовые книги добавлены!\n");
+        }
+
         static public void PrintBooks()
         {
             foreach (var book in books)
@@ -153,7 +196,7 @@ class Program
                 int removedbook = books.RemoveAll(b => b.id == bid);
                 if (removedbook > 0)
                 {
-                    Console.WriteLine($"Книга с id {removedbook} успешно удалена.");
+                    Console.WriteLine($"Книга с id {bid} успешно удалена.");
                 }
                 else
                 {
@@ -174,9 +217,10 @@ class Program
         while (true)
         {
             Console.WriteLine("Введите действие: \n" +
-            "1 - ввести данные о книге(-ах)\n" +
-            "2 - вывести данные о книге(-ах)\n" +
-            "3 - удалить книгу по ID\n" +
+            "1 - ввести данные о книге(-ах) вручную\n" +
+            "2 - работать с готовыми данными\n" +
+            "3 - вывести данные о книге(-ах)\n" +
+            "4 - удалить книгу по ID\n" +
             "0 - Выход");
             if (int.TryParse(Console.ReadLine(), out int choice))
             {
@@ -190,11 +234,16 @@ class Program
                         }
                     case 2:
                         {
+                            Books.CreateAllReadyBooks();
+                            break;
+                        }
+                    case 3:
+                        {
                             Console.WriteLine("=== КНИГИ ===\n");
                             Books.PrintBooks();
                             break;
                         }
-                    case 3:
+                    case 4:
                         {
                             Books.DeleteBook(); 
                             break;
