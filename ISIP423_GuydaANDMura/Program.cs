@@ -306,6 +306,50 @@ class Program
             }
         }
 
+        static public void SortBooks()
+        {
+            Console.WriteLine("=== Сортировка книг ===");
+            Console.WriteLine("Выберите вариант сортировки из списка ниже:\n" +
+                "1 - по названию (по алфавиту)\n" +
+                "2 - по году издания\n" +
+                "0 - я передумал");
+            if (int.TryParse(Console.ReadLine(), out int choice))
+            {
+                switch (choice)
+                {
+                    case 1:
+                        {
+                            var SortbyTitle = books.OrderBy(book => book.title).ToList();
+                            foreach(var book in SortbyTitle)
+                            {
+                                Console.WriteLine($"{book.id}, Книга: {book.title}, автор: {book.author}, жанр: {book.stype}, год издания: {book.year}," +
+                                $" цена: {book.price}\n");
+                            }
+                            break;
+                        }
+                    case 2:
+                        {
+                            var SortbyYear = books.OrderBy(book => book.year).ToList();
+                            foreach(var book in SortbyYear)
+                            {
+                                Console.WriteLine($"{book.id}, Книга: {book.title}, автор: {book.author}, жанр: {book.stype}, год издания: {book.year}," +
+                                $" цена: {book.price}\n");
+                            }
+
+                            break;
+                        }
+                    case 0:
+                        {
+                            break;
+                        }
+                }
+            }
+            else
+            {
+                Console.WriteLine("Некорректно выбран пункт!");
+            }
+        }
+
         static public void DeleteBook()
         {
             Console.WriteLine("Введите ID книги, которую хотите удалить: ");
@@ -340,6 +384,9 @@ class Program
             "3 - вывести данные о книге(-ах)\n" +
             "4 - удалить книгу по ID\n" +
             "5 - найти книгу\n" +
+            "6 - отсортировать книги\n" +
+            "7 - поиск самой дорогой и самой дешевой книги\n" +
+            "8 - сгруппировать книги по авторам\n" +
             "0 - Выход");
             if (int.TryParse(Console.ReadLine(), out int choice))
             {
@@ -369,6 +416,11 @@ class Program
                     case 5:
                         {
                             Books.SearchBook();
+                            break;
+                        }
+                    case 6:
+                        {
+                            Books.SortBooks(); 
                             break;
                         }
 
