@@ -183,7 +183,7 @@ class Program
         {
             if (books.Count > 0)
             {
-                Console.WriteLine("=== КНИГИ ===\n");
+                Console.WriteLine("\n=== КНИГИ ===\n");
                 foreach (var book in books)
                 {
                     Console.WriteLine($"{book.id}, Книга: {book.title}, автор: {book.author}, жанр: {book.stype}, год издания: {book.year}," +
@@ -198,85 +198,23 @@ class Program
 
         static public void SearchBook()
         {
-            Console.WriteLine("выберите вариант поиска книги:\n" +
-                "1 - по названию\n" +
-                "2 - по автору\n" +
-                "3 - по жанру\n" +
-                "4 - по ID");
-            if (int.TryParse(Console.ReadLine(), out int choice))
+            if (books.Count > 0)
             {
-                switch (choice)
+                Console.WriteLine("\nвыберите вариант поиска книги:\n" +
+                    "1 - по названию\n" +
+                    "2 - по автору\n" +
+                    "3 - по жанру\n" +
+                    "4 - по ID");
+                if (int.TryParse(Console.ReadLine(), out int choice))
                 {
-                    case 1:
-                        {
-                            Console.WriteLine("Введите название книги: ");
-                            string nazv = Console.ReadLine();
-                            Console.WriteLine();
-                            var foundbooks = books.Where(book => book.title.ToLower() == nazv.ToLower()).ToList();
-                            if (foundbooks.Count > 0)
+                    switch (choice)
+                    {
+                        case 1:
                             {
-                                foreach (var book in foundbooks)
-                                {
-                                    Console.WriteLine($"{book.id}, Книга: {book.title}, автор: {book.author}, жанр: {book.stype}, год издания: {book.year}," +
-                            $" цена: {book.price}\n");
-                                }
-                                break;
-                            }
-                            else
-                            {
-                                Console.WriteLine("Книга не найдена!");
-                                break;
-                            }
-                        }
-                    case 2:
-                        {
-                            Console.WriteLine("Введите автора книги: ");
-                            string auth = Console.ReadLine();
-                            Console.WriteLine();
-                            var foundbooks = books.Where(book => book.author.ToLower() == auth.ToLower()).ToList();
-                            if (foundbooks.Count > 0)
-                            {
-                                foreach (var book in foundbooks)
-                                {
-                                    Console.WriteLine($"{book.id}, Книга: {book.title}, автор: {book.author}, жанр: {book.stype}, год издания: {book.year}," +
-                            $" цена: {book.price}\n");
-                                }
-                                break;
-                            }
-                            else
-                            {
-                                Console.WriteLine("Книга(-и) не найдены!");
-                                break;
-                            }
-                        }
-                    case 3:
-                        {
-                            Console.WriteLine("Введите жанр книги: ");
-                            string janre = Console.ReadLine();
-                            Console.WriteLine();
-                            var foundbooks = books.Where(book => book.stype.ToLower() == janre.ToLower()).ToList();
-                            if (foundbooks.Count > 0)
-                            {
-                                foreach (var book in foundbooks)
-                                {
-                                    Console.WriteLine($"{book.id}, Книга: {book.title}, автор: {book.author}, жанр: {book.stype}, год издания: {book.year}," +
-                            $" цена: {book.price}\n");
-                                }
-                                break;
-                            }
-                            else
-                            {
-                                Console.WriteLine("Книга(-и) не найдены!");
-                                break;
-                            }
-                        }
-                    case 4:
-                        {
-                            Console.WriteLine("Введите ID книги: ");
-                            if (int.TryParse(Console.ReadLine(), out int bookID))
-                            {
+                                Console.WriteLine("Введите название книги: ");
+                                string nazv = Console.ReadLine();
                                 Console.WriteLine();
-                                var foundbooks = books.Where(book => book.id == bookID).ToList();
+                                var foundbooks = books.Where(book => book.title.ToLower() == nazv.ToLower()).ToList();
                                 if (foundbooks.Count > 0)
                                 {
                                     foreach (var book in foundbooks)
@@ -292,82 +230,207 @@ class Program
                                     break;
                                 }
                             }
-                            else
+                        case 2:
                             {
-                                Console.WriteLine("ID введен некорректно!");
-                                break;
+                                Console.WriteLine("Введите автора книги: ");
+                                string auth = Console.ReadLine();
+                                Console.WriteLine();
+                                var foundbooks = books.Where(book => book.author.ToLower() == auth.ToLower()).ToList();
+                                if (foundbooks.Count > 0)
+                                {
+                                    foreach (var book in foundbooks)
+                                    {
+                                        Console.WriteLine($"{book.id}, Книга: {book.title}, автор: {book.author}, жанр: {book.stype}, год издания: {book.year}," +
+                                $" цена: {book.price}\n");
+                                    }
+                                    break;
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Книга(-и) не найдены!");
+                                    break;
+                                }
                             }
-                        }
+                        case 3:
+                            {
+                                Console.WriteLine("Введите жанр книги: ");
+                                string janre = Console.ReadLine();
+                                Console.WriteLine();
+                                var foundbooks = books.Where(book => book.stype.ToLower() == janre.ToLower()).ToList();
+                                if (foundbooks.Count > 0)
+                                {
+                                    foreach (var book in foundbooks)
+                                    {
+                                        Console.WriteLine($"{book.id}, Книга: {book.title}, автор: {book.author}, жанр: {book.stype}, год издания: {book.year}," +
+                                $" цена: {book.price}\n");
+                                    }
+                                    break;
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Книга(-и) не найдены!");
+                                    break;
+                                }
+                            }
+                        case 4:
+                            {
+                                Console.WriteLine("Введите ID книги: ");
+                                if (int.TryParse(Console.ReadLine(), out int bookID))
+                                {
+                                    Console.WriteLine();
+                                    var foundbooks = books.Where(book => book.id == bookID).ToList();
+                                    if (foundbooks.Count > 0)
+                                    {
+                                        foreach (var book in foundbooks)
+                                        {
+                                            Console.WriteLine($"{book.id}, Книга: {book.title}, автор: {book.author}, жанр: {book.stype}, год издания: {book.year}," +
+                                    $" цена: {book.price}\n");
+                                        }
+                                        break;
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("Книга не найдена!");
+                                        break;
+                                    }
+                                }
+                                else
+                                {
+                                    Console.WriteLine("ID введен некорректно!");
+                                    break;
+                                }
+                            }
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Введите корректное число для выбора варианта!");
                 }
             }
             else
             {
-                Console.WriteLine("Введите корректное число для выбора варианта!");
+                Console.WriteLine("Книг нет!\n");
             }
         }
 
         static public void SortBooks()
         {
-            Console.WriteLine("=== Сортировка книг ===");
-            Console.WriteLine("Выберите вариант сортировки из списка ниже:\n" +
-                "1 - по названию (по алфавиту)\n" +
-                "2 - по году издания\n" +
-                "0 - я передумал");
-            if (int.TryParse(Console.ReadLine(), out int choice))
+            if (books.Count > 0)
             {
-                switch (choice)
+                Console.WriteLine("\n=== Сортировка книг ===");
+                Console.WriteLine("Выберите вариант сортировки из списка ниже:\n" +
+                    "1 - по названию (по алфавиту)\n" +
+                    "2 - по году издания\n" +
+                    "0 - я передумал");
+                if (int.TryParse(Console.ReadLine(), out int choice))
                 {
-                    case 1:
-                        {
-                            var SortbyTitle = books.OrderBy(book => book.title).ToList();
-                            foreach(var book in SortbyTitle)
+                    Console.WriteLine("\nОтсортированные книги: \n");
+                    switch (choice)
+                    {
+                        case 1:
                             {
-                                Console.WriteLine($"{book.id}, Книга: {book.title}, автор: {book.author}, жанр: {book.stype}, год издания: {book.year}," +
-                                $" цена: {book.price}\n");
+                                var SortbyTitle = books.OrderBy(book => book.title).ToList();
+                                foreach (var book in SortbyTitle)
+                                {
+                                    Console.WriteLine($"{book.id}, Книга: {book.title}, автор: {book.author}, жанр: {book.stype}, год издания: {book.year}," +
+                                    $" цена: {book.price}\n");
+                                }
+                                break;
                             }
-                            break;
-                        }
-                    case 2:
-                        {
-                            var SortbyYear = books.OrderBy(book => book.year).ToList();
-                            foreach(var book in SortbyYear)
+                        case 2:
                             {
-                                Console.WriteLine($"{book.id}, Книга: {book.title}, автор: {book.author}, жанр: {book.stype}, год издания: {book.year}," +
-                                $" цена: {book.price}\n");
-                            }
+                                var SortbyYear = books.OrderBy(book => book.year).ToList();
+                                foreach (var book in SortbyYear)
+                                {
+                                    Console.WriteLine($"{book.id}, Книга: {book.title}, автор: {book.author}, жанр: {book.stype}, год издания: {book.year}," +
+                                    $" цена: {book.price}\n");
+                                }
 
-                            break;
-                        }
-                    case 0:
-                        {
-                            break;
-                        }
+                                break;
+                            }
+                        case 0:
+                            {
+                                break;
+                            }
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Некорректно выбран пункт!");
                 }
             }
             else
             {
-                Console.WriteLine("Некорректно выбран пункт!");
+                Console.WriteLine("Книг нет!\n");
+            }
+        }
+
+        static public void CheapestExpensive()
+        {
+            if (books.Count > 0)
+            {
+                Console.WriteLine("\n=== Поиск ===\n");
+                Console.WriteLine("Выберите, что хотите найти:\n" +
+                    "1 - самую дорогую книгу\n" +
+                    "2 - самую дешевую книгу\n" +
+                    "0 - отмена");
+                if (int.TryParse(Console.ReadLine(), out int choice))
+                {
+                    var sortedBooks = books.OrderByDescending(book => book.price).ToList();
+                    var expensiveBook = sortedBooks.First();
+                    var cheapestBook = sortedBooks.Last();
+                    switch (choice)
+                    {
+                        case 1:
+                            {
+                                Console.WriteLine($"{expensiveBook.id}, Книга: {expensiveBook.title}, автор: {expensiveBook.author}, жанр: {expensiveBook.stype}, год издания: {expensiveBook.year}," +
+                                    $" цена: {expensiveBook.price}\n");
+                                break;
+                            }
+                        case 2:
+                            {
+                                Console.WriteLine($"{cheapestBook.id}, Книга: {cheapestBook.title}, автор: {cheapestBook.author}, жанр: {cheapestBook.stype}, год издания: {cheapestBook.year}," +
+                                   $" цена: {cheapestBook.price}\n");
+                                break;
+                            }
+                        case 0:
+                            {
+                                break;
+                            }
+                    }
+                }
+            }
+            else
+            {
+                Console.WriteLine("Книг нет!\n");
             }
         }
 
         static public void DeleteBook()
         {
-            Console.WriteLine("Введите ID книги, которую хотите удалить: ");
-            if (int.TryParse(Console.ReadLine(), out int bid))
+            if (books.Count > 0)
             {
-                int removedbook = books.RemoveAll(b => b.id == bid);
-                if (removedbook > 0)
+                Console.WriteLine("Введите ID книги, которую хотите удалить: ");
+                if (int.TryParse(Console.ReadLine(), out int bid))
                 {
-                    Console.WriteLine($"Книга с id {bid} успешно удалена.");
+                    int removedbook = books.RemoveAll(b => b.id == bid);
+                    if (removedbook > 0)
+                    {
+                        Console.WriteLine($"Книга с id {bid} успешно удалена.\n");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Не удалось найти книгу с таким id!\n");
+                    }
                 }
                 else
                 {
-                    Console.WriteLine("Не удалось найти книгу с таким id!");
+                    Console.WriteLine("Неправильно введен ID!\n");
                 }
             }
             else
             {
-                Console.WriteLine("Неправильно введен ID!");
+                Console.WriteLine("Книг нет!\n");
             }
         }
     }
@@ -423,7 +486,11 @@ class Program
                             Books.SortBooks(); 
                             break;
                         }
-
+                    case 7:
+                        {
+                            Books.CheapestExpensive();
+                            break;
+                        }
                     case 0:
                         {
                             return;
@@ -431,14 +498,14 @@ class Program
 
                     default:
                         {
-                            Console.WriteLine("Введите корректное число!");
+                            Console.WriteLine("Введите корректное число!\n");
                             break;
                         }
                 }
             }
             else
             {
-                Console.WriteLine("Введите корректное число!");
+                Console.WriteLine("Введите корректное число!\n");
             }
         }
     }
