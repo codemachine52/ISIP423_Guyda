@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.Design;
 using System.Diagnostics;
+using System.Linq;
 
 class Program
 {
@@ -406,6 +407,29 @@ class Program
             }
         }
 
+        static public void GroupbyAuthor()
+        {
+            if (books.Count > 0)
+            {
+                var groupBooks = books.GroupBy(book => book.author).ToList();
+                foreach (var group in groupBooks)
+                {
+                    Console.WriteLine($"=== Автор: {group.Key} ===");
+                    Console.WriteLine($"Количество книг: {group.Count()}");
+                    foreach (var book in group)
+                    {
+                        Console.WriteLine($"{book.id}, Книга: {book.title}, автор: {book.author}, жанр: {book.stype}, год издания: {book.year}," +
+                                       $" цена: {book.price}\n");
+                        Console.WriteLine();
+                    }
+                }
+            }
+            else
+            {
+                Console.WriteLine("Книг нет!\n");
+            }
+        }
+
         static public void DeleteBook()
         {
             if (books.Count > 0)
@@ -489,6 +513,11 @@ class Program
                     case 7:
                         {
                             Books.CheapestExpensive();
+                            break;
+                        }
+                    case 8:
+                        {
+                            Books.GroupbyAuthor();
                             break;
                         }
                     case 0:
