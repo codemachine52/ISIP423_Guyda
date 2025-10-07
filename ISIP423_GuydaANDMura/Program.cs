@@ -76,7 +76,8 @@ class Program
             static public void AddStudent()
             {
                 Console.WriteLine("=== Добавление студента ===");
-                while (true)
+                bool continueAdding = true;
+        while (continueAdding)
                 {
                     var student = new University.Student();
                     while (true)
@@ -244,15 +245,14 @@ class Program
                         string choice = Console.ReadLine();
                         if (!string.IsNullOrEmpty(choice))
                         {
-                            switch (choice)
-                            {
-                                case "да":
+                                
+                                if(choice.ToLower() == "да")
                                     {
-                                        continue;
+                                    continueAdding = true;
                                     }
-                                case "нет":
+                                if(choice.ToLower() == "нет")
                                     {
-                                        break;
+                                        continueAdding = false;
                                     }
                             }
                         }
@@ -262,7 +262,6 @@ class Program
                         }
                     }
                 }
-            }
 
         static List<University.Student> students = new List<University.Student>();
 
