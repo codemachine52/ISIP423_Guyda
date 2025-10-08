@@ -269,8 +269,8 @@ class Program
             {
                 foreach (var student in students)
                 {
-                    Console.WriteLine($"id: {student.GetID}, имя: {student.GetName}, фамилия: {student.GetSurname}, номер студ. билета: {student.GetStud}, группа обучения: {student.GetGrouppa}\n" +
-                        $"курс обучения: {student.GetCourse}, учится платно: {student.GetPaidEducation}, город проживания: {student.GetCity}, номер тел: {student.GetPhone}");
+                    Console.WriteLine($"id: {student.GetID()}, имя: {student.GetName()}, фамилия: {student.GetSurname()}, номер студ. билета: {student.GetStud()}, группа обучения: {student.GetGrouppa()}\n" +
+                        $"курс обучения: {student.GetCourse()}, учится платно: {student.GetPaidEducation()}, город проживания: {student.GetCity()}, номер тел: {student.GetPhone()}");
                 }
             }
 
