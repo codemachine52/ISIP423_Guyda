@@ -281,11 +281,18 @@ class Program
 
         static public void PrintStudent()
             {
-                foreach (var student in students)
-                {
-                    Console.WriteLine($"id: {student.GetID()}, роль: {student.GetRole()} имя: {student.GetName()}, фамилия: {student.GetSurname()}, дата рождения: {student.GetBirthday()},\n номер студ. билета: {student.GetStud()}, группа обучения: {student.GetGrouppa()}\n" +
-                        $"курс обучения: {student.GetCourse()}, учится платно: {student.GetPaidEducation()}, город проживания: {student.GetCity()}, номер тел: {student.GetPhone()}");
-                }
+        if (students.Count > 0)
+        {
+            foreach (var student in students)
+            {
+                Console.WriteLine($"id: {student.GetID()}, роль: {student.GetRole()} имя: {student.GetName()}, фамилия: {student.GetSurname()}, дата рождения: {student.GetBirthday()},\nномер студ. билета: {student.GetStud()}, группа обучения: {student.GetGrouppa()}\n" +
+                    $"курс обучения: {student.GetCourse()}, учится платно: {student.GetPaidEducation()}, город проживания: {student.GetCity()}, номер тел: {student.GetPhone()}");
+            }
+        }
+        else
+        {
+            Console.WriteLine("Нет студентов!");
+        }
             }
 
     static public void GetTeacher()
@@ -300,7 +307,7 @@ class Program
             {
                 Console.WriteLine("Введите имя учителя: ");
                 string name = Console.ReadLine();
-                if (string.IsNullOrEmpty(name))
+                if (!string.IsNullOrEmpty(name))
                 {
                     teacher.SetName(name);
                     break;
@@ -314,7 +321,7 @@ class Program
             {
                 Console.WriteLine("Введите фамилию учителя: ");
                 string surname = Console.ReadLine();
-                if (string.IsNullOrEmpty(surname))
+                if (!string.IsNullOrEmpty(surname))
                 {
                     teacher.SetSurname(surname);
                     break;
@@ -350,7 +357,7 @@ class Program
             {
                 Console.WriteLine("Введите номер телефона учителя:");
                 string numb = Console.ReadLine();
-                if (string.IsNullOrEmpty(numb))
+                if (!string.IsNullOrEmpty(numb))
                 {
                     teacher.SetPhone(numb);
                     break;
@@ -365,7 +372,7 @@ class Program
             {
                 Console.WriteLine("Введите город учителя:");
                 string city = Console.ReadLine();
-                if (string.IsNullOrEmpty(city))
+                if (!string.IsNullOrEmpty(city))
                 {
                     teacher.SetCity(city);
                     break;
@@ -408,7 +415,7 @@ class Program
             {
                 Console.WriteLine("Введите курс учителя:");
                 string course = Console.ReadLine();
-                if (string.IsNullOrEmpty(course))
+                if (!string.IsNullOrEmpty(course))
                 {
                     teacher.SetCourse(course);
                     break;
@@ -446,10 +453,17 @@ class Program
 
      static public void PrintTeachers()
     {
-        foreach (var teacher in teachers)
+        if (teachers.Count > 0)
         {
-            Console.WriteLine($"{teacher.GetID()}, роль: {teacher.GetRole()}, имя: {teacher.GetName()}, фамилия: {teacher.GetSurname()}, дата рождения: {teacher.GetBirthday()},\n" +
-                $"город проживания: {teacher.GetCity()}, номер телефона: {teacher.GetPhone()}, стаж: {teacher.GetExp()}, зарплата: {teacher.GetSalary()}, курс: {teacher.GetCourse()}");
+            foreach (var teacher in teachers)
+            {
+                Console.WriteLine($"{teacher.GetID()}, роль: {teacher.GetRole()}, имя: {teacher.GetName()}, фамилия: {teacher.GetSurname()}, дата рождения: {teacher.GetBirthday()},\n" +
+                    $"город проживания: {teacher.GetCity()}, номер телефона: {teacher.GetPhone()}, стаж: {teacher.GetExp()}, зарплата: {teacher.GetSalary()}, курс: {teacher.GetCourse()}");
+            }
+        }
+        else
+        {
+            Console.WriteLine("Нет учителей!");
         }
     }
 
