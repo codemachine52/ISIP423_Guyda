@@ -477,7 +477,7 @@ class Program
                     $"город проживания: {teacher.GetCity()}, номер телефона: {teacher.GetPhone()}, стаж: {teacher.GetExp()}, зарплата: {teacher.GetSalary()}");
 
                 // Показываем курсы преподавателя
-                var teacherCourses = courses.Where(c => c.GetTeacher() == teacher.GetID()).ToList();
+                var teacherCourses = courses.Where(course => course.GetTeacher() == teacher.GetID()).ToList();
                 if (teacherCourses.Any())
                 {
                     Console.WriteLine("Ведет курсы:");
@@ -829,7 +829,7 @@ class Program
                         PrintStudent();
                         break;
                     case 3:
-                        ADD,Teacher();
+                        ADDTeacher();
                         break;
                     case 4:
                         PrintTeachers();
