@@ -85,6 +85,34 @@ class Program
             public void SetGroup(string value) => grouppa = value;
             public void SetPaidorFree(bool value) => isPaidEducation = value;
         }
+
+
+        public class Courses
+        {
+            protected int ID = 0;
+            protected static int NextID = 1;
+            protected string title { get; set; } = "";
+            protected int id_Teacher { get; set; }
+            protected string description { get; set; } = "";
+            protected int countHours { get; set; }
+
+            public Courses()
+            {
+                ID = NextID++;
+            }
+
+            public int GetID() => ID;
+            public string GetTitle() => title;
+            public int GetTeacher() => id_Teacher;
+            public string GetDescription() => description;
+            public int GetCountHours() => countHours;
+
+
+            public void SetTitle(string titlee) => title = titlee;
+            public void SetIDteacher(int id) => id_Teacher = id;
+            public void SetDescription(string descr) => description = descr;
+            public int SetHours(int hours) => countHours = hours;
+        }
     }
             static public void AddStudent()
             {
@@ -278,6 +306,7 @@ class Program
 
         static List<University.Student> students = new List<University.Student>();
         static List<University.Teacher> teachers = new List<University.Teacher>();
+        static List <University.Courses> courses = new List<University.Courses>();
 
         static public void PrintStudent()
             {
@@ -467,18 +496,136 @@ class Program
         }
     }
 
-            public class Courses
+    static public void AddCourses()
+    {
+        Console.WriteLine("===  Добавление курса  ===");
+        bool adding = true;
+        while (adding)
+        {
+            var Course = new University.Courses();
+            while (true)
             {
-                string title { get; set; } = "";
-                string Teacher { get; set; } = "";
-                string description { get; set; } = "";
-                int countHours { get; set; }
-
-                public string GetTitle() => title;
-                public string GetTeacher() => Teacher;
-                public string GetDescription() => description;
-                public int GetCountHours() => countHours;
+                Console.WriteLine("Введите название курса:");
+                string titlecourse = Console.ReadLine();
+                if (!string.IsNullOrEmpty(titlecourse))
+                {
+                    Course.SetTitle(titlecourse);
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("Название не может быть пустым!");
+                }
             }
+            while (true)
+            {
+                Console.WriteLine("Введите id учителя, ведущего курс:");
+                if (int.TryParse(Console.ReadLine(), out int teacherID))
+                {
+                    if (teacherID > 0)
+                    {
+                        Course.SetIDteacher(teacherID);
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine("ID не может быть отрицательным!");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("ID не может быть пустым!");
+                }
+            }
+            bool addDescript = true;
+            while (addDescript)
+            {
+                Console.WriteLine("Введите описание курса: ");
+                string courseDescription = Console.ReadLine();
+                if (string.IsNullOrEmpty(courseDescription))
+                {
+                    Console.WriteLine("Вы уверены, что хотите оставить описание курса пустым?");
+                    string choice = Console.ReadLine();
+                    if (choice.ToLower() == "да")
+                    {
+                        addDescript = false;
+                        break;
+                    }
+                    else
+                        continue;
+                }
+                else
+                {
+                    Course.SetDescription(courseDescription);
+                }
+            }
+
+            while (true)
+            {
+                Console.WriteLine("Введите количество часов изучения курса: ");
+                if (int.TryParse(Console.ReadLine(), out int countH))
+                {
+                    if (countH > 0)
+                    {
+                        Course.SetHours(countH);
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Количество часов не может быть отрицательным!");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Количество часов не может быть пустым!");
+                }
+            }
+
+            if (Course != null)
+            {
+                courses.Add(Course);
+                Console.WriteLine("Курс успешно добавлен! Желаете продолжить? (да/нет)");
+                string choice = Console.ReadLine();
+                if (!string.IsNullOrEmpty(choice))
+                {
+
+                    if (choice.ToLower() == "да")
+                    {
+                        adding = true;
+                    }
+                    if (choice.ToLower() == "нет")
+                    {
+                        adding = false;
+                    }
+                }
+            }
+            else
+            {
+                Console.WriteLine("Не все поля заполнены. Не удалось добавить курс.");
+            }
+        }
+    }
+
+    static public void PrintCourses()
+    {
+        if (courses.Count > 0)
+        {
+            Console.WriteLine("====    Курсы     ====");
+            foreach (var course in courses)
+            {
+                Console.WriteLine($"{course.GetID()}, название: {course.GetTitle()}, id преподавателя: {course.GetTeacher()}\n" +
+                    $"количество часов: {course.GetCountHours()}");
+                if (course.GetDescription() != null)
+                {
+                    Console.WriteLine($"описание курса: {course.GetDescription()}");
+                }
+            }
+        }
+        else
+        {
+            Console.WriteLine("Нет курсов!");
+        }
+    }
 
     static void Main()
     {
