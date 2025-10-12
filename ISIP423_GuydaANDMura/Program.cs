@@ -37,7 +37,6 @@ class Program
             protected static int NextID = 1;
             float workExpernc { get; set; }
             double salary { get; set; }
-            string course { get; set; } = "";
             public Teacher()
             {
                 role = "Преподаватель";
@@ -48,11 +47,9 @@ class Program
             public int GetID() => id;
             public float GetExp() => workExpernc;
             public double GetSalary() => salary;
-            public string GetCourse() => course;
 
             public float SetExp(float exp) => workExpernc = exp;
             public double SetSalary(double salar) => salary = salar;
-            public string SetCourse(string cours) => course = cours;
         }
 
 
@@ -187,21 +184,6 @@ class Program
 
             while (true)
             {
-                Console.WriteLine("Введите курс студента: ");
-                string course = Console.ReadLine();
-                if (!string.IsNullOrEmpty(course))
-                {
-                    student.SetCourse(course);
-                    break;
-                }
-                else
-                {
-                    Console.WriteLine("Курс не может быть пустой!");
-                }
-            }
-
-            while (true)
-            {
                 Console.WriteLine("Введите группу студента: ");
                 string group = Console.ReadLine();
                 if (!string.IsNullOrEmpty(group))
@@ -320,7 +302,22 @@ class Program
             foreach (var student in students)
             {
                 Console.WriteLine($"id: {student.GetID()}, роль: {student.GetRole()} имя: {student.GetName()}, фамилия: {student.GetSurname()}, дата рождения: {student.GetBirthday()},\nномер студ. билета: {student.GetStud()}, группа обучения: {student.GetGrouppa()}\n" +
-                    $"курс обучения: {student.GetCourse()}, учится платно: {student.GetPaidEducation()}, город проживания: {student.GetCity()}, номер тел: {student.GetPhone()}");
+                    $"учится платно: {student.GetPaidEducation()}, город проживания: {student.GetCity()}, номер тел: {student.GetPhone()}");
+
+                // Показываем курсы студента, если они есть
+                if (studentCourses.ContainsKey(student.GetID()) && studentCourses[student.GetID()].Count > 0)
+                {
+                    Console.WriteLine("Записан на курсы:");
+                    foreach (var courseId in studentCourses[student.GetID()])
+                    {
+                        var course = courses.FirstOrDefault(c => c.GetID() == courseId);
+                        if (course != null)
+                        {
+                            Console.WriteLine($"  - {course.GetTitle()}");
+                        }
+                    }
+                }
+                Console.WriteLine(); // Пустая строка для разделения
             }
         }
         else
@@ -329,7 +326,7 @@ class Program
         }
     }
 
-    static public void GetTeacher()
+    static public void ADDTeacher()
     {
 
         Console.WriteLine("===  Добавление учителя  ===");
@@ -445,21 +442,6 @@ class Program
                 }
             }
 
-            while (true)
-            {
-                Console.WriteLine("Введите курс учителя:");
-                string course = Console.ReadLine();
-                if (!string.IsNullOrEmpty(course))
-                {
-                    teacher.SetCourse(course);
-                    break;
-                }
-                else
-                {
-                    Console.WriteLine("Курс не может быть пустым!");
-                }
-            }
-
             if (teacher != null)
             {
                 teachers.Add(teacher);
@@ -485,14 +467,26 @@ class Program
         }
     }
 
-    static public void PrintTeachers()
+    public static void PrintTeachers()
     {
         if (teachers.Count > 0)
         {
             foreach (var teacher in teachers)
             {
                 Console.WriteLine($"{teacher.GetID()}, роль: {teacher.GetRole()}, имя: {teacher.GetName()}, фамилия: {teacher.GetSurname()}, дата рождения: {teacher.GetBirthday()},\n" +
-                    $"город проживания: {teacher.GetCity()}, номер телефона: {teacher.GetPhone()}, стаж: {teacher.GetExp()}, зарплата: {teacher.GetSalary()}, курс: {teacher.GetCourse()}");
+                    $"город проживания: {teacher.GetCity()}, номер телефона: {teacher.GetPhone()}, стаж: {teacher.GetExp()}, зарплата: {teacher.GetSalary()}");
+
+                // Показываем курсы преподавателя
+                var teacherCourses = courses.Where(c => c.GetTeacher() == teacher.GetID()).ToList();
+                if (teacherCourses.Any())
+                {
+                    Console.WriteLine("Ведет курсы:");
+                    foreach (var course in teacherCourses)
+                    {
+                        Console.WriteLine($"  - {course.GetTitle()}");
+                    }
+                }
+                Console.WriteLine();
             }
         }
         else
@@ -527,19 +521,21 @@ class Program
                 Console.WriteLine("Введите id учителя, ведущего курс:");
                 if (int.TryParse(Console.ReadLine(), out int teacherID))
                 {
-                    if (teacherID > 0)
+                    var teacher = teachers.FirstOrDefault(t => t.GetID() == teacherID);
+                    if (teacher == null)
+                    {
+                        Console.WriteLine("Преподаватель с таким ID не найден!");
+                        continue;
+                    }
+                    else
                     {
                         Course.SetIDteacher(teacherID);
                         break;
                     }
-                    else
-                    {
-                        Console.WriteLine("ID не может быть отрицательным!");
-                    }
                 }
                 else
                 {
-                    Console.WriteLine("ID не может быть пустым!");
+                    Console.WriteLine("ID должен быть числом!");
                 }
             }
             bool addDescript = true;
@@ -703,7 +699,7 @@ class Program
     }
 
     // метод для записи студента на курс
-    static private void EnrollStudentInCourse(int studentId, int courseId)
+    static public void EnrollStudentInCourse(int studentId, int courseId)
     {
         // Добавляем в словарь studentCourses
         if (!studentCourses.ContainsKey(studentId))
@@ -833,7 +829,7 @@ class Program
                         PrintStudent();
                         break;
                     case 3:
-                        GetTeacher();
+                        ADD,Teacher();
                         break;
                     case 4:
                         PrintTeachers();
