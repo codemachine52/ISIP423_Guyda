@@ -35,12 +35,12 @@ class Program
         {
             protected int id = 0;
             protected static int NextID = 1;
-            float workExpernc {  get; set; }
+            float workExpernc { get; set; }
             double salary { get; set; }
             string course { get; set; } = "";
             public Teacher()
             {
-                role = "Teacher";
+                role = "Преподаватель";
                 id = NextID++;
             }
 
@@ -62,17 +62,15 @@ class Program
             protected int id = 0;
             protected static int NextID = 1;
             string StudBilet { get; set; } = "";
-            string course { get; set; } = "";
             string grouppa { get; set; } = "";
             bool isPaidEducation { get; set; }
             public Student()
             {
-                role = "Student";
+                role = "Студент";
                 id = NextID++;
             }
 
             public string GetRole() => role;
-            public string GetCourse() => course;
             public string GetGrouppa() => grouppa;
             public bool GetPaidEducation() => isPaidEducation;
 
@@ -81,7 +79,6 @@ class Program
 
             public int GetID() => id;
             public void SetStud(string value) => StudBilet = value;
-            public void SetCourse(string value) => course = value;
             public void SetGroup(string value) => grouppa = value;
             public void SetPaidorFree(bool value) => isPaidEducation = value;
         }
@@ -114,202 +111,210 @@ class Program
             public int SetHours(int hours) => countHours = hours;
         }
     }
-            static public void AddStudent()
-            {
-                Console.WriteLine("=== Добавление студента ===");
-                bool continueAdding = true;
+    static public void AddStudent()
+    {
+        Console.WriteLine("=== Добавление студента ===");
+        bool continueAdding = true;
         while (continueAdding)
+        {
+            var student = new University.Student();
+            while (true)
+            {
+                Console.WriteLine("Введите имя студента: ");
+                string name = Console.ReadLine();
+                if (!string.IsNullOrEmpty(name))
                 {
-                    var student = new University.Student();
-                    while (true)
-                    {
-                        Console.WriteLine("Введите имя студента: ");
-                        string name = Console.ReadLine();
-                        if (!string.IsNullOrEmpty(name))
-                        {
-                            student.SetName(name);
-                            break;
-                        }
-                        else
-                        {
-                            Console.WriteLine("Имя не может быть пустым!");
-                        }
-                    }
+                    student.SetName(name);
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("Имя не может быть пустым!");
+                }
+            }
 
-                    while (true)
+            while (true)
+            {
+                Console.WriteLine("Введите фамилию студента: ");
+                string surname = Console.ReadLine();
+                if (!string.IsNullOrEmpty(surname))
+                {
+                    student.SetSurname(surname);
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("Фамилия не может быть пустой!");
+                }
+            }
+
+            while (true)
+            {
+                Console.WriteLine("Введите дату рождения студента: ");
+                if (DateOnly.TryParse(Console.ReadLine(), out DateOnly age))
+                {
+                    if ((DateTime.Now.Year - age.Year) > 0)
                     {
-                        Console.WriteLine("Введите фамилию студента: ");
-                        string surname = Console.ReadLine();
-                        if (!string.IsNullOrEmpty(surname))
-                        {
-                        student.SetSurname(surname);
+                        student.SetBirthday(age);
                         break;
-                        }
-                        else
-                        {
-                            Console.WriteLine("Фамилия не может быть пустой!");
-                        }
                     }
-
-                    while (true)
+                    else
                     {
-                        Console.WriteLine("Введите дату рождения студента: ");
-                        if (DateOnly.TryParse(Console.ReadLine(), out DateOnly age))
-                        {
-                            if ((DateTime.Now.Year - age.Year) > 0)
-                            {
-                                student.SetBirthday(age);
-                                break;
-                            }
-                            else
-                            {
-                                Console.WriteLine("Возраст не может быть отрицательным!");
-                            }
-                        }
-                        else
-                        {
-                            Console.WriteLine("Возраст должен быть числом!");
-                        }
-                    }
-
-
-                    while (true)
-                    {
-                        Console.WriteLine("Введите номер студ билета студента: ");
-                        string stbilet = Console.ReadLine();
-                        if (!string.IsNullOrEmpty(stbilet))
-                        {
-                            student.SetStud(stbilet);
-                            break;
-                        }
-                        else
-                        {
-                            Console.WriteLine("Номер студенческого билета не может быть пустой!");
-                        }
-                    }
-
-                    while (true)
-                    {
-                        Console.WriteLine("Введите курс студента: ");
-                        string course = Console.ReadLine();
-                        if (!string.IsNullOrEmpty(course))
-                        {
-                            student.SetCourse(course);
-                            break;
-                    }
-                        else
-                        {
-                            Console.WriteLine("Курс не может быть пустой!");
-                        }
-                    }
-
-                    while (true)
-                    {
-                        Console.WriteLine("Введите группу студента: ");
-                        string group = Console.ReadLine();
-                        if (!string.IsNullOrEmpty(group))
-                        {
-                            student.SetGroup(group);
-                            break;
-                    }
-                        else
-                        {
-                            Console.WriteLine("Группа не может быть пустой!");
-                        }
-                    }
-
-                    while (true)
-                    {
-                        Console.WriteLine("Платно обучается студент? (да/нет): ");
-                        string PaidorFree = Console.ReadLine();
-                        if (!string.IsNullOrEmpty(PaidorFree))
-                        {
-                            if (PaidorFree.Contains("да"))
-                            {
-                                student.SetPaidorFree(true);
-                                break;
-                        }
-                            else
-                            {
-                                student.SetPaidorFree(false);
-                                break;
-                        }
-                        }
-                        else
-                        {
-                            Console.WriteLine("Поле не может быть пустым!");
-                        }
-                    }
-
-                    while (true)
-                    {
-                        Console.WriteLine("Введите телефон студента: ");
-                        string phone = Console.ReadLine();
-                        if (!string.IsNullOrEmpty(phone))
-                        {
-                            if (phone.Length > 10)
-                            {
-                                student.SetPhone(phone);
-                                break;
-                            }
-
-                            else
-                            {
-                                Console.WriteLine("Длина телефонного номера не соответствует стандарту!");
-                            }
-                        }
-                        else
-                        {
-                            Console.WriteLine("Поле не может быть пустым!");
-                        }
-                    }
-
-                    while (true)
-                    {
-                        Console.WriteLine("Введите город студента: ");
-                        string city = Console.ReadLine();
-                        if (!string.IsNullOrEmpty(city))
-                        {
-                            student.SetCity(city);
-                            break;
-                    }
-                        else
-                        {
-                            Console.WriteLine("Поле не может быть пустым!");
-                        }
-                    }
-
-                    if (student != null)
-                    {
-                        students.Add(student);
-                        Console.WriteLine("Студент успешно добавлен. Продолжить? (да/нет)");
-                        string choice = Console.ReadLine();
-                        if (!string.IsNullOrEmpty(choice))
-                        {
-                                
-                                if(choice.ToLower() == "да")
-                                    {
-                                    continueAdding = true;
-                                    }
-                                if(choice.ToLower() == "нет")
-                                    {
-                                        continueAdding = false;
-                                    }
-                            }
-                        }
-                        else
-                        {
-                            Console.WriteLine("Не все поля заполнены. Не удалось добавить студента.");
-                        }
+                        Console.WriteLine("Возраст не может быть отрицательным!");
                     }
                 }
+                else
+                {
+                    Console.WriteLine("Возраст должен быть числом!");
+                }
+            }
 
-        static List<University.Student> students = new List<University.Student>();
-        static List<University.Teacher> teachers = new List<University.Teacher>();
-        static List <University.Courses> courses = new List<University.Courses>();
 
-        static public void PrintStudent()
+            while (true)
             {
+                Console.WriteLine("Введите номер студ билета студента: ");
+                string stbilet = Console.ReadLine();
+                if (!string.IsNullOrEmpty(stbilet))
+                {
+                    student.SetStud(stbilet);
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("Номер студенческого билета не может быть пустой!");
+                }
+            }
+
+            while (true)
+            {
+                Console.WriteLine("Введите курс студента: ");
+                string course = Console.ReadLine();
+                if (!string.IsNullOrEmpty(course))
+                {
+                    student.SetCourse(course);
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("Курс не может быть пустой!");
+                }
+            }
+
+            while (true)
+            {
+                Console.WriteLine("Введите группу студента: ");
+                string group = Console.ReadLine();
+                if (!string.IsNullOrEmpty(group))
+                {
+                    student.SetGroup(group);
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("Группа не может быть пустой!");
+                }
+            }
+
+            while (true)
+            {
+                Console.WriteLine("Платно обучается студент? (да/нет): ");
+                string PaidorFree = Console.ReadLine();
+                if (!string.IsNullOrEmpty(PaidorFree))
+                {
+                    if (PaidorFree.Contains("да"))
+                    {
+                        student.SetPaidorFree(true);
+                        break;
+                    }
+                    else
+                    {
+                        student.SetPaidorFree(false);
+                        break;
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Поле не может быть пустым!");
+                }
+            }
+
+            while (true)
+            {
+                Console.WriteLine("Введите телефон студента: ");
+                string phone = Console.ReadLine();
+                if (!string.IsNullOrEmpty(phone))
+                {
+                    if (phone.Length > 10)
+                    {
+                        student.SetPhone(phone);
+                        break;
+                    }
+
+                    else
+                    {
+                        Console.WriteLine("Длина телефонного номера не соответствует стандарту!");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Поле не может быть пустым!");
+                }
+            }
+
+            while (true)
+            {
+                Console.WriteLine("Введите город студента: ");
+                string city = Console.ReadLine();
+                if (!string.IsNullOrEmpty(city))
+                {
+                    student.SetCity(city);
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("Поле не может быть пустым!");
+                }
+            }
+
+            if (student != null)
+            {
+                students.Add(student);
+                Console.WriteLine("Студент успешно добавлен. Продолжить? (да/нет)");
+                string choice = Console.ReadLine();
+                if (!string.IsNullOrEmpty(choice))
+                {
+
+                    if (choice.ToLower() == "да")
+                    {
+                        continueAdding = true;
+                    }
+                    if (choice.ToLower() == "нет")
+                    {
+                        continueAdding = false;
+                    }
+                }
+            }
+            else
+            {
+                Console.WriteLine("Не все поля заполнены. Не удалось добавить студента.");
+            }
+        }
+    }
+
+    static List<University.Student> students = new List<University.Student>();
+    static List<University.Teacher> teachers = new List<University.Teacher>();
+    static List<University.Courses> courses = new List<University.Courses>();
+
+    //Словарь для хранения записей студентов на курсы
+    // Key: ID студента, Value: List<ID курсов>
+    static Dictionary<int, List<int>> studentCourses = new Dictionary<int, List<int>>();
+
+    // Словарь для студентов, записанных на курс
+    // Key: ID курса, Value: List<ID студентов>
+    static Dictionary<int, List<int>> courseStudents = new Dictionary<int, List<int>>();
+
+    static public void PrintStudent()
+    {
         if (students.Count > 0)
         {
             foreach (var student in students)
@@ -322,13 +327,13 @@ class Program
         {
             Console.WriteLine("Нет студентов!");
         }
-            }
+    }
 
     static public void GetTeacher()
     {
-        
-            Console.WriteLine("===  Добавление учителя  ===");
-            bool continadd = true;
+
+        Console.WriteLine("===  Добавление учителя  ===");
+        bool continadd = true;
         while (continadd)
         {
             var teacher = new University.Teacher();
@@ -415,7 +420,7 @@ class Program
             while (true)
             {
                 Console.WriteLine("Введите стаж учителя:");
-                if(float.TryParse(Console.ReadLine(),out float stag))
+                if (float.TryParse(Console.ReadLine(), out float stag))
                 {
                     teacher.SetExp(stag);
                     break;
@@ -480,7 +485,7 @@ class Program
         }
     }
 
-     static public void PrintTeachers()
+    static public void PrintTeachers()
     {
         if (teachers.Count > 0)
         {
@@ -557,6 +562,7 @@ class Program
                 else
                 {
                     Course.SetDescription(courseDescription);
+                    break;
                 }
             }
 
@@ -615,7 +621,8 @@ class Program
             {
                 Console.WriteLine($"{course.GetID()}, название: {course.GetTitle()}, id преподавателя: {course.GetTeacher()}\n" +
                     $"количество часов: {course.GetCountHours()}");
-                if (course.GetDescription() != null)
+                Console.WriteLine();
+                if (!string.IsNullOrEmpty(course.GetDescription()))
                 {
                     Console.WriteLine($"описание курса: {course.GetDescription()}");
                 }
@@ -624,6 +631,178 @@ class Program
         else
         {
             Console.WriteLine("Нет курсов!");
+        }
+    }
+
+    static public void EnrollmentCourses()
+    {
+        Console.WriteLine("=== Запись студента на курс ===");
+
+        // Показываем всех студентов
+        if (students.Count == 0)
+        {
+            Console.WriteLine("Нет студентов в системе!");
+            return;
+        }
+
+        Console.WriteLine("Список студентов:");
+        foreach (var student in students)
+        {
+            Console.WriteLine($"ID: {student.GetID()}, {student.GetName()} {student.GetSurname()}");
+        }
+
+        // Показываем все курсы
+        if (courses.Count == 0)
+        {
+            Console.WriteLine("Нет курсов в системе!");
+            return;
+        }
+
+        Console.WriteLine("\nСписок курсов:");
+        foreach (var course in courses)
+        {
+            var teacher = teachers.FirstOrDefault(t => t.GetID() == course.GetTeacher());
+            string teacherName = teacher != null ? $"{teacher.GetName()} {teacher.GetSurname()}" : "Не назначен";
+            Console.WriteLine($"ID: {course.GetID()}, {course.GetTitle()} (Преподаватель: {teacherName})");
+        }
+
+        // Получаем ID студента
+        Console.WriteLine("\nВведите ID студента, которого хотите записать на курс: ");
+        if (int.TryParse(Console.ReadLine(), out int studID))
+        {
+            var student = students.FirstOrDefault(s => s.GetID() == studID);
+            if (student == null)
+            {
+                Console.WriteLine("Студент с таким ID не найден!");
+                return;
+            }
+
+            // Получаем ID курса
+            Console.WriteLine("Введите ID курса, на который хотите записать студента:");
+            if (int.TryParse(Console.ReadLine(), out int courseID))
+            {
+                var course = courses.FirstOrDefault(c => c.GetID() == courseID);
+                if (course == null)
+                {
+                    Console.WriteLine("Курс с таким ID не найден!");
+                    return;
+                }
+
+                // Записываем студента на курс
+                EnrollStudentInCourse(studID, courseID);
+            }
+            else
+            {
+                Console.WriteLine("Неверный формат ID курса!");
+            }
+        }
+        else
+        {
+            Console.WriteLine("Неверный формат ID студента!");
+        }
+    }
+
+    // метод для записи студента на курс
+    static private void EnrollStudentInCourse(int studentId, int courseId)
+    {
+        // Добавляем в словарь studentCourses
+        if (!studentCourses.ContainsKey(studentId))
+        {
+            studentCourses[studentId] = new List<int>();
+        }
+
+        if (!studentCourses[studentId].Contains(courseId))
+        {
+            studentCourses[studentId].Add(courseId);
+            Console.WriteLine($"Студент ID {studentId} успешно записан на курс ID {courseId}");
+        }
+        else
+        {
+            Console.WriteLine("Студент уже записан на этот курс!");
+            return;
+        }
+
+        // Добавляем в словарь courseStudents
+        if (!courseStudents.ContainsKey(courseId))
+        {
+            courseStudents[courseId] = new List<int>();
+        }
+
+        courseStudents[courseId].Add(studentId);
+    }
+
+    static public void ShowStudentCourses()
+    {
+        Console.WriteLine("Введите ID студента: ");
+        if (int.TryParse(Console.ReadLine(), out int studentId))
+        {
+            var student = students.FirstOrDefault(s => s.GetID() == studentId);
+            if (student == null)
+            {
+                Console.WriteLine("Студент не найден!");
+                return;
+            }
+
+            Console.WriteLine($"\nКурсы студента {student.GetName()} {student.GetSurname()}:");
+
+            if (studentCourses.ContainsKey(studentId) && studentCourses[studentId].Count > 0)
+            {
+                foreach (var courseId in studentCourses[studentId])
+                {
+                    var course = courses.FirstOrDefault(c => c.GetID() == courseId);
+                    if (course != null)
+                    {
+                        var teacher = teachers.FirstOrDefault(t => t.GetID() == course.GetTeacher());
+                        string teacherName = teacher != null ? $"{teacher.GetName()} {teacher.GetSurname()}" : "Не назначен";
+                        Console.WriteLine($"- {course.GetTitle()} (Преподаватель: {teacherName})");
+                    }
+                }
+            }
+            else
+            {
+                Console.WriteLine("Студент не записан ни на один курс.");
+            }
+        }
+        else
+        {
+            Console.WriteLine("Неверный формат ID!");
+        }
+    }
+
+    // метод: Показать всех студентов на курсе
+    static public void ShowCourseStudents()
+    {
+        Console.WriteLine("Введите ID курса: ");
+        if (int.TryParse(Console.ReadLine(), out int courseId))
+        {
+            var course = courses.FirstOrDefault(c => c.GetID() == courseId);
+            if (course == null)
+            {
+                Console.WriteLine("Курс не найден!");
+                return;
+            }
+
+            Console.WriteLine($"\nСтуденты на курсе '{course.GetTitle()}':");
+
+            if (courseStudents.ContainsKey(courseId) && courseStudents[courseId].Count > 0)
+            {
+                foreach (var studentId in courseStudents[courseId])
+                {
+                    var student = students.FirstOrDefault(s => s.GetID() == studentId);
+                    if (student != null)
+                    {
+                        Console.WriteLine($"- {student.GetName()} {student.GetSurname()} (Группа: {student.GetGrouppa()})");
+                    }
+                }
+            }
+            else
+            {
+                Console.WriteLine("На курс не записан ни один студент.");
+            }
+        }
+        else
+        {
+            Console.WriteLine("Неверный формат ID!");
         }
     }
 
@@ -636,6 +815,11 @@ class Program
             Console.WriteLine("2. Показать всех студентов");
             Console.WriteLine("3. Добавить учителя");
             Console.WriteLine("4. Показать всех учителей");
+            Console.WriteLine("5. Добавить курс");
+            Console.WriteLine("6. Показать все курсы");
+            Console.WriteLine("7. Записать студента на курс"); 
+            Console.WriteLine("8. Показать курсы студента");  
+            Console.WriteLine("9. Показать студентов на курсе");
             Console.WriteLine("0. Выход");
             Console.Write("Выберите действие: ");
 
@@ -653,6 +837,21 @@ class Program
                         break;
                     case 4:
                         PrintTeachers();
+                        break;
+                    case 5:
+                        AddCourses();
+                        break;
+                    case 6:
+                        PrintCourses();
+                        break;
+                    case 7: 
+                        EnrollmentCourses();
+                        break;
+                    case 8: 
+                        ShowStudentCourses();
+                        break;
+                    case 9:
+                        ShowCourseStudents();
                         break;
                     case 0:
                         Console.WriteLine("Выход из программы...");
