@@ -73,10 +73,10 @@ class Program
 
         class Enemy
         {
-            string Name { get; set; } = "";
-            int HP { get; set; }
-            int Attack { get; set; }
-            int Defense { get; set; }
+            protected string Name { get; set; } = "";
+            protected int HP { get; set; }
+            protected int Attack { get; set; }
+            protected int Defense { get; set; }
 
             public Enemy(string name, int attack, int hp, int defense)
             {
@@ -86,7 +86,7 @@ class Program
                 Defense = defense;
             }
 
-            public void AttackPlayer(Player player)
+            public virtual void AttackPlayer(Player player)
             {
                 int damage = Attack;
                 player.TakeDamage(damage);
@@ -105,7 +105,84 @@ class Program
                 Console.WriteLine($"Защита: {Defense}");
             }
         }
+
         class Goblin : Enemy
+        {
+            double critChance = 0.2;
+            double critMnojitel = 2;
+
+            public Goblin() : base("Гоблин", 8, 30, 3) { }
+
+            public virtual void AttackPlayer(Player player)
+            {
+                Random random = new Random();
+                double damage = Attack;
+
+                if (random.NextDouble() < critChance)
+                {
+                    damage *= critMnojitel;
+                    Console.WriteLine("Критический удар!");
+                }
+
+                player.TakeDamage((int)damage);
+                Console.WriteLine($"{Name} атакует и наносит {damage} урона!");
+            }
+        }
+
+        class Skeleton : Enemy
+        {
+            public Skeleton() : base("Скелет", 10, 25, 2) { }
+
+            public override void AttackPlayer(Player player)
+            {
+                Random random = new Random();
+                double damage = Attack;
+
+                // Скелет игнорирует защиту игрока
+                player.TakeDamage((int)damage);
+                Console.WriteLine($"{Name} игнорирует защиту и наносит {damage} урона!");
+            }
+        }
+
+        class Mage : Enemy
+        {
+            double freezeChance = 0.25;
+            public bool FreezeApplied { get; private set; }
+
+            public Mage() : base("Маг", 12, 20, 1)
+            {
+                FreezeApplied = false;
+            }
+
+            public override void AttackPlayer(Player player)
+            {
+                Random random = new Random();
+                double damage = Attack;
+
+                player.TakeDamage((int)damage);
+                Console.WriteLine($"{Name} атакует и наносит {damage} урона!");
+
+                if (random.NextDouble() < freezeChance)
+                {
+                    FreezeApplied = true;
+                    Console.WriteLine($"{Name} накладывает заморозку! Вы пропустите следующий ход!");
+                }
+            }
+
+            public void ResetFreeze()
+            {
+                FreezeApplied = false;
+            }
+        }
+
+        class Boss : Enemy
+        {
+            public Boss(string name, int attack, int hp, int defense) : base(name, attack, hp, defense)
+            {
+            }
+        }
+
+        class VVG : Boss
         {
 
         }
