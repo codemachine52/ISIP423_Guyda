@@ -20,7 +20,7 @@ class Program
             public void TakeDamage(int damage)
             {
                 HP -= damage;
-                if(HP < 0) HP = 0;
+                if (HP < 0) HP = 0;
             }
 
             public void Heal(int amonth)
@@ -50,7 +50,7 @@ class Program
         class Weapon
         {
             string Name { get; set; } = "";
-            int Damage {  get; set; }
+            int Damage { get; set; }
 
             public Weapon(string name, int damage)
             {
@@ -76,7 +76,7 @@ class Program
             string Name { get; set; } = "";
             int HP { get; set; }
             int Attack { get; set; }
-            int Defense { get; set;}
+            int Defense { get; set; }
 
             public Enemy(string name, int attack, int hp, int defense)
             {
@@ -88,8 +88,26 @@ class Program
 
             public void AttackPlayer(Player player)
             {
-
+                int damage = Attack;
+                player.TakeDamage(damage);
+                Console.WriteLine($"{Name} атакует и наносит {damage} урона!");
             }
+
+            public bool IsAlive()
+            {
+                return HP > 0;
+            }
+            public void ShowStats()
+            {
+                Console.WriteLine($"=== {Name} ===");
+                Console.WriteLine($"Здоровье: {HP}");
+                Console.WriteLine($"Атака: {Attack}");
+                Console.WriteLine($"Защита: {Defense}");
+            }
+        }
+        class Goblin : Enemy
+        {
+
         }
     }
 }
