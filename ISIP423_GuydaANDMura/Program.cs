@@ -49,8 +49,8 @@ class Program
 
         class Weapon
         {
-            string Name { get; set; } = "";
-            int Damage { get; set; }
+            public string Name { get; set; } = "";
+            public int Damage { get; set; }
 
             public Weapon(string name, int damage)
             {
@@ -61,8 +61,8 @@ class Program
 
         class Armor
         {
-            string Name { get; set; } = "";
-            int Defense { get; set; }
+           public string Name { get; set; } = "";
+           public int Defense { get; set; }
 
             public Armor(string name, int defense)
             {
@@ -108,12 +108,12 @@ class Program
 
         class Goblin : Enemy
         {
-            double critChance = 0.2;
-            double critMnojitel = 2;
+            protected double critChance = 0.2;
+            protected double critMnojitel = 2;
 
             public Goblin() : base("Гоблин", 8, 30, 3) { }
 
-            public virtual void AttackPlayer(Player player)
+            public override void AttackPlayer(Player player)
             {
                 Random random = new Random();
                 double damage = Attack;
@@ -184,7 +184,40 @@ class Program
 
         class VVG : Boss
         {
+            double critchance = 0.3;
+            double critmnojitel = 2;
+            public VVG() : base("ВВГ", (int)(1.5*8), (int)(2*30), (int)(1.2 * 3))
+            {
+                
+            }
 
+            public override void AttackPlayer(Player player)
+            {
+                Random random = new Random();
+                double damage = Attack;
+
+                if (random.NextDouble() < critchance)
+                {
+                    damage *= critmnojitel;
+                    Console.WriteLine("Критический удар!");
+                }
+
+                player.TakeDamage((int)damage);
+                Console.WriteLine($"{Name} атакует и наносит {damage} урона!");
+            }
         }
+
+        class Kovalski  : Boss
+        {
+            public Kovalski() : base("Ковальски", (int)(1.3 * 10), (int)(2.5 * 25), (int)(1.4 * 2)) { }
+
+            public override void AttackPlayer(Player player)
+            {
+                // Игнорирует защиту как скелет
+                player.TakeDamage(Attack);
+                Console.WriteLine($"{Name} игнорирует защиту и наносит {Attack} урона!");
+            }
+        }
+
     }
 }
