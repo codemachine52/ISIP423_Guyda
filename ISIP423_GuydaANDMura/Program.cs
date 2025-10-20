@@ -9,12 +9,14 @@ class Program
             public int HP { get; set; }
             public Weapon CurrentWeapon { get; set; }
             public Armor CurrentArmor { get; set; }
+            public bool IsDefending { get; private set; }
 
             public Player(int StartHP)
             {
                 HP = StartHP;
                 CurrentWeapon = new Weapon("Кулаки", 5);
                 CurrentArmor = new Armor("Легкая рубашка", 3);
+                IsDefending = false;
             }
 
             public void TakeDamage(int damage, bool ignoreDefense = false)
@@ -23,8 +25,30 @@ class Program
 
                 if (!ignoreDefense)
                 {
-                    // Учитываем защиту доспехов
-                    finalDamage -= CurrentArmor.Defense;
+                    // Если игрок защищается, проверяем уклонение
+                    if (IsDefending)
+                    {
+                        Random rand = new Random();
+                        if (rand.NextDouble() < 0.4) // 40% шанс уклониться
+                        {
+                            Console.WriteLine("Вы увернулись от атаки!");
+                            IsDefending = false; // Сбрасываем защиту после хода
+                            return;
+                        }
+                        else
+                        {
+                            double blockPercent = 0.7 + (rand.NextDouble() * 0.3); // 70-100%
+                            int blockedDamage = (int)(CurrentArmor.Defense * blockPercent);
+                            finalDamage -= blockedDamage;
+                            Console.WriteLine($"Вы блокируете {blockedDamage} урона!");
+                        }
+                    }
+                    else
+                    {
+                        // Обычная защита
+                        finalDamage -= CurrentArmor.Defense;
+                    }
+
                     if (finalDamage < 0) finalDamage = 0;
                 }
 
@@ -32,7 +56,9 @@ class Program
                 if (HP < 0) HP = 0;
 
                 Console.WriteLine($"Получено урона: {finalDamage}");
+                IsDefending = false; // Сбрасываем защиту после получения урона
             }
+
 
             public void Heal(int amonth)
             {
