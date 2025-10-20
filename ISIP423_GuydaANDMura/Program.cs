@@ -2,6 +2,13 @@
 
 class Program
 {
+
+    static void Main()
+    {
+        Game game = new Game();
+        game.StartGame();
+    }
+
     class Game
     {
         private Random random = new Random();
