@@ -6,7 +6,7 @@ class Program
     {
         class Player
         {
-            int HP { get; set; }
+            public int HP { get; set; }
             public Weapon CurrentWeapon { get; set; }
             public Armor CurrentArmor { get; set; }
 
@@ -17,10 +17,21 @@ class Program
                 CurrentArmor = new Armor("Легкая рубашка", 3);
             }
 
-            public void TakeDamage(int damage)
+            public void TakeDamage(int damage, bool ignoreDefense = false)
             {
-                HP -= damage;
+                int finalDamage = damage;
+
+                if (!ignoreDefense)
+                {
+                    // Учитываем защиту доспехов
+                    finalDamage -= CurrentArmor.Defense;
+                    if (finalDamage < 0) finalDamage = 0;
+                }
+
+                HP -= finalDamage;
                 if (HP < 0) HP = 0;
+
+                Console.WriteLine($"Получено урона: {finalDamage}");
             }
 
             public void Heal(int amonth)
@@ -139,7 +150,7 @@ class Program
                 double damage = Attack;
 
                 // Скелет игнорирует защиту игрока
-                player.TakeDamage((int)damage);
+                player.TakeDamage(Attack, true);
                 Console.WriteLine($"{Name} игнорирует защиту и наносит {damage} урона!");
             }
         }
@@ -214,7 +225,7 @@ class Program
             public override void AttackPlayer(Player player)
             {
                 // Игнорирует защиту как скелет
-                player.TakeDamage(Attack);
+                player.TakeDamage(Attack, true);
                 Console.WriteLine($"{Name} игнорирует защиту и наносит {Attack} урона!");
             }
         }
@@ -266,7 +277,7 @@ class Program
                 double damage = Attack;
 
                 // Игнорирует защиту как скелет + шанс заморозки
-                player.TakeDamage(Attack);
+                player.TakeDamage(Attack, true);
                 Console.WriteLine($"{Name} игнорирует защиту и наносит {Attack} урона!");
 
                 if (random.NextDouble() < freezeChance)
@@ -281,6 +292,8 @@ class Program
                 FreezeApplied = false;
             }
         }
+
+
 
     }
 }
