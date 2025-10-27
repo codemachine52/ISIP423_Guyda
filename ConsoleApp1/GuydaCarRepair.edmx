@@ -258,6 +258,7 @@
           <NavigationProperty Name="defects" Relationship="Self.FK_defects_Parts" FromRole="Parts" ToRole="defects" />
           <NavigationProperty Name="defects_parts" Relationship="Self.FK_defects_parts_Parts" FromRole="Parts" ToRole="defects_parts" />
           <NavigationProperty Name="parts_player" Relationship="Self.FK_parts_player_Parts" FromRole="Parts" ToRole="parts_player" />
+          <Property Name="workCost" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="parts_player">
           <Key>
