@@ -10,10 +10,10 @@ namespace ConsoleApp1
     internal class Program
     {
 
-        private static Random random = new Random();
-        private static int carsProcessed = 0;
-        private static int successfulRepairs = 0;
-        private static int failedRepairs = 0;
+         static Random random = new Random();
+         static int carsProcessed = 0;
+         static int successfulRepairs = 0;
+         static int failedRepairs = 0;
 
         static void Main(string[] args)
         {
@@ -25,11 +25,12 @@ namespace ConsoleApp1
                 Core.Context.SaveChanges();
                 Console.WriteLine("Создан новый игрок!");
             }
+
             bool gameRunning = true;
 
             while (gameRunning)
             {
-                Console.Clear();
+                
                 ShowPlayerStatus(player);
                 Console.WriteLine("\n1 - Обслужить следующего клиента");
                 Console.WriteLine("2 - Купить запчасти");
@@ -67,7 +68,23 @@ namespace ConsoleApp1
 
         private static void ShowPlayerStatus(player player)
         {
+            Console.WriteLine($"=== АВТОСЕРВИС ===");
+            Console.WriteLine($"Баланс: {player.MyMoney} руб.");
+            Console.WriteLine($"Обслужено машин: {carsProcessed}");
+            Console.WriteLine($"Успешных ремонтов: {successfulRepairs}");
+            Console.WriteLine($"Неудачных ремонтов: {failedRepairs}");
 
+            // Показать ожидающие поставки
+            var pendingOrders = Core.Context.OrderParts.Where(o => o.PlayerID == 1).ToList();
+            if (pendingOrders.Any())
+            {
+                Console.WriteLine("\nОжидаются поставки:");
+                foreach (var order in pendingOrders)
+                {
+                    var part = Core.Context.Parts.FirstOrDefault(p => p.partID == order.PartID);
+                    Console.WriteLine($"{part.partName}: {order.count} шт. (через {order.carsUntilDelivery} машин)");
+                }
+            }
         }
 
         private static void ProcessNextCar(player player)
@@ -116,7 +133,14 @@ namespace ConsoleApp1
 
         private static void ShowInventory(player player)
         {
+            var inventory = Core.Context.parts_player.Where(i => i.idPlayer == 1).ToList();
+            Console.WriteLine("Ваш склад:");
 
+            foreach (var item in inventory)
+            {
+                var part = Core.Context.Parts.FirstOrDefault(p => p.partID == item.idPart);
+                Console.WriteLine($"{part.partName}: {item.countParts} шт.");
+            }
         }
     }
 }

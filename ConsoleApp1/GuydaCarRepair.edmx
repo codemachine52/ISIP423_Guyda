@@ -9,7 +9,7 @@
           <Key>
             <PropertyRef Name="id" />
           </Key>
-          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="carName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="defectID" Type="int" Nullable="false" />
         </EntityType>
@@ -17,7 +17,7 @@
           <Key>
             <PropertyRef Name="id" />
           </Key>
-          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="defectName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="partNeedID" Type="int" Nullable="false" />
         </EntityType>
@@ -35,10 +35,10 @@
           <Key>
             <PropertyRef Name="partID" />
           </Key>
-          <Property Name="partID" Type="int" Nullable="false" />
+          <Property Name="partID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="partName" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="basePrice" Type="decimal" Precision="18" Scale="0" Nullable="false" />
-          <Property Name="workCost" Type="float" />
+          <Property Name="workCost" Type="float" Nullable="false" />
         </EntityType>
         <EntityType Name="parts_player">
           <Key>
@@ -54,7 +54,7 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="MyMoney" Type="decimal" Precision="18" Scale="0" Nullable="false" />
-          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -102,7 +102,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_parts_player_player">
+        <Association Name="FK_parts_player_player1">
           <End Role="player" Type="Self.player" Multiplicity="1" />
           <End Role="parts_player" Type="Self.parts_player" Multiplicity="*" />
           <ReferentialConstraint>
@@ -110,7 +110,7 @@
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="parts_player">
-              <PropertyRef Name="countParts" />
+              <PropertyRef Name="idPlayer" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -134,7 +134,7 @@
             <End Role="Parts" EntitySet="Parts" />
             <End Role="parts_player" EntitySet="parts_player" />
           </AssociationSet>
-          <AssociationSet Name="FK_parts_player_player" Association="Self.FK_parts_player_player">
+          <AssociationSet Name="FK_parts_player_player1" Association="Self.FK_parts_player_player1">
             <End Role="player" EntitySet="player" />
             <End Role="parts_player" EntitySet="parts_player" />
           </AssociationSet>
@@ -148,7 +148,7 @@
           <Key>
             <PropertyRef Name="id" />
           </Key>
-          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="carName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="defectID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="defects" Relationship="Self.FK_cars_defects" FromRole="cars" ToRole="defects" />
@@ -157,7 +157,7 @@
           <Key>
             <PropertyRef Name="id" />
           </Key>
-          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="defectName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="partNeedID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="cars" Relationship="Self.FK_cars_defects" FromRole="defects" ToRole="cars" />
@@ -177,10 +177,10 @@
           <Key>
             <PropertyRef Name="partID" />
           </Key>
-          <Property Name="partID" Type="Int32" Nullable="false" />
+          <Property Name="partID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="partName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="basePrice" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
-          <Property Name="workCost" Type="Double" />
+          <Property Name="workCost" Type="Double" Nullable="false" />
           <NavigationProperty Name="defects" Relationship="Self.FK_defects_Parts" FromRole="Parts" ToRole="defects" />
           <NavigationProperty Name="parts_player" Relationship="Self.FK_parts_player_Parts" FromRole="Parts" ToRole="parts_player" />
         </EntityType>
@@ -193,15 +193,15 @@
           <Property Name="countParts" Type="Int32" Nullable="false" />
           <Property Name="idPlayer" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Parts" Relationship="Self.FK_parts_player_Parts" FromRole="parts_player" ToRole="Parts" />
-          <NavigationProperty Name="player" Relationship="Self.FK_parts_player_player" FromRole="parts_player" ToRole="player" />
+          <NavigationProperty Name="player" Relationship="Self.FK_parts_player_player1" FromRole="parts_player" ToRole="player" />
         </EntityType>
         <EntityType Name="player">
           <Key>
             <PropertyRef Name="id" />
           </Key>
           <Property Name="MyMoney" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
-          <Property Name="id" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="parts_player" Relationship="Self.FK_parts_player_player" FromRole="player" ToRole="parts_player" />
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="parts_player" Relationship="Self.FK_parts_player_player1" FromRole="player" ToRole="parts_player" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -249,7 +249,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_parts_player_player">
+        <Association Name="FK_parts_player_player1">
           <End Role="player" Type="Self.player" Multiplicity="1" />
           <End Role="parts_player" Type="Self.parts_player" Multiplicity="*" />
           <ReferentialConstraint>
@@ -257,7 +257,7 @@
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="parts_player">
-              <PropertyRef Name="countParts" />
+              <PropertyRef Name="idPlayer" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -281,7 +281,7 @@
             <End Role="Parts" EntitySet="Parts" />
             <End Role="parts_player" EntitySet="parts_player" />
           </AssociationSet>
-          <AssociationSet Name="FK_parts_player_player" Association="Self.FK_parts_player_player">
+          <AssociationSet Name="FK_parts_player_player1" Association="Self.FK_parts_player_player1">
             <End Role="player" EntitySet="player" />
             <End Role="parts_player" EntitySet="parts_player" />
           </AssociationSet>
