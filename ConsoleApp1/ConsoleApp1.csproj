@@ -58,9 +58,6 @@
     <Compile Include="defects.cs">
       <DependentUpon>GuydaCarRepair.tt</DependentUpon>
     </Compile>
-    <Compile Include="defects_parts.cs">
-      <DependentUpon>GuydaCarRepair.tt</DependentUpon>
-    </Compile>
     <Compile Include="GuydaCarRepair.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -75,6 +72,9 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>GuydaCarRepair.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="OrderParts.cs">
+      <DependentUpon>GuydaCarRepair.tt</DependentUpon>
     </Compile>
     <Compile Include="Parts.cs">
       <DependentUpon>GuydaCarRepair.tt</DependentUpon>
@@ -103,19 +103,19 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="GuydaCarRepair.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>GuydaCarRepair.Context.cs</LastGenOutput>
       <DependentUpon>GuydaCarRepair.edmx</DependentUpon>
+      <LastGenOutput>GuydaCarRepair.Context.cs</LastGenOutput>
     </Content>
     <Content Include="GuydaCarRepair.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>GuydaCarRepair.edmx</DependentUpon>
       <LastGenOutput>GuydaCarRepair.cs</LastGenOutput>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

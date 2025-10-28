@@ -21,22 +21,15 @@
           <Property Name="defectName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="partNeedID" Type="int" Nullable="false" />
         </EntityType>
-        <EntityType Name="defects_cars">
+        <EntityType Name="OrderParts">
           <Key>
-            <PropertyRef Name="carID" />
-            <PropertyRef Name="DefectID" />
+            <PropertyRef Name="ID" />
           </Key>
-          <Property Name="carID" Type="int" Nullable="false" />
-          <Property Name="DefectID" Type="int" Nullable="false" />
-        </EntityType>
-        <EntityType Name="defects_parts">
-          <Key>
-            <PropertyRef Name="defectID" />
-            <PropertyRef Name="partID" />
-          </Key>
-          <Property Name="defectID" Type="int" Nullable="false" />
-          <Property Name="partID" Type="int" Nullable="false" />
-          <Property Name="repairPrice" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="PlayerID" Type="int" Nullable="false" />
+          <Property Name="PartID" Type="int" Nullable="false" />
+          <Property Name="count" Type="int" Nullable="false" />
+          <Property Name="carsUntilDelivery" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Parts">
           <Key>
@@ -45,6 +38,7 @@
           <Property Name="partID" Type="int" Nullable="false" />
           <Property Name="partName" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="basePrice" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="workCost" Type="float" />
         </EntityType>
         <EntityType Name="parts_player">
           <Key>
@@ -84,30 +78,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_defects_cars_cars">
-          <End Role="cars" Type="Self.cars" Multiplicity="1" />
-          <End Role="defects_cars" Type="Self.defects_cars" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="cars">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="defects_cars">
-              <PropertyRef Name="carID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_defects_cars_defects">
-          <End Role="defects" Type="Self.defects" Multiplicity="1" />
-          <End Role="defects_cars" Type="Self.defects_cars" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="defects">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="defects_cars">
-              <PropertyRef Name="DefectID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_defects_Parts">
           <End Role="Parts" Type="Self.Parts" Multiplicity="1" />
           <End Role="defects" Type="Self.defects" Multiplicity="*" />
@@ -117,30 +87,6 @@
             </Principal>
             <Dependent Role="defects">
               <PropertyRef Name="partNeedID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_defects_parts_defects">
-          <End Role="defects" Type="Self.defects" Multiplicity="1" />
-          <End Role="defects_parts" Type="Self.defects_parts" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="defects">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="defects_parts">
-              <PropertyRef Name="defectID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_defects_parts_Parts">
-          <End Role="Parts" Type="Self.Parts" Multiplicity="1" />
-          <End Role="defects_parts" Type="Self.defects_parts" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Parts">
-              <PropertyRef Name="partID" />
-            </Principal>
-            <Dependent Role="defects_parts">
-              <PropertyRef Name="partID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -171,8 +117,7 @@
         <EntityContainer Name="Хранилище GuydaCarServiceModelContainer">
           <EntitySet Name="cars" EntityType="Self.cars" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="defects" EntityType="Self.defects" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="defects_cars" EntityType="Self.defects_cars" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="defects_parts" EntityType="Self.defects_parts" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OrderParts" EntityType="Self.OrderParts" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Parts" EntityType="Self.Parts" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="parts_player" EntityType="Self.parts_player" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="player" EntityType="Self.player" Schema="dbo" store:Type="Tables" />
@@ -181,25 +126,9 @@
             <End Role="defects" EntitySet="defects" />
             <End Role="cars" EntitySet="cars" />
           </AssociationSet>
-          <AssociationSet Name="FK_defects_cars_cars" Association="Self.FK_defects_cars_cars">
-            <End Role="cars" EntitySet="cars" />
-            <End Role="defects_cars" EntitySet="defects_cars" />
-          </AssociationSet>
-          <AssociationSet Name="FK_defects_cars_defects" Association="Self.FK_defects_cars_defects">
-            <End Role="defects" EntitySet="defects" />
-            <End Role="defects_cars" EntitySet="defects_cars" />
-          </AssociationSet>
           <AssociationSet Name="FK_defects_Parts" Association="Self.FK_defects_Parts">
             <End Role="Parts" EntitySet="Parts" />
             <End Role="defects" EntitySet="defects" />
-          </AssociationSet>
-          <AssociationSet Name="FK_defects_parts_defects" Association="Self.FK_defects_parts_defects">
-            <End Role="defects" EntitySet="defects" />
-            <End Role="defects_parts" EntitySet="defects_parts" />
-          </AssociationSet>
-          <AssociationSet Name="FK_defects_parts_Parts" Association="Self.FK_defects_parts_Parts">
-            <End Role="Parts" EntitySet="Parts" />
-            <End Role="defects_parts" EntitySet="defects_parts" />
           </AssociationSet>
           <AssociationSet Name="FK_parts_player_Parts" Association="Self.FK_parts_player_Parts">
             <End Role="Parts" EntitySet="Parts" />
@@ -223,7 +152,6 @@
           <Property Name="carName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="defectID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="defects" Relationship="Self.FK_cars_defects" FromRole="cars" ToRole="defects" />
-          <NavigationProperty Name="defects1" Relationship="Self.defects_cars" FromRole="cars" ToRole="defects" />
         </EntityType>
         <EntityType Name="defects">
           <Key>
@@ -234,19 +162,16 @@
           <Property Name="partNeedID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="cars" Relationship="Self.FK_cars_defects" FromRole="defects" ToRole="cars" />
           <NavigationProperty Name="Parts" Relationship="Self.FK_defects_Parts" FromRole="defects" ToRole="Parts" />
-          <NavigationProperty Name="defects_parts" Relationship="Self.FK_defects_parts_defects" FromRole="defects" ToRole="defects_parts" />
-          <NavigationProperty Name="cars1" Relationship="Self.defects_cars" FromRole="defects" ToRole="cars" />
         </EntityType>
-        <EntityType Name="defects_parts">
+        <EntityType Name="OrderParts">
           <Key>
-            <PropertyRef Name="defectID" />
-            <PropertyRef Name="partID" />
+            <PropertyRef Name="ID" />
           </Key>
-          <Property Name="defectID" Type="Int32" Nullable="false" />
-          <Property Name="partID" Type="Int32" Nullable="false" />
-          <Property Name="repairPrice" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
-          <NavigationProperty Name="defects" Relationship="Self.FK_defects_parts_defects" FromRole="defects_parts" ToRole="defects" />
-          <NavigationProperty Name="Parts" Relationship="Self.FK_defects_parts_Parts" FromRole="defects_parts" ToRole="Parts" />
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="PlayerID" Type="Int32" Nullable="false" />
+          <Property Name="PartID" Type="Int32" Nullable="false" />
+          <Property Name="count" Type="Int32" Nullable="false" />
+          <Property Name="carsUntilDelivery" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="Parts">
           <Key>
@@ -255,10 +180,9 @@
           <Property Name="partID" Type="Int32" Nullable="false" />
           <Property Name="partName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="basePrice" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="workCost" Type="Double" />
           <NavigationProperty Name="defects" Relationship="Self.FK_defects_Parts" FromRole="Parts" ToRole="defects" />
-          <NavigationProperty Name="defects_parts" Relationship="Self.FK_defects_parts_Parts" FromRole="Parts" ToRole="defects_parts" />
           <NavigationProperty Name="parts_player" Relationship="Self.FK_parts_player_Parts" FromRole="Parts" ToRole="parts_player" />
-          <Property Name="workCost" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="parts_player">
           <Key>
@@ -313,30 +237,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_defects_parts_defects">
-          <End Role="defects" Type="Self.defects" Multiplicity="1" />
-          <End Role="defects_parts" Type="Self.defects_parts" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="defects">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="defects_parts">
-              <PropertyRef Name="defectID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_defects_parts_Parts">
-          <End Role="Parts" Type="Self.Parts" Multiplicity="1" />
-          <End Role="defects_parts" Type="Self.defects_parts" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Parts">
-              <PropertyRef Name="partID" />
-            </Principal>
-            <Dependent Role="defects_parts">
-              <PropertyRef Name="partID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_parts_player_Parts">
           <End Role="Parts" Type="Self.Parts" Multiplicity="1" />
           <End Role="parts_player" Type="Self.parts_player" Multiplicity="*" />
@@ -361,14 +261,10 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="defects_cars">
-          <End Role="cars" Type="Self.cars" Multiplicity="*" />
-          <End Role="defects" Type="Self.defects" Multiplicity="*" />
-        </Association>
         <EntityContainer Name="GuydaCarServiceEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="cars" EntityType="Self.cars" />
           <EntitySet Name="defects" EntityType="Self.defects" />
-          <EntitySet Name="defects_parts" EntityType="Self.defects_parts" />
+          <EntitySet Name="OrderParts" EntityType="Self.OrderParts" />
           <EntitySet Name="Parts" EntityType="Self.Parts" />
           <EntitySet Name="parts_player" EntityType="Self.parts_player" />
           <EntitySet Name="player" EntityType="Self.player" />
@@ -381,14 +277,6 @@
             <End Role="Parts" EntitySet="Parts" />
             <End Role="defects" EntitySet="defects" />
           </AssociationSet>
-          <AssociationSet Name="FK_defects_parts_defects" Association="Self.FK_defects_parts_defects">
-            <End Role="defects" EntitySet="defects" />
-            <End Role="defects_parts" EntitySet="defects_parts" />
-          </AssociationSet>
-          <AssociationSet Name="FK_defects_parts_Parts" Association="Self.FK_defects_parts_Parts">
-            <End Role="Parts" EntitySet="Parts" />
-            <End Role="defects_parts" EntitySet="defects_parts" />
-          </AssociationSet>
           <AssociationSet Name="FK_parts_player_Parts" Association="Self.FK_parts_player_Parts">
             <End Role="Parts" EntitySet="Parts" />
             <End Role="parts_player" EntitySet="parts_player" />
@@ -396,10 +284,6 @@
           <AssociationSet Name="FK_parts_player_player" Association="Self.FK_parts_player_player">
             <End Role="player" EntitySet="player" />
             <End Role="parts_player" EntitySet="parts_player" />
-          </AssociationSet>
-          <AssociationSet Name="defects_cars" Association="Self.defects_cars">
-            <End Role="cars" EntitySet="cars" />
-            <End Role="defects" EntitySet="defects" />
           </AssociationSet>
         </EntityContainer>
       </Schema>
@@ -426,12 +310,14 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="defects_parts">
-            <EntityTypeMapping TypeName="GuydaCarServiceModel.defects_parts">
-              <MappingFragment StoreEntitySet="defects_parts">
-                <ScalarProperty Name="defectID" ColumnName="defectID" />
-                <ScalarProperty Name="partID" ColumnName="partID" />
-                <ScalarProperty Name="repairPrice" ColumnName="repairPrice" />
+          <EntitySetMapping Name="OrderParts">
+            <EntityTypeMapping TypeName="GuydaCarServiceModel.OrderParts">
+              <MappingFragment StoreEntitySet="OrderParts">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="PlayerID" ColumnName="PlayerID" />
+                <ScalarProperty Name="PartID" ColumnName="PartID" />
+                <ScalarProperty Name="count" ColumnName="count" />
+                <ScalarProperty Name="carsUntilDelivery" ColumnName="carsUntilDelivery" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -441,6 +327,7 @@
                 <ScalarProperty Name="partID" ColumnName="partID" />
                 <ScalarProperty Name="partName" ColumnName="partName" />
                 <ScalarProperty Name="basePrice" ColumnName="basePrice" />
+                <ScalarProperty Name="workCost" ColumnName="workCost" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -472,14 +359,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <AssociationSetMapping Name="defects_cars" TypeName="GuydaCarServiceModel.defects_cars" StoreEntitySet="defects_cars">
-            <EndProperty Name="cars">
-              <ScalarProperty Name="id" ColumnName="carID" />
-            </EndProperty>
-            <EndProperty Name="defects">
-              <ScalarProperty Name="id" ColumnName="DefectID" />
-            </EndProperty>
-          </AssociationSetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

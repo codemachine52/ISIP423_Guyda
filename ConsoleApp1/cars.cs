@@ -14,18 +14,10 @@ namespace ConsoleApp1
     
     public partial class cars
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public cars()
-        {
-            this.defects1 = new HashSet<defects>();
-        }
-    
         public int id { get; set; }
         public string carName { get; set; }
         public int defectID { get; set; }
     
         public virtual defects defects { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<defects> defects1 { get; set; }
     }
 }

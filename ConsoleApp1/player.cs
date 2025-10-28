@@ -19,9 +19,9 @@ namespace ConsoleApp1
         {
             this.parts_player = new HashSet<parts_player>();
         }
-    
-        public decimal MyMoney { get; set; }
-        public int id { get; set; }
+
+        public decimal MyMoney { get; set; } = 2500;
+        public int id { get; set; } = 1;
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<parts_player> parts_player { get; set; }

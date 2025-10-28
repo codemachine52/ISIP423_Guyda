@@ -18,8 +18,6 @@ namespace ConsoleApp1
         public defects()
         {
             this.cars = new HashSet<cars>();
-            this.defects_parts = new HashSet<defects_parts>();
-            this.cars1 = new HashSet<cars>();
         }
     
         public int id { get; set; }
@@ -29,9 +27,5 @@ namespace ConsoleApp1
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<cars> cars { get; set; }
         public virtual Parts Parts { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<defects_parts> defects_parts { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<cars> cars1 { get; set; }
     }
 }

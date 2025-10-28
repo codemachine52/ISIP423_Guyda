@@ -4,21 +4,18 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="dfcff1dec3c74f709f82aa646f2e0890" Name="Diagram1" ZoomLevel="98">
+      <Diagram DiagramId="f24f766da14a4432ad03d2ef47509d65" Name="Diagram1">
         <EntityTypeShape EntityType="GuydaCarServiceModel.cars" Width="1.5" PointX="5.25" PointY="3.875" IsExpanded="true" />
         <EntityTypeShape EntityType="GuydaCarServiceModel.defects" Width="1.5" PointX="3" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="GuydaCarServiceModel.defects_parts" Width="1.5" PointX="5.25" PointY="0.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="GuydaCarServiceModel.Parts" Width="1.5" PointX="0.75" PointY="3.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="GuydaCarServiceModel.parts_player" Width="1.5" PointX="3" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="GuydaCarServiceModel.OrderParts" Width="1.5" PointX="0.75" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="GuydaCarServiceModel.Parts" Width="1.5" PointX="0.75" PointY="3.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="GuydaCarServiceModel.parts_player" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="GuydaCarServiceModel.player" Width="1.5" PointX="0.75" PointY="1.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="GuydaCarServiceModel.sysdiagrams" Width="1.5" PointX="5.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GuydaCarServiceModel.sysdiagrams" Width="1.5" PointX="2.75" PointY="7.125" IsExpanded="true" />
         <AssociationConnector Association="GuydaCarServiceModel.FK_cars_defects" ManuallyRouted="false" />
         <AssociationConnector Association="GuydaCarServiceModel.FK_defects_Parts" ManuallyRouted="false" />
-        <AssociationConnector Association="GuydaCarServiceModel.FK_defects_parts_defects" ManuallyRouted="false" />
-        <AssociationConnector Association="GuydaCarServiceModel.FK_defects_parts_Parts" ManuallyRouted="false" />
         <AssociationConnector Association="GuydaCarServiceModel.FK_parts_player_Parts" ManuallyRouted="false" />
         <AssociationConnector Association="GuydaCarServiceModel.FK_parts_player_player" ManuallyRouted="false" />
-        <AssociationConnector Association="GuydaCarServiceModel.defects_cars" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

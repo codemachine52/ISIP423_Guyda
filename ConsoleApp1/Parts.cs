@@ -18,18 +18,16 @@ namespace ConsoleApp1
         public Parts()
         {
             this.defects = new HashSet<defects>();
-            this.defects_parts = new HashSet<defects_parts>();
             this.parts_player = new HashSet<parts_player>();
         }
     
         public int partID { get; set; }
         public string partName { get; set; }
         public decimal basePrice { get; set; }
+        public Nullable<double> workCost { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<defects> defects { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<defects_parts> defects_parts { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<parts_player> parts_player { get; set; }
     }

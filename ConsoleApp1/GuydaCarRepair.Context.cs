@@ -27,7 +27,7 @@ namespace ConsoleApp1
     
         public virtual DbSet<cars> cars { get; set; }
         public virtual DbSet<defects> defects { get; set; }
-        public virtual DbSet<defects_parts> defects_parts { get; set; }
+        public virtual DbSet<OrderParts> OrderParts { get; set; }
         public virtual DbSet<Parts> Parts { get; set; }
         public virtual DbSet<parts_player> parts_player { get; set; }
         public virtual DbSet<player> player { get; set; }
