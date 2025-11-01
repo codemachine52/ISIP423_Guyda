@@ -130,10 +130,10 @@ namespace ConsoleApp1
             Console.WriteLine();
         }
 
-        //private static decimal CalculateRepairCost(Parts part)
-        //{
-
-        //}
+        private static decimal CalculateRepairCost(Parts part)
+        {
+            return part.basePrice + (part.basePrice * (decimal)(part.workCost));
+        }
 
         private static void ProcessPlayerChoice(player player, cars clientCar)
         {
