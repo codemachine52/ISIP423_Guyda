@@ -145,10 +145,12 @@ namespace ConsoleApp1
 
             if (inventory.Any())
             {
-                for (int i = 0; i < inventory.Count; i++)
+                int index = 1;
+                foreach (var item in inventory)
                 {
-                    var part = Core.Context.Parts.FirstOrDefault(p => p.partID == inventory[i].idPart);
-                    Console.WriteLine($"{i + 1}. {part.partName} - {inventory[i].countParts} шт.");
+                    var part = Core.Context.Parts.FirstOrDefault(p => p.partID == item.idPart);
+                    Console.WriteLine($"{index}. {part.partName} - {item.countParts} шт.");
+                    index++;
                 }
 
                 Console.WriteLine($"0. Отказать (штраф 1000 руб.)");
@@ -165,7 +167,8 @@ namespace ConsoleApp1
                     }
                     else if (choice > 0 && choice <= inventory.Count)
                     {
-                        var selectedPartId = inventory[choice - 1].idPart;
+                        var selectedItem = inventory[choice - 1];
+                        var selectedPartId = selectedItem.idPart;
                         TryRepair(player, clientCar, selectedPartId, neededPartId);
                     }
                 }
