@@ -12,12 +12,23 @@ namespace ConsoleApp1
     using System;
     using System.Collections.Generic;
     
-    public partial class BasketOfGoods
+    public partial class Delivery
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Delivery()
+        {
+            this.Delivery_Product = new HashSet<Delivery_Product>();
+        }
+    
+        public Nullable<int> IdPVZ { get; set; }
+        public System.DateTime OrderDate { get; set; }
         public int ID { get; set; }
+        public string TypeDelivery { get; set; }
         public int UserID { get; set; }
     
-        public virtual Basket_Products Basket_Products { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Delivery_Product> Delivery_Product { get; set; }
+        public virtual PVZ PVZ { get; set; }
         public virtual User User { get; set; }
     }
 }

@@ -14,12 +14,13 @@ namespace ConsoleApp1
     
     public partial class Basket_Products
     {
-        public int IDBasket { get; set; }
+        public int ID { get; set; }
         public int IDProduct { get; set; }
-        public decimal Price { get; set; }
         public int CountProd { get; set; }
+        public int IdUser { get; set; }
     
         public virtual BasketOfGoods BasketOfGoods { get; set; }
         public virtual Product Product { get; set; }
+        public virtual User User { get; set; }
     }
 }

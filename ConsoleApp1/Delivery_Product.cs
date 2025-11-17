@@ -12,12 +12,13 @@ namespace ConsoleApp1
     using System;
     using System.Collections.Generic;
     
-    public partial class BasketOfGoods
+    public partial class Delivery_Product
     {
-        public int ID { get; set; }
-        public int UserID { get; set; }
+        public int IdProduct { get; set; }
+        public int IdDelivery { get; set; }
+        public int countProd { get; set; }
     
-        public virtual Basket_Products Basket_Products { get; set; }
-        public virtual User User { get; set; }
+        public virtual Delivery Delivery { get; set; }
+        public virtual Product Product { get; set; }
     }
 }

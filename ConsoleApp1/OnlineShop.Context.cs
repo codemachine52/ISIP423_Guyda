@@ -25,12 +25,15 @@ namespace ConsoleApp1
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<Basket_Products> Basket_Products { get; set; }
         public virtual DbSet<BasketOfGoods> BasketOfGoods { get; set; }
+        public virtual DbSet<Delivery> Delivery { get; set; }
         public virtual DbSet<Product> Product { get; set; }
+        public virtual DbSet<PVZ> PVZ { get; set; }
         public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<User> User { get; set; }
         public virtual DbSet<WareHouse> WareHouse { get; set; }
-        public virtual DbSet<Basket_Products> Basket_Products { get; set; }
+        public virtual DbSet<Delivery_Product> Delivery_Product { get; set; }
         public virtual DbSet<Product_Warehouse> Product_Warehouse { get; set; }
     }
 }

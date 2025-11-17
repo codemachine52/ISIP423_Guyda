@@ -9,7 +9,20 @@ namespace ConsoleApp1
 {
     internal class Program
     {
-        // Регистрация()
+        class RegistrationUser
+        {
+            User user = new User();
+            
+            public User CreateUser()
+            {
+                Console.WriteLine("Введите никнейм:");
+                string nickname = Console.ReadLine();
+                if (nickname != null)
+                {
+                    user.Nickname = nickname;
+                }
+            }
+        }
         // {
         // 1. Создать экземпляр класса пользователя из БД
         // 2. Попросить пользователя заполнить экземпляр данными и попросить ввести пароль повторно

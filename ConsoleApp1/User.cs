@@ -17,15 +17,22 @@ namespace ConsoleApp1
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public User()
         {
+            this.Basket_Products = new HashSet<Basket_Products>();
             this.BasketOfGoods = new HashSet<BasketOfGoods>();
+            this.Delivery = new HashSet<Delivery>();
         }
     
         public int ID { get; set; }
         public string Nickname { get; set; }
         public string Password { get; set; }
         public decimal Money { get; set; }
+        public Nullable<int> Age { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Basket_Products> Basket_Products { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BasketOfGoods> BasketOfGoods { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Delivery> Delivery { get; set; }
     }
 }

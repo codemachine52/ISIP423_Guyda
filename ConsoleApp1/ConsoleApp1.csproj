@@ -58,6 +58,12 @@
       <DependentUpon>OnlineShop.tt</DependentUpon>
     </Compile>
     <Compile Include="Core.cs" />
+    <Compile Include="Delivery.cs">
+      <DependentUpon>OnlineShop.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Delivery_Product.cs">
+      <DependentUpon>OnlineShop.tt</DependentUpon>
+    </Compile>
     <Compile Include="OnlineShop.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -81,6 +87,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PVZ.cs">
+      <DependentUpon>OnlineShop.tt</DependentUpon>
+    </Compile>
     <Compile Include="sysdiagrams.cs">
       <DependentUpon>OnlineShop.tt</DependentUpon>
     </Compile>

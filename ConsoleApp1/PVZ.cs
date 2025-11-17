@@ -12,12 +12,20 @@ namespace ConsoleApp1
     using System;
     using System.Collections.Generic;
     
-    public partial class BasketOfGoods
+    public partial class PVZ
     {
-        public int ID { get; set; }
-        public int UserID { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public PVZ()
+        {
+            this.Delivery = new HashSet<Delivery>();
+        }
     
-        public virtual Basket_Products Basket_Products { get; set; }
-        public virtual User User { get; set; }
+        public string Name { get; set; }
+        public int ID { get; set; }
+        public string Address { get; set; }
+        public bool IsFull { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Delivery> Delivery { get; set; }
     }
 }

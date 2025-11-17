@@ -18,6 +18,7 @@ namespace ConsoleApp1
         public Product()
         {
             this.Basket_Products = new HashSet<Basket_Products>();
+            this.Delivery_Product = new HashSet<Delivery_Product>();
             this.Product_Warehouse = new HashSet<Product_Warehouse>();
         }
     
@@ -29,6 +30,8 @@ namespace ConsoleApp1
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Basket_Products> Basket_Products { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Delivery_Product> Delivery_Product { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Product_Warehouse> Product_Warehouse { get; set; }
     }
