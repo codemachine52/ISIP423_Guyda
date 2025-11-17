@@ -9,306 +9,66 @@ namespace ConsoleApp1
 {
     internal class Program
     {
-
-         static Random random = new Random();
-         static int carsProcessed = 0;
-         static int successfulRepairs = 0;
-         static int failedRepairs = 0;
-
-        static void Main(string[] args)
-        {
-            var player = Core.Context.player.FirstOrDefault();
-            if (player == null)
-            {
-                player = new player { MyMoney = 5000 };
-                Core.Context.player.Add(player);
-                Core.Context.SaveChanges();
-                Console.WriteLine("Создан новый игрок!");
-            }
-
-            bool gameRunning = true;
-
-            while (gameRunning)
-            {
-                
-                ShowPlayerStatus(player);
-                Console.WriteLine("\n1 - Обслужить следующего клиента");
-                Console.WriteLine("2 - Купить запчасти");
-                Console.WriteLine("3 - Посмотреть склад");
-                Console.WriteLine("4 - Выход");
-
-                var choice = Console.ReadLine();
-
-                switch (choice)
-                {
-                    case "1":
-                        ProcessNextCar(player);
-                        break;
-                    case "2":
-                        ShowStoreMenu(player);
-                        break;
-                    case "3":
-                        ShowInventory(player);
-                        break;
-                    case "4":
-                        gameRunning = false;
-                        break;
-                }
-
-                if (choice != "4")
-                {
-                    Console.WriteLine("\nНажмите любую клавишу для продолжения...");
-                    Console.ReadKey();
-                }
-            }
-
-            Console.WriteLine("Игра завершена!");
-        }
+        // Регистрация()
+        // {
+        // 1. Создать экземпляр класса пользователя из БД
+        // 2. Попросить пользователя заполнить экземпляр данными и попросить ввести пароль повторно
+        // 3. Проверить не занят ли логин(почта/телефон) введённый пользователем пользователя
+        // 4. Если все прошло успешно добавить пользователя и войти в аккаунт\вернутся в меню
+        // }
 
 
-        private static void ShowPlayerStatus(player player)
-        {
-            Console.WriteLine($"=== АВТОСЕРВИС ===");
-            Console.WriteLine($"Баланс: {player.MyMoney} руб.");
-            Console.WriteLine($"Обслужено машин: {carsProcessed}");
-            Console.WriteLine($"Успешных ремонтов: {successfulRepairs}");
-            Console.WriteLine($"Неудачных ремонтов: {failedRepairs}");
-
-            // Показать ожидающие поставки
-            var pendingOrders = Core.Context.OrderParts.Where(o => o.PlayerID == 1).ToList();
-            if (pendingOrders.Any())
-            {
-                Console.WriteLine("\nОжидаются поставки:");
-                foreach (var order in pendingOrders)
-                {
-                    var part = Core.Context.Parts.FirstOrDefault(p => p.partID == order.PartID);
-                    Console.WriteLine($"{part.partName}: {order.count} шт. (через {order.carsUntilDelivery} машин)");
-                }
-            }
-        }
-
-        private static void ProcessNextCar(player player)
-        {
-                Console.Clear();
+        // Вход()
+        // {
+        // 1. попросить ввести пользователя логин и пароль
+        // 2. обратиться к БД и найти пользователя, если успешно, то проверить введенный пароль, иначе вывести "Пользователь не найден."
+        // 3. если пароль верный, войти в аккаунт, иначе вывести "Введен неверный пароль".
+        // }
 
 
-                ProcessDeliveries(player);
-
-                // Генерируем случайного клиента
-                var clientCar = GenerateRandomClient();
-                carsProcessed++;
-
-                ShowClientInfo(clientCar);
-                ProcessPlayerChoice(player, clientCar);
-            }
-
-        private static cars GenerateRandomClient()
-        {
-            var defects = Core.Context.defects.ToList();
-            var carsList = Core.Context.cars.ToList();
-
-            var randomDefect = defects[random.Next(defects.Count)];
-            var randomCar = carsList[random.Next(carsList.Count)];
-
-            // Создаем новую машину с дефектом
-            return new cars
-            {
-                carName = randomCar.carName,
-                defectID = randomDefect.id
-            };
-        }
-        private static void ShowClientInfo(cars car)
-        {
-            var defect = Core.Context.defects.FirstOrDefault(d => d.id == car.defectID);
-            var neededPart = Core.Context.Parts.FirstOrDefault(p => p.partID == defect.partNeedID);
-            var repairCost = CalculateRepairCost(neededPart);
-
-            Console.WriteLine($"Приехал клиент на {car.carName}");
-            Console.WriteLine($"Неисправность: {defect.defectName}");
-            Console.WriteLine($"Нужна деталь: {neededPart.partName}");
-            Console.WriteLine($"Стоимость ремонта: {repairCost} руб.");
-            Console.WriteLine();
-        }
-
-        private static decimal CalculateRepairCost(Parts part)
-        {
-            return part.basePrice + (part.basePrice * (decimal)(part.workCost));
-        }
-
-        private static void ProcessPlayerChoice(player player, cars clientCar)
-        {
-            var defect = Core.Context.defects.FirstOrDefault(d => d.id == clientCar.defectID);
-            var neededPartId = defect.partNeedID;
-
-            Console.WriteLine("Ваш склад:");
-            var inventory = Core.Context.parts_player.Where(i => i.idPlayer == player.id && i.countParts > 0).ToList();
-
-            if (inventory.Any())
-            {
-                int index = 1;
-                foreach (var item in inventory)
-                {
-                    var part = Core.Context.Parts.FirstOrDefault(p => p.partID == item.idPart);
-                    Console.WriteLine($"{index}. {part.partName} - {item.countParts} шт.");
-                    index++;
-                }
-
-                Console.WriteLine($"0. Отказать (штраф 1000 руб.)");
-                Console.WriteLine("Выберите деталь для замены:");
-
-                if (int.TryParse(Console.ReadLine(), out int choice))
-                {
-                    if (choice == 0)
-                    {
-                        // Отказ от обслуживания
-                        player.MyMoney -= 1000;
-                        Core.Context.SaveChanges();
-                        Console.WriteLine("Вы отказали клиенту. Штраф 1000 руб.");
-                    }
-                    else if (choice > 0 && choice <= inventory.Count)
-                    {
-                        var selectedItem = inventory[choice - 1];
-                        var selectedPartId = selectedItem.idPart;
-                        TryRepair(player, clientCar, selectedPartId, neededPartId);
-                    }
-                }
-            }
-            else
-            {
-                Console.WriteLine("Склад пуст! Придется отказать клиенту.");
-                player.MyMoney -= 1000;
-                Core.Context.SaveChanges();
-                Console.WriteLine("Штраф 1000 руб.");
-            }
-        }
-
-        private static void TryRepair(player player, cars clientCar, int selectedPartId, int neededPartId)
-        {
-            var inventory = Core.Context.parts_player.FirstOrDefault(i => i.idPlayer == player.id && i.idPart == selectedPartId);
-
-            if (inventory == null || inventory.countParts <= 0)
-            {
-                player.MyMoney -= 1000;
-                Console.WriteLine("Недостаточно деталей! Штраф 1000 руб.");
-                Core.Context.SaveChanges();
-                return;
-            }
-
-            inventory.countParts--;
-
-            bool isCorrectPart = (selectedPartId == neededPartId);
-
-            if (isCorrectPart)
-            {
-                var part = Core.Context.Parts.FirstOrDefault(p => p.partID == selectedPartId);
-                var repairCost = CalculateRepairCost(part);
-                player.MyMoney += repairCost;
-                Console.WriteLine($"Успешный ремонт! Получено {repairCost} руб.");
-                successfulRepairs++;
-            }
-            else
-            {
-                var part = Core.Context.Parts.FirstOrDefault(p => p.partID == selectedPartId);
-                var penalty = part.basePrice * 2;
-                player.MyMoney -= penalty;
-                Console.WriteLine($"Неправильная деталь! Штраф {penalty} руб.");
-                failedRepairs++;
-            }
-
-            Core.Context.SaveChanges();
-        }
+        // Каталог товаров()
+        // {
+        // вывести список товаров из БД с указанием названия, цены.
+        // после отображения списка всех товаров сделать отступ и дать возможность ввести пользователю ID товара для просмотра подробной инф. о товаре
+        // при вводе ID товара показывается все данные о нем (карточка товара), при этом проверяется поле товара IsOver18, если истина, то у пользователя спрашивается его возраст и сохраняется в БД
+        // если возраст меньше 18, то товар не покажется и пользователя снова вернет в каталог товаров. Иначе карточка товара откроется.
+        // }
 
 
-        private static void ShowStoreMenu(player player)
-        {
-            Console.Clear();
-            var availableParts = Core.Context.Parts.ToList();
-            Console.WriteLine("Доступные запчасти:");
+        // Добавление товара в корзину()
+        // {
+        // при просмотре товара после выбора его по ID пользователь имеет возможность добавить товар в корзину, при этом указав количество товара. 
+        // после ввода кол-ва товара идет проверка, не пустая ли корзина пользователя. Если не пустая, в нее просто добавляется товар, иначе создается новая корзина и в нее добавляется товар.
+        // }
 
-            for (int i = 0; i < availableParts.Count; i++)
-            {
-                Console.WriteLine($"{i + 1}. {availableParts[i].partName} - {availableParts[i].basePrice} руб.");
-            }
 
-            Console.WriteLine("\nВведите номер детали для покупки (0 - отмена):");
-            if (int.TryParse(Console.ReadLine(), out int partChoice) && partChoice > 0 && partChoice <= availableParts.Count)
-            {
-                Console.WriteLine("Введите количество:");
-                if (int.TryParse(Console.ReadLine(), out int quantity) && quantity > 0)
-                {
-                    PurchaseParts(player, availableParts[partChoice - 1].partID, quantity);
-                }
-            }
-        }
+        // Заказ товара напрямую из меню товаров()
+        // {
+        // пользователю необходимо в меню товаров выбрать конкретный товар, указав ID, чтобы перейти к карточке товара (не забываем про проверку возраста и поле IsOver18).
+        // выбрать кнопку "заказать товар". После этого проверка корзины пользователя, если она пустая, то создать новую и сразу перебросить пользователя на страницу оплаты заказа и выбора ПВЗ 
+        // или другого типа заказа (доставка на дом например)
+        // иначе если НЕ пустая корзина, также создать новую и перебросить пользователя на ту же страницу, при этом после оплаты заказа вернуть пользователю его прошлую корзину (ID последней корзины - 1)
+        // }
 
-        private static void PurchaseParts(player player, int partId, int quantity)
-        {
-            var part = Core.Context.Parts.FirstOrDefault(p => p.partID == partId);
-            var totalCost = part.basePrice * quantity;
 
-            if (player.MyMoney >= totalCost)
-            {
-                player.MyMoney -= totalCost;
+        // Заказ товара(-ов) из корзины()
+        // {
+        // пользователь после добавления всех нужных товаров возвращается в главное меню, оттуда переходит в свою корзину. 
+        // в корзине считается итоговая сумма товаров. Пользователь должен пополнить свой счет, если на нем не достаточно денег для заказа. При получении оплаты нет)
+        // если денег достаточно, пользователь может перейти на страницу заказа (выбор пвз и оплата - списание со счета именно)
+        // на странице заказа выбираем ПВЗ, подтверждаем заказ вводом слова "Да" и деньги списываются со счёта.
+        // }
 
-                var pendingOrder = new OrderParts
-                {
-                    PlayerID = player.id,
-                    PartID = partId,
-                    count = quantity,
-                    carsUntilDelivery = 2
-                };
-                Core.Context.OrderParts.Add(pendingOrder);
 
-                Core.Context.SaveChanges();
-                Console.WriteLine($"Заказ на {quantity} {part.partName} создан! Поставка через 2 машины.");
-            }
-            else
-            {
-                Console.WriteLine("Недостаточно денег!");
-            }
-        }
 
-        private static void ProcessDeliveries(player player)
-        {
-            var orders = Core.Context.OrderParts.Where(o => o.PlayerID == player.id).ToList();
-            foreach (var order in orders)
-            {
-                order.carsUntilDelivery--;
-                if (order.carsUntilDelivery <= 0)
-                {
-                    // Доставляем детали на склад
-                    var inventory = Core.Context.parts_player.FirstOrDefault(i =>
-                        i.idPlayer == player.id && i.idPart == order.PartID);
-
-                    if (inventory == null)
-                    {
-                        inventory = new parts_player
-                        {
-                            idPlayer = player.id,
-                            idPart = order.PartID,
-                            countParts = 0
-                        };
-                        Core.Context.parts_player.Add(inventory);
-                    }
-
-                    inventory.countParts += order.count;
-                    Core.Context.OrderParts.Remove(order);
-                }
-            }
-            Core.Context.SaveChanges();
-        }
-
-        private static void ShowInventory(player player)
-        {
-            var inventory = Core.Context.parts_player.Where(i => i.idPlayer == 1).ToList();
-            Console.WriteLine("Ваш склад:");
-
-            foreach (var item in inventory)
-            {
-                var part = Core.Context.Parts.FirstOrDefault(p => p.partID == item.idPart);
-                Console.WriteLine($"{part.partName}: {item.countParts} шт.");
-            }
-        }
+        // Просмотр истории покупок()
+        // {
+        // пользователь должен быть залогинен
+        // в главном меню сделать кнопку выбора "Просмотр истории товаров"
+        // при нажатии данной кнопки идет запрос к БД, ID пользователя через linq ищется в таблице истории покупок (basket_products) показывается таблица Basket_Products
+        // в конце будет кнопка заменить ID на название, при нажатии вместо ID товара будет показываться полное название для пользователя.
+        // 
+        // }
     }
 }
 

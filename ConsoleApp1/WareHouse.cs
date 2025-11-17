@@ -12,12 +12,20 @@ namespace ConsoleApp1
     using System;
     using System.Collections.Generic;
     
-    public partial class cars
+    public partial class WareHouse
     {
-        public int id { get; set; }
-        public string carName { get; set; }
-        public int defectID { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public WareHouse()
+        {
+            this.Product_Warehouse = new HashSet<Product_Warehouse>();
+        }
     
-        public virtual defects defects { get; set; }
+        public int ID { get; set; }
+        public string Name { get; set; }
+        public string Address { get; set; }
+        public int MaxCountProducts { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Product_Warehouse> Product_Warehouse { get; set; }
     }
 }

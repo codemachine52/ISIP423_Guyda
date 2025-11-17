@@ -12,20 +12,14 @@ namespace ConsoleApp1
     using System;
     using System.Collections.Generic;
     
-    public partial class defects
+    public partial class Basket_Products
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public defects()
-        {
-            this.cars = new HashSet<cars>();
-        }
+        public int IDBasket { get; set; }
+        public int IDProduct { get; set; }
+        public decimal Price { get; set; }
+        public int CountProd { get; set; }
     
-        public int id { get; set; }
-        public string defectName { get; set; }
-        public int partNeedID { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<cars> cars { get; set; }
-        public virtual Parts Parts { get; set; }
+        public virtual BasketOfGoods BasketOfGoods { get; set; }
+        public virtual Product Product { get; set; }
     }
 }

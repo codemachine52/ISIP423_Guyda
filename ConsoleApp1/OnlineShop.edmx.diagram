@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="dff6e04940484b488a1dd51225b7354f" Name="Diagram1">
+        <EntityTypeShape EntityType="pr8_onlineMagazModel.BasketOfGoods" Width="1.5" PointX="0.75" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="pr8_onlineMagazModel.Product" Width="1.5" PointX="0.75" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="pr8_onlineMagazModel.sysdiagrams" Width="1.5" PointX="5.75" PointY="2" IsExpanded="true" />
+        <EntityTypeShape EntityType="pr8_onlineMagazModel.User" Width="1.5" PointX="1.5" PointY="10.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="pr8_onlineMagazModel.WareHouse" Width="1.5" PointX="0.75" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="pr8_onlineMagazModel.Basket_Products" Width="1.5" PointX="3" PointY="3.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="pr8_onlineMagazModel.Product_Warehouse" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
+        <AssociationConnector Association="pr8_onlineMagazModel.FK_Basket_Products_BasketOfGoods" ManuallyRouted="false" />
+        <AssociationConnector Association="pr8_onlineMagazModel.FK_BasketOfGoods_User" ManuallyRouted="false" />
+        <AssociationConnector Association="pr8_onlineMagazModel.FK_Basket_Products_Product" ManuallyRouted="false" />
+        <AssociationConnector Association="pr8_onlineMagazModel.FK_Product_Warehouse_Product" ManuallyRouted="false" />
+        <AssociationConnector Association="pr8_onlineMagazModel.FK_Product_Warehouse_WareHouse" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

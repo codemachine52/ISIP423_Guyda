@@ -12,23 +12,20 @@ namespace ConsoleApp1
     using System;
     using System.Collections.Generic;
     
-    public partial class Parts
+    public partial class User
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Parts()
+        public User()
         {
-            this.defects = new HashSet<defects>();
-            this.parts_player = new HashSet<parts_player>();
+            this.BasketOfGoods = new HashSet<BasketOfGoods>();
         }
     
-        public int partID { get; set; }
-        public string partName { get; set; }
-        public decimal basePrice { get; set; }
-        public double workCost { get; set; }
+        public int ID { get; set; }
+        public string Nickname { get; set; }
+        public string Password { get; set; }
+        public decimal Money { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<defects> defects { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<parts_player> parts_player { get; set; }
+        public virtual ICollection<BasketOfGoods> BasketOfGoods { get; set; }
     }
 }

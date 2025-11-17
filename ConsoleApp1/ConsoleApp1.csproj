@@ -51,54 +51,54 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="cars.cs">
-      <DependentUpon>GuydaCarRepair.tt</DependentUpon>
+    <Compile Include="BasketOfGoods.cs">
+      <DependentUpon>OnlineShop.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Basket_Products.cs">
+      <DependentUpon>OnlineShop.tt</DependentUpon>
     </Compile>
     <Compile Include="Core.cs" />
-    <Compile Include="defects.cs">
-      <DependentUpon>GuydaCarRepair.tt</DependentUpon>
-    </Compile>
-    <Compile Include="GuydaCarRepair.Context.cs">
+    <Compile Include="OnlineShop.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>GuydaCarRepair.Context.tt</DependentUpon>
+      <DependentUpon>OnlineShop.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="GuydaCarRepair.cs">
+    <Compile Include="OnlineShop.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>GuydaCarRepair.tt</DependentUpon>
+      <DependentUpon>OnlineShop.tt</DependentUpon>
     </Compile>
-    <Compile Include="GuydaCarRepair.Designer.cs">
+    <Compile Include="OnlineShop.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>GuydaCarRepair.edmx</DependentUpon>
+      <DependentUpon>OnlineShop.edmx</DependentUpon>
     </Compile>
-    <Compile Include="OrderParts.cs">
-      <DependentUpon>GuydaCarRepair.tt</DependentUpon>
+    <Compile Include="Product.cs">
+      <DependentUpon>OnlineShop.tt</DependentUpon>
     </Compile>
-    <Compile Include="Parts.cs">
-      <DependentUpon>GuydaCarRepair.tt</DependentUpon>
-    </Compile>
-    <Compile Include="parts_player.cs">
-      <DependentUpon>GuydaCarRepair.tt</DependentUpon>
-    </Compile>
-    <Compile Include="player.cs">
-      <DependentUpon>GuydaCarRepair.tt</DependentUpon>
+    <Compile Include="Product_Warehouse.cs">
+      <DependentUpon>OnlineShop.tt</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="sysdiagrams.cs">
-      <DependentUpon>GuydaCarRepair.tt</DependentUpon>
+      <DependentUpon>OnlineShop.tt</DependentUpon>
+    </Compile>
+    <Compile Include="User.cs">
+      <DependentUpon>OnlineShop.tt</DependentUpon>
+    </Compile>
+    <Compile Include="WareHouse.cs">
+      <DependentUpon>OnlineShop.tt</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <EntityDeploy Include="GuydaCarRepair.edmx">
+    <EntityDeploy Include="OnlineShop.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>GuydaCarRepair.Designer.cs</LastGenOutput>
+      <LastGenOutput>OnlineShop.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="GuydaCarRepair.edmx.diagram">
-      <DependentUpon>GuydaCarRepair.edmx</DependentUpon>
+    <None Include="OnlineShop.edmx.diagram">
+      <DependentUpon>OnlineShop.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
   </ItemGroup>
@@ -106,15 +106,15 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="GuydaCarRepair.Context.tt">
+    <Content Include="OnlineShop.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>GuydaCarRepair.edmx</DependentUpon>
-      <LastGenOutput>GuydaCarRepair.Context.cs</LastGenOutput>
+      <DependentUpon>OnlineShop.edmx</DependentUpon>
+      <LastGenOutput>OnlineShop.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="GuydaCarRepair.tt">
+    <Content Include="OnlineShop.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>GuydaCarRepair.edmx</DependentUpon>
-      <LastGenOutput>GuydaCarRepair.cs</LastGenOutput>
+      <DependentUpon>OnlineShop.edmx</DependentUpon>
+      <LastGenOutput>OnlineShop.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

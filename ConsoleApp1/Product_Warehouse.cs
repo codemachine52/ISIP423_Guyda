@@ -12,12 +12,13 @@ namespace ConsoleApp1
     using System;
     using System.Collections.Generic;
     
-    public partial class OrderParts
+    public partial class Product_Warehouse
     {
-        public int ID { get; set; }
-        public int PlayerID { get; set; }
-        public int PartID { get; set; }
-        public int count { get; set; }
-        public int carsUntilDelivery { get; set; }
+        public int IDProd { get; set; }
+        public int IDwarehouse { get; set; }
+        public int CountProd { get; set; }
+    
+        public virtual Product Product { get; set; }
+        public virtual WareHouse WareHouse { get; set; }
     }
 }

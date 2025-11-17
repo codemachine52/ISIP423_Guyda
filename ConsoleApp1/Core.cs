@@ -8,6 +8,6 @@ namespace ConsoleApp1
 {
     internal class Core
     {
-        public static GuydaCarServiceEntities Context = new GuydaCarServiceEntities();
+        public static OnlineShopEntities Context = new OnlineShopEntities();
     }
 }

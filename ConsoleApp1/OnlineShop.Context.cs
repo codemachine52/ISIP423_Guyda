@@ -13,10 +13,10 @@ namespace ConsoleApp1
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class GuydaCarServiceEntities : DbContext
+    public partial class OnlineShopEntities : DbContext
     {
-        public GuydaCarServiceEntities()
-            : base("name=GuydaCarServiceEntities")
+        public OnlineShopEntities()
+            : base("name=OnlineShopEntities")
         {
         }
     
@@ -25,12 +25,12 @@ namespace ConsoleApp1
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<cars> cars { get; set; }
-        public virtual DbSet<defects> defects { get; set; }
-        public virtual DbSet<OrderParts> OrderParts { get; set; }
-        public virtual DbSet<Parts> Parts { get; set; }
-        public virtual DbSet<parts_player> parts_player { get; set; }
-        public virtual DbSet<player> player { get; set; }
+        public virtual DbSet<BasketOfGoods> BasketOfGoods { get; set; }
+        public virtual DbSet<Product> Product { get; set; }
         public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
+        public virtual DbSet<User> User { get; set; }
+        public virtual DbSet<WareHouse> WareHouse { get; set; }
+        public virtual DbSet<Basket_Products> Basket_Products { get; set; }
+        public virtual DbSet<Product_Warehouse> Product_Warehouse { get; set; }
     }
 }
