@@ -10,27 +10,37 @@ namespace ConsoleApp1
 {
     internal class Program
     {
-        List<User> users = Core.Context.User.ToList();
-        public void CreateUser()
+        static void Main(string[] args)
+        {
+            CreateUser();
+            SignIn();
+        }
+        static public void CreateUser()
         {
             User user = new User();
-            Console.WriteLine("Введите никнейм:");
-            string nickname = Console.ReadLine();
-            if (!String.IsNullOrEmpty(nickname))
+            bool AddNickname = true;
+            
+            while (AddNickname)
             {
-                var IsUserAlreadyExist = users.FirstOrDefault(x => x.Nickname == nickname);
-                if (IsUserAlreadyExist == null)
+                Console.WriteLine("Введите никнейм:");
+                string nickname = Console.ReadLine();
+                if (!String.IsNullOrEmpty(nickname))
                 {
-                    user.Nickname = nickname;
+                    var IsUserAlreadyExist = Core.Context.User.FirstOrDefault(x => x.Nickname == nickname);
+                    if (IsUserAlreadyExist == null)
+                    {
+                        user.Nickname = nickname;
+                        AddNickname = false;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Пользователь с таким никнеймом уже существует");
+                    }
                 }
                 else
                 {
-                    Console.WriteLine("Пользователь с таким никнеймом уже существует");
+                    Console.WriteLine("Никнейм не может быть пустым!");
                 }
-            }
-            else
-            {
-                Console.WriteLine("Никнейм не может быть пустым!");
             }
             bool AddingPassword = true;
 
@@ -65,11 +75,17 @@ namespace ConsoleApp1
                 }
             }
             user.Money = 0;
-            Core.Context.SaveChanges();
+            if (user != null)
+            {
+                Console.WriteLine("Пользователь успешно создан!");
+                Core.Context.User.Add(user);
+                Core.Context.SaveChanges();
+            }
+            
         }
         // 4. Если все прошло успешно добавить пользователя и войти в аккаунт\вернутся в меню
 
-        public void SignIn()
+        static public void SignIn()
         {
             User user = null;
             bool SignInAccount = true;
@@ -79,11 +95,12 @@ namespace ConsoleApp1
                 string login = Console.ReadLine();
                 Console.WriteLine("Введите пароль: ");
                 string password = Console.ReadLine();
-                var LoginUser = users.Where(log => users.Contains(log)).FirstOrDefault();
-                var LoginPassword = users.Where(pas => users.Contains(pas)).FirstOrDefault();
+                var LoginUser = Core.Context.User.Where(log => Core.Context.User.Contains(log)).FirstOrDefault();
+                var LoginPassword = Core.Context.User.Where(pas => Core.Context.User.Contains(pas)).FirstOrDefault();
                 if(LoginUser != null && LoginPassword != null)
                 {
-                    user = users.Where(us => us.Nickname == LoginUser.Nickname).FirstOrDefault();
+                    user = Core.Context.User.Where(us => us.Nickname == LoginUser.Nickname).FirstOrDefault();
+                    Console.WriteLine("Успешный вход в аккаунт!");
                     SignInAccount = false;
                 }
                 else
