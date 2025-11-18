@@ -12,8 +12,35 @@ namespace ConsoleApp1
     {
         static void Main(string[] args)
         {
-            CreateUser();
-            SignIn();
+            bool ShowMenu = true;
+            while (ShowMenu)
+            {
+                Console.WriteLine("=========== Онлайн Магазин WOG ===========");
+                Console.WriteLine("Выберите пункт меню:");
+                Console.WriteLine("1. Регистрация");
+                Console.WriteLine("2. Вход в аккаунт");
+                Console.WriteLine("0. Выход из магазина");
+                if (int.TryParse(Console.ReadLine(), out int choice))
+                {
+                    switch (choice)
+                    {
+                        case 1:
+                            CreateUser();
+                            break;
+                        case 2:
+                            SignIn();
+                            break;
+                        case 0:
+                            ShowMenu = false;
+                            break;
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Введите число-указатель пункта меню.");
+                }
+            }
+            
         }
         static public void CreateUser()
         {
@@ -77,7 +104,7 @@ namespace ConsoleApp1
             user.Money = 0;
             if (user != null)
             {
-                Console.WriteLine("Пользователь успешно создан!");
+                Console.WriteLine("Пользователь успешно создан!\n");
                 Core.Context.User.Add(user);
                 Core.Context.SaveChanges();
             }
@@ -100,7 +127,7 @@ namespace ConsoleApp1
                 if(LoginUser != null && LoginPassword != null)
                 {
                     user = Core.Context.User.Where(us => us.Nickname == LoginUser.Nickname).FirstOrDefault();
-                    Console.WriteLine("Успешный вход в аккаунт!");
+                    Console.WriteLine("Успешный вход в аккаунт!\n");
                     SignInAccount = false;
                 }
                 else
