@@ -64,16 +64,39 @@ namespace ConsoleApp1
                     }
                 }
             }
+            user.Money = 0;
+            Core.Context.SaveChanges();
+        }
+        // 4. Если все прошло успешно добавить пользователя и войти в аккаунт\вернутся в меню
+
+        public void SignIn()
+        {
+            User user = null;
+            bool SignInAccount = true;
+            while (SignInAccount)
+            {
+                Console.WriteLine("Введите логин: ");
+                string login = Console.ReadLine();
+                Console.WriteLine("Введите пароль: ");
+                string password = Console.ReadLine();
+                var LoginUser = users.Where(log => users.Contains(log)).FirstOrDefault();
+                var LoginPassword = users.Where(pas => users.Contains(pas)).FirstOrDefault();
+                if(LoginUser != null && LoginPassword != null)
+                {
+                    user = users.Where(us => us.Nickname == LoginUser.Nickname).FirstOrDefault();
+                    SignInAccount = false;
+                }
+                else
+                {
+                    Console.WriteLine("Не удалось войти в аккаунт!");
+                    if(LoginUser == null)
+                    {
+                        Console.WriteLine("Не найден пользователь с таким логином!");
+                    }
+                }
+            }
         }
     }
-    // {
-    // 1. Создать экземпляр класса пользователя из БД
-    // 2. Попросить пользователя заполнить экземпляр данными и попросить ввести пароль повторно
-    // 3. Проверить не занят ли логин(почта/телефон) введённый пользователем пользователя
-    // 4. Если все прошло успешно добавить пользователя и войти в аккаунт\вернутся в меню
-    // }
-
-
     // Вход()
     // {
     // 1. попросить ввести пользователя логин и пароль
