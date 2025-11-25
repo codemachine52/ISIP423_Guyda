@@ -13,6 +13,11 @@ namespace ConsoleApp1
     {
         static void Main(string[] args)
         {
+            PrintMenu();
+        }
+
+        static public void PrintMenu()
+        {
             bool ShowMenu = true;
             while (ShowMenu)
             {
@@ -27,12 +32,15 @@ namespace ConsoleApp1
                     switch (choice)
                     {
                         case 1:
+                            Console.Clear();
                             CreateUser();
                             break;
                         case 2:
+                            Console.Clear();
                             SignIn();
                             break;
                         case 3:
+                            Console.Clear();
                             Catalogue();
                             break;
                         case 0:
@@ -45,8 +53,9 @@ namespace ConsoleApp1
                     Console.WriteLine("Введите число-указатель пункта меню.");
                 }
             }
-
         }
+
+
         static public void CreateUser()
         {
             User user = new User();
@@ -112,6 +121,7 @@ namespace ConsoleApp1
                 Console.WriteLine("Пользователь успешно создан!\n");
                 Core.Context.User.Add(user);
                 Core.Context.SaveChanges();
+                Console.Clear();
             }
 
         }
@@ -128,12 +138,17 @@ namespace ConsoleApp1
                 Console.WriteLine("Введите пароль: ");
                 string password = Console.ReadLine();
                 var LoginUser = Core.Context.User.Where(log => Core.Context.User.Contains(log)).FirstOrDefault();
-                var LoginPassword = Core.Context.User.Where(pas => Core.Context.User.Contains(pas)).FirstOrDefault();
-                if (LoginUser != null && LoginPassword != null)
+                if (LoginUser != null)
                 {
-                    user = Core.Context.User.Where(us => us.Nickname == LoginUser.Nickname).FirstOrDefault();
-                    Console.WriteLine("Успешный вход в аккаунт!\n");
-                    SignInAccount = false;
+                    Console.Clear();
+                    if(LoginUser.Nickname == login && password == LoginUser.Password)
+                    {
+                        Console.WriteLine("Успешный вход в аккаунт!");
+                    }
+                    if(password != LoginUser.Password)
+                    {
+                        Console.WriteLine("Неверный пароль!");
+                    }
                 }
                 else
                 {
@@ -172,7 +187,7 @@ namespace ConsoleApp1
                     bool ChoiceProd = true;
                     while (ChoiceProd)
                     {
-                        switch (choice)
+                        switch (choice.ToLower())
                         {
                             case "да":
                                 Console.WriteLine("Введите ID товара: ");
@@ -181,8 +196,23 @@ namespace ConsoleApp1
                                     var IdProd = Core.Context.Product.FirstOrDefault(prod => prod.ID == id);
                                     if (IdProd != null)
                                     {
-
+                                        Console.Clear();
                                         Console.WriteLine($"ID: {IdProd.ID}, название: {IdProd.Name}, цена: {IdProd.Price}, размеры: {IdProd.Size}, для совершеннолетних: {IdProd.IsOver18}");
+                                        Console.WriteLine("Желаете продолжить? (Да/нет)");
+                                        string answer = Console.ReadLine();
+                                        switch (answer.ToLower())
+                                        {
+                                            case "да":
+                                                Console.Clear();
+                                                Catalogue();
+                                                ChoiceProd = false;
+                                                break;
+                                            case "нет":
+                                                Console.Clear();
+                                                ShowCatalogue = false;
+                                                ChoiceProd = false;
+                                                break;
+                                        }
                                     }
                                     else
                                     {
@@ -193,6 +223,12 @@ namespace ConsoleApp1
                                 {
                                     Console.WriteLine("Введите корректный ID!");
                                 }
+                                break;
+                            case "нет":
+                                Console.Clear();
+                                ChoiceProd = false;
+                                ShowCatalogue = false;
+                                PrintMenu();
                                 break;
                         }
                         break;
@@ -231,6 +267,23 @@ namespace ConsoleApp1
         // }
 
 
+        static public void AddProductInBasket(int UsID, int IdProd, Product product)
+        {
+            Console.WriteLine("Введите количество товара, который хотите добавить в корзину");
+            if (int.TryParse(Console.ReadLine(), out int countProd))
+            {
+                var UserBasket = Core.Context.basket.FirstOrDefault(user => user.UserID == UsID);
+                if (UserBasket != null)
+                {
+                    var prodId = product.ID;
+                    //Core.Context.Basket_Products.Add(prodId);
+                }
+            }
+            else
+            {
+                Console.WriteLine("Введите число!");
+            }
+        }
         // Добавление товара в корзину()
         // {
         // при просмотре товара после выбора его по ID пользователь имеет возможность добавить товар в корзину, при этом указав количество товара. 

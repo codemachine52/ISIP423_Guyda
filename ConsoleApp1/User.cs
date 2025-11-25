@@ -17,7 +17,7 @@ namespace ConsoleApp1
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public User()
         {
-            this.Basket_Products = new HashSet<Basket_Products>();
+            this.basket = new HashSet<basket>();
             this.BasketOfGoods = new HashSet<BasketOfGoods>();
             this.Delivery = new HashSet<Delivery>();
         }
@@ -29,7 +29,7 @@ namespace ConsoleApp1
         public Nullable<int> Age { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Basket_Products> Basket_Products { get; set; }
+        public virtual ICollection<basket> basket { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BasketOfGoods> BasketOfGoods { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

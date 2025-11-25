@@ -12,14 +12,19 @@ namespace ConsoleApp1
     using System;
     using System.Collections.Generic;
     
-    public partial class Basket_Products
+    public partial class basket
     {
-        public int IDBasket { get; set; }
-        public int IDProduct { get; set; }
-        public int CountProd { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public basket()
+        {
+            this.Basket_Products = new HashSet<Basket_Products>();
+        }
     
-        public virtual basket basket { get; set; }
-        public virtual BasketOfGoods BasketOfGoods { get; set; }
-        public virtual Product Product { get; set; }
+        public int ID { get; set; }
+        public int UserID { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Basket_Products> Basket_Products { get; set; }
+        public virtual User User { get; set; }
     }
 }

@@ -4,20 +4,22 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="790e3d8c234b4e1cb4a28b7c3b9d82b3" Name="Diagram1">
-        <EntityTypeShape EntityType="pr8_onlineMagazModel.Basket_Products" Width="1.5" PointX="5.25" PointY="6.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="pr8_onlineMagazModel.BasketOfGoods" Width="1.5" PointX="3" PointY="9" IsExpanded="true" />
-        <EntityTypeShape EntityType="pr8_onlineMagazModel.Delivery" Width="1.5" PointX="3" PointY="5.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="pr8_onlineMagazModel.Product" Width="1.5" PointX="3" PointY="1.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="pr8_onlineMagazModel.PVZ" Width="1.5" PointX="0.75" PointY="1.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="pr8_onlineMagazModel.sysdiagrams" Width="1.5" PointX="7.75" PointY="2.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="pr8_onlineMagazModel.User" Width="1.5" PointX="0.75" PointY="5.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="pr8_onlineMagazModel.WareHouse" Width="1.5" PointX="3" PointY="12.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="pr8_onlineMagazModel.Delivery_Product" Width="1.5" PointX="5.25" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="pr8_onlineMagazModel.Product_Warehouse" Width="1.5" PointX="5.25" PointY="0.75" IsExpanded="true" />
+      <Diagram DiagramId="ebf2e176978b4e82a4dc28f5ace4f03b" Name="Diagram1">
+        <EntityTypeShape EntityType="pr8_onlineMagazModel.basket" Width="1.5" PointX="3" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="pr8_onlineMagazModel.Basket_Products" Width="1.5" PointX="5.25" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="pr8_onlineMagazModel.BasketOfGoods" Width="1.5" PointX="3" PointY="6.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="pr8_onlineMagazModel.Delivery" Width="1.5" PointX="6" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="pr8_onlineMagazModel.Delivery_Product" Width="1.5" PointX="8.25" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="pr8_onlineMagazModel.Product" Width="1.5" PointX="6" PointY="8.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="pr8_onlineMagazModel.PVZ" Width="1.5" PointX="3.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="pr8_onlineMagazModel.sysdiagrams" Width="1.5" PointX="7.75" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="pr8_onlineMagazModel.User" Width="1.5" PointX="0.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="pr8_onlineMagazModel.WareHouse" Width="1.5" PointX="6" PointY="12.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="pr8_onlineMagazModel.Product_Warehouse" Width="1.5" PointX="8.25" PointY="8.625" IsExpanded="true" />
+        <AssociationConnector Association="pr8_onlineMagazModel.FK_Basket_Products_basket" ManuallyRouted="false" />
+        <AssociationConnector Association="pr8_onlineMagazModel.FK_basket_User" ManuallyRouted="false" />
         <AssociationConnector Association="pr8_onlineMagazModel.FK_Basket_Products_BasketOfGoods" ManuallyRouted="false" />
         <AssociationConnector Association="pr8_onlineMagazModel.FK_Basket_Products_Product" ManuallyRouted="false" />
-        <AssociationConnector Association="pr8_onlineMagazModel.FK_Basket_Products_User" ManuallyRouted="false" />
         <AssociationConnector Association="pr8_onlineMagazModel.FK_BasketOfGoods_User" ManuallyRouted="false" />
         <AssociationConnector Association="pr8_onlineMagazModel.FK_Delivery_Product_Delivery" ManuallyRouted="false" />
         <AssociationConnector Association="pr8_onlineMagazModel.FK_Delivery_PVZ" ManuallyRouted="false" />
