@@ -209,7 +209,7 @@ namespace ConsoleApp1
                                             case "да":
                                                 Console.Clear();
                                                 Console.WriteLine("Выберите пункт меню: " +
-                                            "1. Добавить товар в корзину" +
+                                            "1. Добавить товар в корзину\n" +
                                             "2. Посмотреть каталог");
                                                 string vibor = Console.ReadLine();
                                                 if (vibor == "2")
@@ -300,6 +300,8 @@ namespace ConsoleApp1
                 {
                     var product = Core.Context.Product.Where(p => p.ID == IdProd).FirstOrDefault();
                     Core.Context.Basket_Products.Add(new Basket_Products { IDBasket = UserBasket.ID, IDProduct = product.ID, CountProd = countProd });
+                    Core.Context.SaveChanges();
+
                 }
                 else
                 {
@@ -307,6 +309,7 @@ namespace ConsoleApp1
                     Core.Context.basket.Add(new basket { UserID = user.ID });
                     var product = Core.Context.Product.Where(p => p.ID == IdProd).FirstOrDefault();
                     Core.Context.Basket_Products.Add(new Basket_Products { IDBasket = UserBasket.ID, IDProduct = product.ID, CountProd = countProd });
+                    Core.Context.SaveChanges();
                 }
             }
             else
