@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Runtime.InteropServices;
 using System.Runtime.Remoting.Contexts;
 using System.Text;
 using System.Threading.Tasks;
@@ -127,9 +128,10 @@ namespace ConsoleApp1
         }
         // 4. Если все прошло успешно добавить пользователя и войти в аккаунт\вернутся в меню
 
+        public static User user = null;
         static public void SignIn()
         {
-            User user = null;
+            
             bool SignInAccount = true;
             while (SignInAccount)
             {
@@ -137,13 +139,15 @@ namespace ConsoleApp1
                 string login = Console.ReadLine();
                 Console.WriteLine("Введите пароль: ");
                 string password = Console.ReadLine();
-                var LoginUser = Core.Context.User.Where(log => Core.Context.User.Contains(log)).FirstOrDefault();
+                var LoginUser = Core.Context.User.Where(log => log.Nickname == login).FirstOrDefault();
                 if (LoginUser != null)
                 {
                     Console.Clear();
                     if(LoginUser.Nickname == login && password == LoginUser.Password)
                     {
                         Console.WriteLine("Успешный вход в аккаунт!");
+                        user = LoginUser;
+                        SignInAccount = false;
                     }
                     if(password != LoginUser.Password)
                     {
@@ -204,8 +208,27 @@ namespace ConsoleApp1
                                         {
                                             case "да":
                                                 Console.Clear();
-                                                Catalogue();
-                                                ChoiceProd = false;
+                                                Console.WriteLine("Выберите пункт меню: " +
+                                            "1. Добавить товар в корзину" +
+                                            "2. Посмотреть каталог");
+                                                string vibor = Console.ReadLine();
+                                                if (vibor == "2")
+                                                {
+                                                    Catalogue();
+                                                    ChoiceProd = false;
+                                                }
+                                                if(vibor == "1")
+                                                {
+                                                    if(user != null)
+                                                    {
+                                                        AddProductInBasket(user.ID, IdProd.ID);
+                                                    }
+                                                    else
+                                                    {
+                                                        Console.WriteLine("Необходимо войти в аккаунт!");
+                                                        SignIn();
+                                                    }
+                                                }
                                                 break;
                                             case "нет":
                                                 Console.Clear();
@@ -267,16 +290,23 @@ namespace ConsoleApp1
         // }
 
 
-        static public void AddProductInBasket(int UsID, int IdProd, Product product)
+        static public void AddProductInBasket(int UsID, int IdProd)
         {
             Console.WriteLine("Введите количество товара, который хотите добавить в корзину");
             if (int.TryParse(Console.ReadLine(), out int countProd))
             {
-                var UserBasket = Core.Context.basket.FirstOrDefault(user => user.UserID == UsID);
+                var UserBasket = Core.Context.basket.FirstOrDefault(basket => basket.UserID == UsID);
                 if (UserBasket != null)
                 {
-                    var prodId = product.ID;
-                    //Core.Context.Basket_Products.Add(prodId);
+                    var product = Core.Context.Product.Where(p => p.ID == IdProd).FirstOrDefault();
+                    Core.Context.Basket_Products.Add(new Basket_Products { IDBasket = UserBasket.ID, IDProduct = product.ID, CountProd = countProd });
+                }
+                else
+                {
+                    var user = Core.Context.User.Where(User => User.ID == UsID).FirstOrDefault();
+                    Core.Context.basket.Add(new basket { UserID = user.ID });
+                    var product = Core.Context.Product.Where(p => p.ID == IdProd).FirstOrDefault();
+                    Core.Context.Basket_Products.Add(new Basket_Products { IDBasket = UserBasket.ID, IDProduct = product.ID, CountProd = countProd });
                 }
             }
             else
