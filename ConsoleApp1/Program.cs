@@ -27,6 +27,7 @@ namespace ConsoleApp1
                 Console.WriteLine("1. Регистрация");
                 Console.WriteLine("2. Вход в аккаунт");
                 Console.WriteLine("3. Каталог товаров");
+                Console.WriteLine("4. Корзина товаров");
                 Console.WriteLine("0. Выход из магазина");
                 if (int.TryParse(Console.ReadLine(), out int choice))
                 {
@@ -43,6 +44,10 @@ namespace ConsoleApp1
                         case 3:
                             Console.Clear();
                             Catalogue();
+                            break;
+                        case 4:
+                            Console.Clear();
+                            ShowBasket();
                             break;
                         case 0:
                             ShowMenu = false;
@@ -201,14 +206,14 @@ namespace ConsoleApp1
                                     if (IdProd != null)
                                     {
                                         Console.Clear();
-                                        Console.WriteLine($"ID: {IdProd.ID}, название: {IdProd.Name}, цена: {IdProd.Price}, размеры: {IdProd.Size}, для совершеннолетних: {IdProd.IsOver18}");
+                                        Console.WriteLine($"ID: {IdProd.ID}, название: {IdProd.Name}, цена: {IdProd.Price}, вес (объем): {IdProd.Size}, для совершеннолетних: {IdProd.IsOver18}");
                                         Console.WriteLine("Желаете продолжить? (Да/нет)");
                                         string answer = Console.ReadLine();
                                         switch (answer.ToLower())
                                         {
                                             case "да":
                                                 Console.Clear();
-                                                Console.WriteLine("Выберите пункт меню: " +
+                                                Console.WriteLine("Выберите пункт меню:\n" +
                                             "1. Добавить товар в корзину\n" +
                                             "2. Посмотреть каталог");
                                                 string vibor = Console.ReadLine();
@@ -307,6 +312,9 @@ namespace ConsoleApp1
                 {
                     var user = Core.Context.User.Where(User => User.ID == UsID).FirstOrDefault();
                     Core.Context.basket.Add(new basket { UserID = user.ID });
+                    var BaskID = Core.Context.basket.Where(usid => usid.UserID == UsID).FirstOrDefault();
+                    Core.Context.Basket_Products.Add(new Basket_Products { IDBasket = BaskID.ID });
+                    Core.Context.SaveChanges();
                     var product = Core.Context.Product.Where(p => p.ID == IdProd).FirstOrDefault();
                     Core.Context.Basket_Products.Add(new Basket_Products { IDBasket = UserBasket.ID, IDProduct = product.ID, CountProd = countProd });
                     Core.Context.SaveChanges();
@@ -323,6 +331,42 @@ namespace ConsoleApp1
         // после ввода кол-ва товара идет проверка, не пустая ли корзина пользователя. Если не пустая, в нее просто добавляется товар, иначе создается новая корзина и в нее добавляется товар.
         // }
 
+
+        public static void ShowBasket()
+        {
+            if (user != null)
+            {
+                if (Core.Context.Basket_Products != null)
+                {
+                    var idbasketUser = Core.Context.basket.Where(usID => usID.UserID == user.ID).FirstOrDefault();
+                    var basketUser = Core.Context.Basket_Products.Where(idBasket => idBasket.IDBasket == idbasketUser.ID).ToList();
+                    decimal summa = 0;
+                    foreach (var product in basketUser)
+                    {
+                        var prods = Core.Context.Product.Where(prodID => product.IDProduct == prodID.ID).ToList(); ;
+                        foreach(var prod in prods)
+                        {
+                            decimal price = 0;
+                            Console.WriteLine($"ID: {prod.ID}, название: {prod.Name}, цена: {prod.Price}, количество: {product.CountProd}, стоимость: {price = prod.Price * product.CountProd} руб.");
+                            summa += price;
+                        }
+                    }
+                    Console.WriteLine($"Итоговая стоимость корзины: {summa}");
+                }
+                else
+                {
+                    Console.WriteLine("Корзина пустая! Добавьте товары!");
+                    Catalogue();
+                }
+            }
+
+            else
+            {
+                Console.WriteLine("Войдите в аккаунт!");
+                SignIn();
+            }
+        }
+        //просмотр корзины()
 
         // Заказ товара напрямую из меню товаров()
         // {

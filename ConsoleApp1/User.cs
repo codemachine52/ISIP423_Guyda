@@ -18,7 +18,6 @@ namespace ConsoleApp1
         public User()
         {
             this.basket = new HashSet<basket>();
-            this.BasketOfGoods = new HashSet<BasketOfGoods>();
             this.Delivery = new HashSet<Delivery>();
         }
     
@@ -30,8 +29,6 @@ namespace ConsoleApp1
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<basket> basket { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<BasketOfGoods> BasketOfGoods { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Delivery> Delivery { get; set; }
     }

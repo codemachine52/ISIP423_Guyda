@@ -54,9 +54,6 @@
     <Compile Include="basket.cs">
       <DependentUpon>OnlineShop.tt</DependentUpon>
     </Compile>
-    <Compile Include="BasketOfGoods.cs">
-      <DependentUpon>OnlineShop.tt</DependentUpon>
-    </Compile>
     <Compile Include="Basket_Products.cs">
       <DependentUpon>OnlineShop.tt</DependentUpon>
     </Compile>
@@ -85,9 +82,6 @@
     <Compile Include="Product.cs">
       <DependentUpon>OnlineShop.tt</DependentUpon>
     </Compile>
-    <Compile Include="Product_Warehouse.cs">
-      <DependentUpon>OnlineShop.tt</DependentUpon>
-    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PVZ.cs">
@@ -97,9 +91,6 @@
       <DependentUpon>OnlineShop.tt</DependentUpon>
     </Compile>
     <Compile Include="User.cs">
-      <DependentUpon>OnlineShop.tt</DependentUpon>
-    </Compile>
-    <Compile Include="WareHouse.cs">
       <DependentUpon>OnlineShop.tt</DependentUpon>
     </Compile>
   </ItemGroup>

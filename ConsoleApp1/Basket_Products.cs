@@ -19,7 +19,6 @@ namespace ConsoleApp1
         public int CountProd { get; set; }
     
         public virtual basket basket { get; set; }
-        public virtual BasketOfGoods BasketOfGoods { get; set; }
         public virtual Product Product { get; set; }
     }
 }

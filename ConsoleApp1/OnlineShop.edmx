@@ -21,13 +21,6 @@
           <Property Name="IDProduct" Type="int" Nullable="false" />
           <Property Name="CountProd" Type="int" Nullable="false" />
         </EntityType>
-        <EntityType Name="BasketOfGoods">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="int" Nullable="false" />
-          <Property Name="UserID" Type="int" Nullable="false" />
-        </EntityType>
         <EntityType Name="Delivery">
           <Key>
             <PropertyRef Name="ID" />
@@ -56,18 +49,6 @@
           <Property Name="Price" Type="decimal" Precision="18" Scale="0" Nullable="false" />
           <Property Name="Size" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="IsOver18" Type="bit" Nullable="false" />
-        </EntityType>
-        <!--Ошибки, обнаруженные при создании:
-предупреждение 6002: В таблице или представлении "!!pr8_onlineMagaz.dbo.Product_Warehouse" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
-        <EntityType Name="Product_Warehouse">
-          <Key>
-            <PropertyRef Name="IDProd" />
-            <PropertyRef Name="IDwarehouse" />
-            <PropertyRef Name="CountProd" />
-          </Key>
-          <Property Name="IDProd" Type="int" Nullable="false" />
-          <Property Name="IDwarehouse" Type="int" Nullable="false" />
-          <Property Name="CountProd" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="PVZ">
           <Key>
@@ -98,32 +79,11 @@
           <Property Name="Money" Type="decimal" Precision="18" Scale="0" Nullable="false" />
           <Property Name="Age" Type="int" />
         </EntityType>
-        <EntityType Name="WareHouse">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name" Type="nvarchar" MaxLength="150" Nullable="false" />
-          <Property Name="Address" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="MaxCountProducts" Type="int" Nullable="false" />
-        </EntityType>
         <Association Name="FK_Basket_Products_basket">
           <End Role="basket" Type="Self.basket" Multiplicity="1" />
           <End Role="Basket_Products" Type="Self.Basket_Products" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="basket">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Basket_Products">
-              <PropertyRef Name="IDBasket" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Basket_Products_BasketOfGoods">
-          <End Role="BasketOfGoods" Type="Self.BasketOfGoods" Multiplicity="1" />
-          <End Role="Basket_Products" Type="Self.Basket_Products" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="BasketOfGoods">
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="Basket_Products">
@@ -151,18 +111,6 @@
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="basket">
-              <PropertyRef Name="UserID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_BasketOfGoods_User">
-          <End Role="User" Type="Self.User" Multiplicity="1" />
-          <End Role="BasketOfGoods" Type="Self.BasketOfGoods" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="BasketOfGoods">
               <PropertyRef Name="UserID" />
             </Dependent>
           </ReferentialConstraint>
@@ -215,54 +163,17 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Product_Warehouse_Product">
-          <End Role="Product" Type="Self.Product" Multiplicity="1" />
-          <End Role="Product_Warehouse" Type="Self.Product_Warehouse" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Product">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Product_Warehouse">
-              <PropertyRef Name="IDProd" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Product_Warehouse_WareHouse">
-          <End Role="WareHouse" Type="Self.WareHouse" Multiplicity="1" />
-          <End Role="Product_Warehouse" Type="Self.Product_Warehouse" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="WareHouse">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Product_Warehouse">
-              <PropertyRef Name="IDwarehouse" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="Хранилище pr8_onlineMagazModelContainer">
           <EntitySet Name="basket" EntityType="Self.basket" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Basket_Products" EntityType="Self.Basket_Products" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="BasketOfGoods" EntityType="Self.BasketOfGoods" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Delivery" EntityType="Self.Delivery" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Delivery_Product" EntityType="Self.Delivery_Product" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PVZ" EntityType="Self.PVZ" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="WareHouse" EntityType="Self.WareHouse" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Product_Warehouse" EntityType="Self.Product_Warehouse" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [Product_Warehouse].[IDProd] AS [IDProd], 
-    [Product_Warehouse].[IDwarehouse] AS [IDwarehouse], 
-    [Product_Warehouse].[CountProd] AS [CountProd]
-    FROM [dbo].[Product_Warehouse] AS [Product_Warehouse]</DefiningQuery>
-          </EntitySet>
           <AssociationSet Name="FK_Basket_Products_basket" Association="Self.FK_Basket_Products_basket">
             <End Role="basket" EntitySet="basket" />
-            <End Role="Basket_Products" EntitySet="Basket_Products" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Basket_Products_BasketOfGoods" Association="Self.FK_Basket_Products_BasketOfGoods">
-            <End Role="BasketOfGoods" EntitySet="BasketOfGoods" />
             <End Role="Basket_Products" EntitySet="Basket_Products" />
           </AssociationSet>
           <AssociationSet Name="FK_Basket_Products_Product" Association="Self.FK_Basket_Products_Product">
@@ -272,10 +183,6 @@
           <AssociationSet Name="FK_basket_User" Association="Self.FK_basket_User">
             <End Role="User" EntitySet="User" />
             <End Role="basket" EntitySet="basket" />
-          </AssociationSet>
-          <AssociationSet Name="FK_BasketOfGoods_User" Association="Self.FK_BasketOfGoods_User">
-            <End Role="User" EntitySet="User" />
-            <End Role="BasketOfGoods" EntitySet="BasketOfGoods" />
           </AssociationSet>
           <AssociationSet Name="FK_Delivery_Product_Delivery" Association="Self.FK_Delivery_Product_Delivery">
             <End Role="Delivery" EntitySet="Delivery" />
@@ -292,14 +199,6 @@
           <AssociationSet Name="FK_Delivery_User" Association="Self.FK_Delivery_User">
             <End Role="User" EntitySet="User" />
             <End Role="Delivery" EntitySet="Delivery" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Product_Warehouse_Product" Association="Self.FK_Product_Warehouse_Product">
-            <End Role="Product" EntitySet="Product" />
-            <End Role="Product_Warehouse" EntitySet="Product_Warehouse" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Product_Warehouse_WareHouse" Association="Self.FK_Product_Warehouse_WareHouse">
-            <End Role="WareHouse" EntitySet="WareHouse" />
-            <End Role="Product_Warehouse" EntitySet="Product_Warehouse" />
           </AssociationSet>
         </EntityContainer>
       </Schema>
@@ -325,17 +224,7 @@
           <Property Name="IDProduct" Type="Int32" Nullable="false" />
           <Property Name="CountProd" Type="Int32" Nullable="false" />
           <NavigationProperty Name="basket" Relationship="Self.FK_Basket_Products_basket" FromRole="Basket_Products" ToRole="basket" />
-          <NavigationProperty Name="BasketOfGoods" Relationship="Self.FK_Basket_Products_BasketOfGoods" FromRole="Basket_Products" ToRole="BasketOfGoods" />
           <NavigationProperty Name="Product" Relationship="Self.FK_Basket_Products_Product" FromRole="Basket_Products" ToRole="Product" />
-        </EntityType>
-        <EntityType Name="BasketOfGoods">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" />
-          <Property Name="UserID" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Basket_Products" Relationship="Self.FK_Basket_Products_BasketOfGoods" FromRole="BasketOfGoods" ToRole="Basket_Products" />
-          <NavigationProperty Name="User" Relationship="Self.FK_BasketOfGoods_User" FromRole="BasketOfGoods" ToRole="User" />
         </EntityType>
         <EntityType Name="Delivery">
           <Key>
@@ -372,7 +261,6 @@
           <Property Name="IsOver18" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Basket_Products" Relationship="Self.FK_Basket_Products_Product" FromRole="Product" ToRole="Basket_Products" />
           <NavigationProperty Name="Delivery_Product" Relationship="Self.FK_Delivery_Product_Product" FromRole="Product" ToRole="Delivery_Product" />
-          <NavigationProperty Name="Product_Warehouse" Relationship="Self.FK_Product_Warehouse_Product" FromRole="Product" ToRole="Product_Warehouse" />
         </EntityType>
         <EntityType Name="PVZ">
           <Key>
@@ -404,30 +292,7 @@
           <Property Name="Money" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
           <Property Name="Age" Type="Int32" />
           <NavigationProperty Name="basket" Relationship="Self.FK_basket_User" FromRole="User" ToRole="basket" />
-          <NavigationProperty Name="BasketOfGoods" Relationship="Self.FK_BasketOfGoods_User" FromRole="User" ToRole="BasketOfGoods" />
           <NavigationProperty Name="Delivery" Relationship="Self.FK_Delivery_User" FromRole="User" ToRole="Delivery" />
-        </EntityType>
-        <EntityType Name="WareHouse">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="MaxCountProducts" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Product_Warehouse" Relationship="Self.FK_Product_Warehouse_WareHouse" FromRole="WareHouse" ToRole="Product_Warehouse" />
-        </EntityType>
-        <EntityType Name="Product_Warehouse">
-          <Key>
-            <PropertyRef Name="IDProd" />
-            <PropertyRef Name="IDwarehouse" />
-            <PropertyRef Name="CountProd" />
-          </Key>
-          <Property Name="IDProd" Type="Int32" Nullable="false" />
-          <Property Name="IDwarehouse" Type="Int32" Nullable="false" />
-          <Property Name="CountProd" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Product" Relationship="Self.FK_Product_Warehouse_Product" FromRole="Product_Warehouse" ToRole="Product" />
-          <NavigationProperty Name="WareHouse" Relationship="Self.FK_Product_Warehouse_WareHouse" FromRole="Product_Warehouse" ToRole="WareHouse" />
         </EntityType>
         <Association Name="FK_Basket_Products_basket">
           <End Role="basket" Type="Self.basket" Multiplicity="1" />
@@ -453,18 +318,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Basket_Products_BasketOfGoods">
-          <End Role="BasketOfGoods" Type="Self.BasketOfGoods" Multiplicity="1" />
-          <End Role="Basket_Products" Type="Self.Basket_Products" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="BasketOfGoods">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Basket_Products">
-              <PropertyRef Name="IDBasket" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Basket_Products_Product">
           <End Role="Product" Type="Self.Product" Multiplicity="1" />
           <End Role="Basket_Products" Type="Self.Basket_Products" Multiplicity="*" />
@@ -474,18 +327,6 @@
             </Principal>
             <Dependent Role="Basket_Products">
               <PropertyRef Name="IDProduct" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_BasketOfGoods_User">
-          <End Role="User" Type="Self.User" Multiplicity="1" />
-          <End Role="BasketOfGoods" Type="Self.BasketOfGoods" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="BasketOfGoods">
-              <PropertyRef Name="UserID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -537,42 +378,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Product_Warehouse_Product">
-          <End Role="Product" Type="Self.Product" Multiplicity="1" />
-          <End Role="Product_Warehouse" Type="Self.Product_Warehouse" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Product">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Product_Warehouse">
-              <PropertyRef Name="IDProd" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Product_Warehouse_WareHouse">
-          <End Role="WareHouse" Type="Self.WareHouse" Multiplicity="1" />
-          <End Role="Product_Warehouse" Type="Self.Product_Warehouse" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="WareHouse">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Product_Warehouse">
-              <PropertyRef Name="IDwarehouse" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="OnlineShopEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="basket" EntityType="Self.basket" />
           <EntitySet Name="Basket_Products" EntityType="Self.Basket_Products" />
-          <EntitySet Name="BasketOfGoods" EntityType="Self.BasketOfGoods" />
           <EntitySet Name="Delivery" EntityType="Self.Delivery" />
           <EntitySet Name="Delivery_Product" EntityType="Self.Delivery_Product" />
           <EntitySet Name="Product" EntityType="Self.Product" />
           <EntitySet Name="PVZ" EntityType="Self.PVZ" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
           <EntitySet Name="User" EntityType="Self.User" />
-          <EntitySet Name="WareHouse" EntityType="Self.WareHouse" />
-          <EntitySet Name="Product_Warehouse" EntityType="Self.Product_Warehouse" />
           <AssociationSet Name="FK_Basket_Products_basket" Association="Self.FK_Basket_Products_basket">
             <End Role="basket" EntitySet="basket" />
             <End Role="Basket_Products" EntitySet="Basket_Products" />
@@ -581,17 +395,9 @@
             <End Role="User" EntitySet="User" />
             <End Role="basket" EntitySet="basket" />
           </AssociationSet>
-          <AssociationSet Name="FK_Basket_Products_BasketOfGoods" Association="Self.FK_Basket_Products_BasketOfGoods">
-            <End Role="BasketOfGoods" EntitySet="BasketOfGoods" />
-            <End Role="Basket_Products" EntitySet="Basket_Products" />
-          </AssociationSet>
           <AssociationSet Name="FK_Basket_Products_Product" Association="Self.FK_Basket_Products_Product">
             <End Role="Product" EntitySet="Product" />
             <End Role="Basket_Products" EntitySet="Basket_Products" />
-          </AssociationSet>
-          <AssociationSet Name="FK_BasketOfGoods_User" Association="Self.FK_BasketOfGoods_User">
-            <End Role="User" EntitySet="User" />
-            <End Role="BasketOfGoods" EntitySet="BasketOfGoods" />
           </AssociationSet>
           <AssociationSet Name="FK_Delivery_Product_Delivery" Association="Self.FK_Delivery_Product_Delivery">
             <End Role="Delivery" EntitySet="Delivery" />
@@ -608,14 +414,6 @@
           <AssociationSet Name="FK_Delivery_Product_Product" Association="Self.FK_Delivery_Product_Product">
             <End Role="Product" EntitySet="Product" />
             <End Role="Delivery_Product" EntitySet="Delivery_Product" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Product_Warehouse_Product" Association="Self.FK_Product_Warehouse_Product">
-            <End Role="Product" EntitySet="Product" />
-            <End Role="Product_Warehouse" EntitySet="Product_Warehouse" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Product_Warehouse_WareHouse" Association="Self.FK_Product_Warehouse_WareHouse">
-            <End Role="WareHouse" EntitySet="WareHouse" />
-            <End Role="Product_Warehouse" EntitySet="Product_Warehouse" />
           </AssociationSet>
         </EntityContainer>
       </Schema>
@@ -638,14 +436,6 @@
                 <ScalarProperty Name="IDBasket" ColumnName="IDBasket" />
                 <ScalarProperty Name="IDProduct" ColumnName="IDProduct" />
                 <ScalarProperty Name="CountProd" ColumnName="CountProd" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="BasketOfGoods">
-            <EntityTypeMapping TypeName="pr8_onlineMagazModel.BasketOfGoods">
-              <MappingFragment StoreEntitySet="BasketOfGoods">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -709,25 +499,6 @@
                 <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="Money" ColumnName="Money" />
                 <ScalarProperty Name="Age" ColumnName="Age" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="WareHouse">
-            <EntityTypeMapping TypeName="pr8_onlineMagazModel.WareHouse">
-              <MappingFragment StoreEntitySet="WareHouse">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Address" ColumnName="Address" />
-                <ScalarProperty Name="MaxCountProducts" ColumnName="MaxCountProducts" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Product_Warehouse">
-            <EntityTypeMapping TypeName="pr8_onlineMagazModel.Product_Warehouse">
-              <MappingFragment StoreEntitySet="Product_Warehouse">
-                <ScalarProperty Name="IDProd" ColumnName="IDProd" />
-                <ScalarProperty Name="IDwarehouse" ColumnName="IDwarehouse" />
-                <ScalarProperty Name="CountProd" ColumnName="CountProd" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
