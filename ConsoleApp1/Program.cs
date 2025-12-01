@@ -379,8 +379,45 @@ namespace ConsoleApp1
         // }
 
         static public void OrderFromBasket()
-        { 
+        {
+            var Products = Core.Context.Basket_Products.ToList();
+            var PVZ = Core.Context.PVZ.ToList();
+            Console.WriteLine("Заказ товаров");
+            var idbasketUser = Core.Context.basket.Where(usID => usID.UserID == user.ID).FirstOrDefault();
+            if (idbasketUser != null)
+            {
+                bool zakaz = true;
+                while (zakaz) {
+                    Console.WriteLine("Желаете заказать все товары из корзины? (да/нет)");
+                    string choice = Console.ReadLine().ToLower();
+                    switch (choice)
+                    {
+                        case "да":
+                            Console.WriteLine("Введите тип доставки: (курьером/постамат/пвз)");
+                            string typeDel = Console.ReadLine().ToLower();
+                            if (typeDel == "пвз")
+                            {
+                                Console.WriteLine("Выберите id ПВЗ:");
+                                foreach (var pvz in PVZ)
+                                {
+                                    Console.WriteLine($"id: {pvz.ID}, Адрес: {pvz.Address}");
+                                }
+                                if (int.TryParse(Console.ReadLine(), out int IDpvz))
+                                {
+                                    //
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Введите ID пвз!");
+                                }
 
+                                Core.Context.Delivery.Add(new Delivery { IdPVZ = IDpvz, OrderDate = DateTime.Now, TypeDelivery = typeDel, UserID = user.ID});
+                                Core.Context.SaveChanges();
+                            }
+                            break;
+                    }
+                }
+            }
         }
         // Заказ товара(-ов) из корзины()
         // {
