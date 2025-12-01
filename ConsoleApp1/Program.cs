@@ -300,7 +300,7 @@ namespace ConsoleApp1
             Console.WriteLine("Введите количество товара, который хотите добавить в корзину");
             if (int.TryParse(Console.ReadLine(), out int countProd))
             {
-                var UserBasket = Core.Context.basket.FirstOrDefault(basket => basket.UserID == UsID);
+                var UserBasket = Core.Context.basket.Where(basket => basket.UserID == user.ID).FirstOrDefault();
                 if (UserBasket != null)
                 {
                     var product = Core.Context.Product.Where(p => p.ID == IdProd).FirstOrDefault();
@@ -310,8 +310,9 @@ namespace ConsoleApp1
                 }
                 else
                 {
-                    var user = Core.Context.User.Where(User => User.ID == UsID).FirstOrDefault();
+                    //var user = Core.Context.User.Where(User => User.ID == UsID).FirstOrDefault();
                     Core.Context.basket.Add(new basket { UserID = user.ID });
+                    Core.Context.SaveChanges();
                     var BaskID = Core.Context.basket.Where(usid => usid.UserID == UsID).FirstOrDefault();
                     Core.Context.Basket_Products.Add(new Basket_Products { IDBasket = BaskID.ID });
                     Core.Context.SaveChanges();
@@ -336,9 +337,9 @@ namespace ConsoleApp1
         {
             if (user != null)
             {
-                if (Core.Context.Basket_Products != null)
+                var idbasketUser = Core.Context.basket.Where(usID => usID.UserID == user.ID).FirstOrDefault();
+                if (idbasketUser != null)
                 {
-                    var idbasketUser = Core.Context.basket.Where(usID => usID.UserID == user.ID).FirstOrDefault();
                     var basketUser = Core.Context.Basket_Products.Where(idBasket => idBasket.IDBasket == idbasketUser.ID).ToList();
                     decimal summa = 0;
                     foreach (var product in basketUser)
@@ -368,6 +369,7 @@ namespace ConsoleApp1
         }
         //просмотр корзины()
 
+
         // Заказ товара напрямую из меню товаров()
         // {
         // пользователю необходимо в меню товаров выбрать конкретный товар, указав ID, чтобы перейти к карточке товара (не забываем про проверку возраста и поле IsOver18).
@@ -376,7 +378,10 @@ namespace ConsoleApp1
         // иначе если НЕ пустая корзина, также создать новую и перебросить пользователя на ту же страницу, при этом после оплаты заказа вернуть пользователю его прошлую корзину (ID последней корзины - 1)
         // }
 
+        static public void OrderFromBasket()
+        { 
 
+        }
         // Заказ товара(-ов) из корзины()
         // {
         // пользователь после добавления всех нужных товаров возвращается в главное меню, оттуда переходит в свою корзину. 
