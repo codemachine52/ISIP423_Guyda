@@ -33,12 +33,12 @@
         </EntityType>
         <EntityType Name="Delivery_Product">
           <Key>
-            <PropertyRef Name="IdProduct" />
-            <PropertyRef Name="IdDelivery" />
+            <PropertyRef Name="ID" />
           </Key>
           <Property Name="IdProduct" Type="int" Nullable="false" />
           <Property Name="IdDelivery" Type="int" Nullable="false" />
           <Property Name="countProd" Type="int" Nullable="false" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
         </EntityType>
         <EntityType Name="Product">
           <Key>
@@ -241,12 +241,12 @@
         </EntityType>
         <EntityType Name="Delivery_Product">
           <Key>
-            <PropertyRef Name="IdProduct" />
-            <PropertyRef Name="IdDelivery" />
+            <PropertyRef Name="ID" />
           </Key>
           <Property Name="IdProduct" Type="Int32" Nullable="false" />
           <Property Name="IdDelivery" Type="Int32" Nullable="false" />
           <Property Name="countProd" Type="Int32" Nullable="false" />
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <NavigationProperty Name="Delivery" Relationship="Self.FK_Delivery_Product_Delivery" FromRole="Delivery_Product" ToRole="Delivery" />
           <NavigationProperty Name="Product" Relationship="Self.FK_Delivery_Product_Product" FromRole="Delivery_Product" ToRole="Product" />
         </EntityType>
@@ -456,6 +456,7 @@
                 <ScalarProperty Name="IdProduct" ColumnName="IdProduct" />
                 <ScalarProperty Name="IdDelivery" ColumnName="IdDelivery" />
                 <ScalarProperty Name="countProd" ColumnName="countProd" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -17,6 +17,7 @@ namespace ConsoleApp1
         public int IdProduct { get; set; }
         public int IdDelivery { get; set; }
         public int countProd { get; set; }
+        public int ID { get; set; }
     
         public virtual Delivery Delivery { get; set; }
         public virtual Product Product { get; set; }

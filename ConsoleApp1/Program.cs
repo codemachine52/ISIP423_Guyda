@@ -28,6 +28,7 @@ namespace ConsoleApp1
                 Console.WriteLine("2. Вход в аккаунт");
                 Console.WriteLine("3. Каталог товаров");
                 Console.WriteLine("4. Корзина товаров");
+                Console.WriteLine("5. Заказ из корзины");
                 Console.WriteLine("0. Выход из магазина");
                 if (int.TryParse(Console.ReadLine(), out int choice))
                 {
@@ -48,6 +49,9 @@ namespace ConsoleApp1
                         case 4:
                             Console.Clear();
                             ShowBasket();
+                            break;
+                        case 5:
+                            OrderFromBasket();
                             break;
                         case 0:
                             ShowMenu = false;
@@ -136,7 +140,7 @@ namespace ConsoleApp1
         public static User user = null;
         static public void SignIn()
         {
-            
+
             bool SignInAccount = true;
             while (SignInAccount)
             {
@@ -148,13 +152,13 @@ namespace ConsoleApp1
                 if (LoginUser != null)
                 {
                     Console.Clear();
-                    if(LoginUser.Nickname == login && password == LoginUser.Password)
+                    if (LoginUser.Nickname == login && password == LoginUser.Password)
                     {
                         Console.WriteLine("Успешный вход в аккаунт!");
                         user = LoginUser;
                         SignInAccount = false;
                     }
-                    if(password != LoginUser.Password)
+                    if (password != LoginUser.Password)
                     {
                         Console.WriteLine("Неверный пароль!");
                     }
@@ -222,9 +226,9 @@ namespace ConsoleApp1
                                                     Catalogue();
                                                     ChoiceProd = false;
                                                 }
-                                                if(vibor == "1")
+                                                if (vibor == "1")
                                                 {
-                                                    if(user != null)
+                                                    if (user != null)
                                                     {
                                                         AddProductInBasket(user.ID, IdProd.ID);
                                                     }
@@ -266,7 +270,7 @@ namespace ConsoleApp1
                 {
                     AddProducts();
                 }
-                
+
             }
         }
 
@@ -345,7 +349,7 @@ namespace ConsoleApp1
                     foreach (var product in basketUser)
                     {
                         var prods = Core.Context.Product.Where(prodID => product.IDProduct == prodID.ID).ToList(); ;
-                        foreach(var prod in prods)
+                        foreach (var prod in prods)
                         {
                             decimal price = 0;
                             Console.WriteLine($"ID: {prod.ID}, название: {prod.Name}, цена: {prod.Price}, количество: {product.CountProd}, стоимость: {price = prod.Price * product.CountProd} руб.");
@@ -378,66 +382,202 @@ namespace ConsoleApp1
         // иначе если НЕ пустая корзина, также создать новую и перебросить пользователя на ту же страницу, при этом после оплаты заказа вернуть пользователю его прошлую корзину (ID последней корзины - 1)
         // }
 
+        static decimal sumOrd = 0;
         static public void OrderFromBasket()
         {
-            var Products = Core.Context.Basket_Products.ToList();
-            var PVZ = Core.Context.PVZ.ToList();
-            Console.WriteLine("Заказ товаров");
-            var idbasketUser = Core.Context.basket.Where(usID => usID.UserID == user.ID).FirstOrDefault();
-            if (idbasketUser != null)
+            if (user != null)
             {
-                bool zakaz = true;
-                while (zakaz) {
-                    Console.WriteLine("Желаете заказать все товары из корзины? (да/нет)");
-                    string choice = Console.ReadLine().ToLower();
-                    switch (choice)
+                var Products = Core.Context.Basket_Products.ToList();
+                var PVZ = Core.Context.PVZ.ToList();
+                Console.WriteLine("Заказ товаров");
+                var idbasketUser = Core.Context.basket.Where(usID => usID.UserID == user.ID).FirstOrDefault();
+                if (idbasketUser != null)
+                {
+                    if (Core.Context.Basket_Products.Any())
                     {
-                        case "да":
+                        bool zakaz = true;
+                        while (zakaz)
+                        {
+                            Console.WriteLine("Желаете заказать все товары из корзины? (да/нет)");
+                            string choice = Console.ReadLine().ToLower();
                             Console.WriteLine("Введите тип доставки: (курьером/постамат/пвз)");
                             string typeDel = Console.ReadLine().ToLower();
-                            if (typeDel == "пвз")
+                            switch (choice)
                             {
-                                Console.WriteLine("Выберите id ПВЗ:");
-                                foreach (var pvz in PVZ)
-                                {
-                                    Console.WriteLine($"id: {pvz.ID}, Адрес: {pvz.Address}");
-                                }
-                                if (int.TryParse(Console.ReadLine(), out int IDpvz))
-                                {
-                                    //
-                                }
-                                else
-                                {
-                                    Console.WriteLine("Введите ID пвз!");
-                                }
+                                case "да":
+                                    if (typeDel == "пвз")
+                                    {
+                                        Console.WriteLine("Выберите id ПВЗ:");
+                                        foreach (var pvz in PVZ)
+                                        {
+                                            Console.WriteLine($"id: {pvz.ID}, Адрес: {pvz.Address}");
+                                        }
+                                        if (int.TryParse(Console.ReadLine(), out int IDpvz))
+                                        {
+                                            //
+                                        }
+                                        else
+                                        {
+                                            Console.WriteLine("Введите ID пвз!");
+                                        }
 
-                                Core.Context.Delivery.Add(new Delivery { IdPVZ = IDpvz, OrderDate = DateTime.Now, TypeDelivery = typeDel, UserID = user.ID});
-                                Core.Context.SaveChanges();
+                                        Core.Context.Delivery.Add(new Delivery { IdPVZ = IDpvz, OrderDate = DateTime.Now, TypeDelivery = typeDel, UserID = user.ID });
+                                        Core.Context.SaveChanges();
+                                        var delivID = Core.Context.Delivery.Where(id => user.ID == id.ID).FirstOrDefault();
+                                        Core.Context.SaveChanges();
+                                        //Core.Context.Delivery_Product.Add(new Delivery_Product { IdDelivery = delivID.ID });
+                                        foreach (var prod in Products)
+                                        {
+                                            var deliveryProductItem = new Delivery_Product
+                                            {
+
+                                                IdProduct = prod.IDProduct,
+                                                IdDelivery = delivID.ID,
+                                                countProd = prod.CountProd
+                                            };
+                                            var PriceProd = Core.Context.Product.Where(id => id.ID == prod.IDProduct).FirstOrDefault();
+                                            sumOrd = +PriceProd.Price;
+                                            Core.Context.Delivery_Product.Add(deliveryProductItem);
+                                            Core.Context.SaveChanges();
+
+                                        }
+                                        Core.Context.Basket_Products.RemoveRange(Products);
+                                        Core.Context.SaveChanges();
+                                    }
+                                    else
+                                    {
+                                        Core.Context.Delivery.Add(new Delivery { IdPVZ = null, OrderDate = DateTime.Now, TypeDelivery = typeDel, UserID = user.ID });
+                                        var delivID = Core.Context.Delivery.Where(id => user.ID == id.ID).FirstOrDefault();
+                                        Core.Context.SaveChanges();
+
+                                        foreach (var prod in Products)
+                                        {
+                                            Core.Context.Delivery_Product.Add(new Delivery_Product { IdDelivery = delivID.ID, IdProduct = prod.IDProduct });
+                                            var PriceProd = Core.Context.Product.Where(id => id.ID == prod.IDProduct).FirstOrDefault();
+                                            sumOrd += PriceProd.Price;
+                                        }
+                                        Core.Context.SaveChanges();
+                                        Core.Context.Basket_Products.RemoveRange(Products);
+                                        Core.Context.SaveChanges();
+                                    }
+                                    Console.WriteLine("Товары из корзины успешно заказаны!");
+                                    zakaz = false;
+                                    break;
+                                case "нет":
+                                    bool flag = true;
+                                    while (flag)
+                                    {
+                                        Console.WriteLine("Введите ID товара для заказа:");
+                                        if (int.TryParse(Console.ReadLine(), out int IDtov))
+                                        {
+                                            var selectedProd = Core.Context.Basket_Products.Where(prod => IDtov == prod.IDProduct).FirstOrDefault();
+                                            int countProdd = Core.Context.Basket_Products.Where(prod => IDtov == prod.IDProduct).Count();
+                                            if (selectedProd != null)
+                                            {
+                                                if (typeDel == "пвз")
+                                                {
+                                                    Console.WriteLine("Выберите id ПВЗ:");
+                                                    foreach (var pvz in PVZ)
+                                                    {
+                                                        Console.WriteLine($"id: {pvz.ID}, Адрес: {pvz.Address}");
+                                                    }
+                                                    if (int.TryParse(Console.ReadLine(), out int IDpvz))
+                                                    {
+                                                        //
+                                                    }
+                                                    else
+                                                    {
+                                                        Console.WriteLine("Введите ID пвз!");
+                                                    }
+                                                    Core.Context.Delivery.Add(new Delivery { IdPVZ = IDpvz, OrderDate = DateTime.Now, TypeDelivery = typeDel, UserID = user.ID });
+                                                    Core.Context.SaveChanges();
+                                                    var delivID = Core.Context.Delivery.Where(id => user.ID == id.ID).FirstOrDefault();
+                                                    Core.Context.Delivery_Product.Add(new Delivery_Product { IdDelivery = delivID.ID, countProd = countProdd, IdProduct = IDtov });
+                                                    var PriceProd = Core.Context.Product.Where(id => id.ID == selectedProd.IDProduct).FirstOrDefault();
+                                                    sumOrd += PriceProd.Price;
+                                                    Core.Context.Basket_Products.Remove(selectedProd);
+                                                    Core.Context.SaveChanges();
+                                                    Console.WriteLine("Товар успешно заказан! Желаете продолжить? (да/нет)");
+                                                    string choose = Console.ReadLine().ToLower();
+                                                    switch (choose)
+                                                    {
+                                                        case "да":
+                                                            continue;
+                                                        case "нет":
+                                                            flag = false;
+                                                            zakaz = false;
+                                                            break;
+                                                    }
+                                                }
+                                            }
+                                            else
+                                            {
+                                                Console.WriteLine("В корзине нет такого товара!");
+                                            }
+                                        }
+                                        else
+                                        {
+                                            Console.WriteLine("Введите корректный ID!");
+                                        }
+                                    }
+                                    break;
                             }
-                            break;
+                        }
+                    }
+                    else
+                    {
+                        Console.Clear();
+                        Console.WriteLine("Корзина товаров пуста! Добавьте товар в корзину ;)");
                     }
                 }
+                else
+                {
+                    Console.WriteLine("Корзина пустая! Добавьте товар в корзину для заказа!");
+                }
+            }
+            else
+            {
+                Console.Clear();
+                Console.WriteLine("Войдите в аккаунт!");
+                SignIn();
             }
         }
+
         // Заказ товара(-ов) из корзины()
         // {
         // пользователь после добавления всех нужных товаров возвращается в главное меню, оттуда переходит в свою корзину. 
-        // в корзине считается итоговая сумма товаров. Пользователь должен пополнить свой счет, если на нем не достаточно денег для заказа. При получении оплаты нет)
-        // если денег достаточно, пользователь может перейти на страницу заказа (выбор пвз и оплата - списание со счета именно)
+        // в корзине считается итоговая сумма товаров.
+        // 
         // на странице заказа выбираем ПВЗ, подтверждаем заказ вводом слова "Да" и деньги списываются со счёта.
         // }
 
-
-
-        // Просмотр истории покупок()
-        // {
-        // пользователь должен быть залогинен
-        // в главном меню сделать кнопку выбора "Просмотр истории товаров"
-        // при нажатии данной кнопки идет запрос к БД, ID пользователя через linq ищется в таблице истории покупок (basket_products) показывается таблица Basket_Products
-        // в конце будет кнопка заменить ID на название, при нажатии вместо ID товара будет показываться полное название для пользователя.
-        // 
-        // }
+        public static void ShowHistory()
+        {
+            if (user != null)
+            {
+                var Hist = Core.Context.Delivery.Where(us => us.ID == user.ID).ToList();
+                if (Hist != null)
+                {
+                    foreach (var ord in Hist)
+                    {
+                        var deliveriesWithPVZName = Core.Context.Delivery.Select(p => p.IdPVZ);
+                        Console.WriteLine($"id: {ord.ID}, pvz: {ord.IdPVZ}, date: {ord.OrderDate}, summa: {sumOrd} ");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Истории покупок еще нет! Самое время сделать первый заказ!");
+                }
+            }
+            // Просмотр истории покупок()
+            // {
+            // пользователь должен быть залогинен
+            // в главном меню сделать кнопку выбора "Просмотр истории товаров"
+            // при нажатии данной кнопки идет запрос к БД, ID пользователя через linq ищется в таблице истории покупок (basket_products) показывается таблица Basket_Products
+            // в конце будет кнопка заменить ID на название, при нажатии вместо ID товара будет показываться полное название для пользователя.
+            // 
+            // }
+        }
     }
 }
-
 
