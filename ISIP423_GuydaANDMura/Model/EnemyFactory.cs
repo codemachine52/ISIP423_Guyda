@@ -32,7 +32,7 @@ namespace ISIP423_GuydaANDMura.Model
             {
                 0 => new VVG(),
                 1 => new Kovalski(),
-                2 => new ArchmageCPP(),
+                2 => new ArchemagCPP(),
                 3 => new Pestov(),
                 _ => new VVG()
             };

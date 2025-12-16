@@ -87,7 +87,7 @@ namespace ISIP423_GuydaANDMura.Model
                     playerFrozen = true;
                     mage.ResetFreeze();
                 }
-                else if (enemy is ArchmageCPP archmage && archmage.FreezeApplied)
+                else if (enemy is ArchemagCPP archmage && archmage.FreezeApplied)
                 {
                     playerFrozen = true;
                     archmage.ResetFreeze();
@@ -138,4 +138,4 @@ namespace ISIP423_GuydaANDMura.Model
         }
     }
 }
-}
+
