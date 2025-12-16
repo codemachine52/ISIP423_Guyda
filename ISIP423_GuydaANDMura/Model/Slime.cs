@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace ISIP423_GuydaANDMura
+namespace ISIP423_GuydaANDMura.Model
 {
     class Slime : Enemy
     {

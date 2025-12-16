@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ISIP423_GuydaANDMura
+namespace ISIP423_GuydaANDMura.Model
 {
     internal class Player
     {
@@ -40,7 +40,7 @@ namespace ISIP423_GuydaANDMura
                     else
                     {
                         // Блокирование урона (70-100% от защиты)
-                        double blockPercent = 0.7 + (rand.NextDouble() * 0.3);
+                        double blockPercent = 0.7 + rand.NextDouble() * 0.3;
                         int blockedDamage = (int)(CurrentArmor.Defense * blockPercent);
                         finalDamage -= blockedDamage;
                         Console.WriteLine($"Вы блокируете {blockedDamage} урона!");

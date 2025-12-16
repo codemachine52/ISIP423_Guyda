@@ -4,22 +4,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ISIP423_GuydaANDMura
+namespace ISIP423_GuydaANDMura.Model
 {
-    internal class Weapon
+    internal class Armor
     {
         public string Name { get; set; } = "";
-        public int Damage { get; set; }
+        public int Defense { get; set; }
 
-        public Weapon(string name, int damage)
+        public Armor(string name, int defense)
         {
             Name = name;
-            Damage = damage;
+            Defense = defense;
         }
 
         public override string ToString()
         {
-            return $"{Name} (Урон: {Damage})";
+            return $"{Name} (Защита: {Defense})";
         }
     }
 }
